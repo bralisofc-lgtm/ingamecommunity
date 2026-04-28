@@ -101,7 +101,9 @@ const Index = () => {
             {/* Botões integrados como tótens da paisagem */}
             <div className="flex flex-wrap gap-4 justify-center animate-buttons-rise">
               <a
-                href="#postagens"
+                href="https://yourgamerprofile.com/community/in-game"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group inline-flex items-center gap-2 px-7 py-4 bg-primary/90 backdrop-blur-sm border-2 border-primary-glow text-primary-foreground font-black uppercase tracking-widest text-sm shadow-[6px_6px_0_hsl(var(--primary-deep)),0_0_30px_hsl(var(--primary-glow)/0.5)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[3px_3px_0_hsl(var(--primary-deep)),0_0_40px_hsl(var(--primary-glow)/0.8)] transition-all"
               >
                 Explorar postagens
