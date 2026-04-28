@@ -4,6 +4,7 @@ import { z } from "zod";
 import SiteLayout from "@/components/SiteLayout";
 import { usePosts, type Post } from "@/hooks/usePosts";
 import { toast } from "@/hooks/use-toast";
+import { POST_TAGS } from "@/lib/tags";
 
 const postSchema = z.object({
   title: z
@@ -12,11 +13,9 @@ const postSchema = z.object({
     .min(3, { message: "Título precisa ter pelo menos 3 caracteres." })
     .max(120, { message: "Título deve ter no máximo 120 caracteres." }),
   tag: z
-    .string()
-    .trim()
-    .max(30, { message: "Tag deve ter no máximo 30 caracteres." })
-    .optional()
-    .or(z.literal("")),
+    .enum(POST_TAGS, { message: "Selecione uma tag válida." })
+    .or(z.literal(""))
+    .optional(),
   date: z
     .string()
     .regex(/^\d{4}-\d{2}-\d{2}$/, { message: "Data inválida (use AAAA-MM-DD)." }),
@@ -182,13 +181,18 @@ const Admin = () => {
 
               <div>
                 <label className={labelClass}>Tag / Categoria</label>
-                <input
+                <select
                   className={inputClass("tag")}
                   value={form.tag}
                   onChange={(e) => updateField("tag", e.target.value)}
-                  placeholder="Análise, Sorteio, Lista..."
-                  maxLength={30}
-                />
+                >
+                  <option value="">Selecione uma tag...</option>
+                  {POST_TAGS.map((t) => (
+                    <option key={t} value={t}>
+                      {t}
+                    </option>
+                  ))}
+                </select>
                 {errors.tag && <p className={errorClass}>{errors.tag}</p>}
               </div>
 
