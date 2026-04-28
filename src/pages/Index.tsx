@@ -56,15 +56,15 @@ const Index = () => {
       description="In Game é uma comunidade feita por quem ama jogos indies. Descubra novos títulos, participe de sorteios e compartilhe experiências."
     >
       {/* 1. HERO — estilo indie game */}
-      <section className="relative min-h-screen w-full overflow-hidden flex items-center justify-center">
+      <section className="relative min-h-screen w-full overflow-hidden flex items-start justify-center">
         {/* Ambient gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-primary-deep/20 via-transparent to-background" />
 
         {/* Content */}
-        <div className="relative z-10 container mx-auto px-6 md:px-10 pt-32 pb-20">
+        <div className="relative z-10 container mx-auto px-6 md:px-10 pt-24 pb-10">
           <div className="max-w-3xl mx-auto text-center animate-fade-up">
             {/* Logo art — sketched IN + solid GAME */}
-            <h1 className="mb-2 -mt-4 flex justify-center">
+            <h1 className="-mb-4 md:-mb-10 -mt-6 flex justify-center">
               <span className="sr-only">​</span>
               <img
                 src={ingameLogo}
