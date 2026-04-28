@@ -65,7 +65,7 @@ const Index = () => {
           <div className="max-w-3xl mx-auto text-center animate-fade-up">
             {/* Logo art — sketched IN + solid GAME */}
             <h1 className="mb-10 flex justify-center">
-              <span className="sr-only">In Game</span>
+              <span className="sr-only">​</span>
               <img
                 src={ingameLogo}
                 alt="In Game"
