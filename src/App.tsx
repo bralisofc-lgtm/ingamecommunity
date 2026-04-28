@@ -23,8 +23,8 @@ const App = () => (
           <Route path="/sobre" element={<Sobre />} />
           
           <Route path="/faqs" element={<Faqs />} />
-          {/* Painel oculto — não está no menu, acesse via /admin */}
-          <Route path="/admin" element={<Admin />} />
+          {/* Painel oculto — não está no menu, acesse via /lugar-de-post */}
+          <Route path="/lugar-de-post" element={<Admin />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
