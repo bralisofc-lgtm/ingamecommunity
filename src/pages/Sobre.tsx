@@ -1,3 +1,6 @@
+import SiteLayout from "@/components/SiteLayout";
+import SectionDivider from "@/components/SectionDivider";
+
 const features = [
   {
     title: "Descobrir novos indies",
@@ -44,48 +47,56 @@ const features = [
   },
 ];
 
-const AboutSection = () => {
+const Sobre = () => {
   return (
-    <section id="sobre" className="relative py-24 md:py-32 px-4">
-      <div className="container mx-auto max-w-6xl">
-        <div className="text-center mb-16 animate-fade-up">
+    <SiteLayout
+      title="Sobre a Comunidade — In Game"
+      description="Conheça a história e os valores da comunidade In Game, feita por quem ama jogos indies."
+    >
+      <section className="relative pt-32 pb-16 px-4">
+        <div className="container mx-auto max-w-4xl text-center animate-fade-up">
           <p className="text-primary-glow uppercase tracking-[0.3em] text-xs font-bold mb-3">Sobre nós</p>
-          <h2 className="text-4xl md:text-6xl font-black mb-6">
-            Uma comunidade que <span className="text-gradient">respira indie</span>
-          </h2>
-          <div className="max-w-3xl mx-auto space-y-4 text-lg text-muted-foreground leading-relaxed">
+          <h1 className="text-5xl md:text-7xl font-black mb-6">
+            Uma comunidade que <span className="text-gradient glow-text">respira indie</span>
+          </h1>
+          <div className="space-y-4 text-lg text-muted-foreground leading-relaxed">
             <p>
-              A <span className="text-primary-glow font-semibold">In Game</span> nasceu do desejo de reunir pessoas que enxergam beleza
-              em pequenos mundos — aqueles jogos feitos com alma, criados por times pequenos e cheios de coragem.
+              A <span className="text-primary-glow font-semibold">In Game</span> nasceu do desejo de reunir pessoas
+              que enxergam beleza em pequenos mundos — aqueles jogos feitos com alma, criados por times pequenos
+              e cheios de coragem.
             </p>
             <p>
               Aqui a gente valoriza jogos indies, divulga experiências, promove conversas, organiza sorteios e
               aproxima jogadores de novas descobertas. É um espaço acolhedor, curioso e apaixonado.
             </p>
-            <p className="text-foreground/90 italic">
-              Se você ama indies, você já é parte da In Game. ✦
-            </p>
+            <p className="text-foreground/90 italic">Se você ama indies, você já é parte da In Game. ✦</p>
           </div>
         </div>
+      </section>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {features.map((f, i) => (
-            <div
-              key={f.title}
-              className="indie-card p-6 text-center animate-fade-up"
-              style={{ animationDelay: `${i * 0.12}s` }}
-            >
-              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-primary/15 border border-primary/40 flex items-center justify-center text-primary-glow animate-pulse-glow">
-                {f.icon}
+      <SectionDivider />
+
+      <section className="relative py-20 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {features.map((f, i) => (
+              <div
+                key={f.title}
+                className="indie-card p-6 text-center animate-fade-up"
+                style={{ animationDelay: `${i * 0.12}s` }}
+              >
+                <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-primary/15 border border-primary/40 flex items-center justify-center text-primary-glow animate-pulse-glow">
+                  {f.icon}
+                </div>
+                <h3 className="text-lg font-bold mb-2">{f.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
               </div>
-              <h3 className="text-lg font-bold mb-2">{f.title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </SiteLayout>
   );
 };
 
-export default AboutSection;
+export default Sobre;

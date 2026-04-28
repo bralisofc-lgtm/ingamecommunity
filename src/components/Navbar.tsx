@@ -1,47 +1,39 @@
 import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import logo from "@/assets/ingame-logo.png";
 
-interface NavbarProps {
-  active: string;
-  onNavigate: (id: string) => void;
-}
-
 const tabs = [
-  { id: "inicio", label: "Início" },
-  { id: "sobre", label: "Sobre a Comunidade" },
-  { id: "apoiar", label: "Apoiar a Comunidade" },
+  { to: "/", label: "Início" },
+  { to: "/sobre", label: "Sobre a Comunidade" },
+  { to: "/apoiar", label: "Apoiar a Comunidade" },
 ];
 
-const Navbar = ({ active, onNavigate }: NavbarProps) => {
+const Navbar = () => {
   const [open, setOpen] = useState(false);
-
-  const go = (id: string) => {
-    onNavigate(id);
-    setOpen(false);
-  };
+  const { pathname } = useLocation();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-background/60 border-b border-border/50">
       <nav className="container mx-auto px-4 py-3 flex items-center justify-between">
-        <button onClick={() => go("inicio")} className="flex items-center gap-2 group">
+        <Link to="/" className="flex items-center gap-2 group" onClick={() => setOpen(false)}>
           <img
             src={logo}
             alt="In Game logo"
             className="h-10 w-auto transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[-3deg]"
             style={{ filter: "drop-shadow(0 0 12px hsl(var(--primary) / 0.5))" }}
           />
-        </button>
+        </Link>
 
         <ul className="hidden md:flex items-center gap-10">
           {tabs.map((t) => (
-            <li key={t.id}>
-              <button
-                onClick={() => go(t.id)}
-                data-active={active === t.id}
+            <li key={t.to}>
+              <Link
+                to={t.to}
+                data-active={pathname === t.to}
                 className="nav-link text-sm uppercase tracking-widest font-semibold text-foreground/80 hover:text-primary-glow"
               >
                 {t.label}
-              </button>
+              </Link>
             </li>
           ))}
         </ul>
@@ -61,14 +53,15 @@ const Navbar = ({ active, onNavigate }: NavbarProps) => {
         <div className="md:hidden border-t border-border/50 bg-background/90 backdrop-blur-xl animate-fade-up">
           <ul className="flex flex-col p-4 gap-3">
             {tabs.map((t) => (
-              <li key={t.id}>
-                <button
-                  onClick={() => go(t.id)}
-                  data-active={active === t.id}
-                  className="nav-link w-full text-left py-2 text-sm uppercase tracking-widest font-semibold"
+              <li key={t.to}>
+                <Link
+                  to={t.to}
+                  onClick={() => setOpen(false)}
+                  data-active={pathname === t.to}
+                  className="nav-link block py-2 text-sm uppercase tracking-widest font-semibold"
                 >
                   {t.label}
-                </button>
+                </Link>
               </li>
             ))}
           </ul>
