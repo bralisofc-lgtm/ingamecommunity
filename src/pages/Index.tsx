@@ -83,6 +83,11 @@ const Index = () => {
               <img
                 src={ingameLogo}
                 alt="In Game"
+                width={820}
+                height={300}
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
                 className="w-full max-w-[820px] h-auto select-none mix-blend-screen drop-shadow-[0_8px_25px_hsl(270_80%_8%/0.8)] animate-logo-float"
                 draggable={false}
               />
