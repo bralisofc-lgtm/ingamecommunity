@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import SiteLayout from "@/components/SiteLayout";
 import SectionDivider from "@/components/SectionDivider";
@@ -7,6 +8,7 @@ import ingameLogo from "@/assets/ingame-logo.png";
 import Reveal from "@/components/Reveal";
 import HeroParticles from "@/components/HeroParticles";
 import HeroCoverWall from "@/components/HeroCoverWall";
+import { POST_TAGS } from "@/lib/tags";
 
 
 const miniFeatures = [
@@ -45,6 +47,7 @@ const RECENT_COUNT = 3;
 
 const Index = () => {
   const { posts } = usePosts();
+  const [activeTag, setActiveTag] = useState<string>("Todas");
 
   // Ordena por data desc (mais recentes primeiro). Em empate, mantém ordem original.
   const sortedPosts = [...posts].sort((a, b) => {
@@ -52,6 +55,11 @@ const Index = () => {
     const db = b.date ? new Date(b.date).getTime() : 0;
     return db - da;
   });
+
+  const filteredPosts =
+    activeTag === "Todas"
+      ? sortedPosts
+      : sortedPosts.filter((p) => p.tag === activeTag);
 
   return (
     <SiteLayout
