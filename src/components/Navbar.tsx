@@ -22,8 +22,8 @@ const Navbar = () => {
       return;
     }
     const onScroll = () => {
-      // Considera "rolou" quando passou ~70% da viewport (saindo do hero)
-      setScrolled(window.scrollY > window.innerHeight * 0.7);
+      // Aparece só depois de sair do hero (passar dos botões)
+      setScrolled(window.scrollY > window.innerHeight - 80);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -40,7 +40,11 @@ const Navbar = () => {
           : "backdrop-blur-xl bg-background/60 border-b border-border/50"
       }`}
     >
-      <nav className="container mx-auto px-4 py-3 flex items-center justify-center relative">
+      <nav
+        className={`container mx-auto px-4 py-3 flex items-center justify-center relative transition-opacity duration-500 ${
+          transparent ? "opacity-0 pointer-events-none" : "opacity-100"
+        }`}
+      >
 
         <ul className="hidden md:flex items-center gap-4">
           {tabs.map((t) => {
