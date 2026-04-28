@@ -96,12 +96,37 @@ const Index = () => {
               >
                 Explorar postagens
               </a>
-              <Link
-                to="/apoiar"
-                className="group inline-flex items-center gap-2 px-7 py-4 bg-background/60 backdrop-blur-sm border-2 border-primary text-foreground font-black uppercase tracking-widest text-sm shadow-[6px_6px_0_hsl(var(--primary)/0.6),0_0_25px_hsl(var(--primary)/0.4)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[3px_3px_0_hsl(var(--primary)/0.6),0_0_35px_hsl(var(--primary)/0.7)] transition-all"
+              <a
+                href="https://forms.gle/kX4vtVjzZQpgk97M7"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative overflow-hidden inline-flex items-center gap-2 px-7 py-4 bg-background/60 backdrop-blur-sm border-2 border-primary text-foreground font-black uppercase tracking-widest text-sm shadow-[6px_6px_0_hsl(var(--primary)/0.6),0_0_25px_hsl(var(--primary)/0.4)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[3px_3px_0_hsl(var(--primary)/0.6),0_0_35px_hsl(var(--primary)/0.7)] transition-all"
               >
-                Apoiar comunidade
-              </Link>
+                {/* Partículas internas */}
+                <span className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+                  {Array.from({ length: 8 }).map((_, i) => {
+                    const left = (i * 13.7) % 100;
+                    const size = 2 + ((i * 5) % 4);
+                    const delay = (i * 0.4) % 3;
+                    const duration = 3 + ((i * 0.9) % 3);
+                    return (
+                      <span
+                        key={i}
+                        className="absolute rounded-full bg-primary-glow shadow-[0_0_8px_hsl(var(--primary-glow))] animate-btn-particle"
+                        style={{
+                          left: `${left}%`,
+                          bottom: `-${size}px`,
+                          width: `${size}px`,
+                          height: `${size}px`,
+                          animationDelay: `${delay}s`,
+                          animationDuration: `${duration}s`,
+                        }}
+                      />
+                    );
+                  })}
+                </span>
+                <span className="relative">Apoiar comunidade</span>
+              </a>
             </div>
           </div>
         </div>
