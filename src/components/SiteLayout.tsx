@@ -25,10 +25,10 @@ const SiteLayout = ({ children, title, description }: Props) => {
   }, [title, description]);
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen overflow-x-hidden w-full max-w-[100vw]">
       <ParticlesBackground />
       <Navbar />
-      <main className="relative z-10">{children}</main>
+      <main className="relative z-10 overflow-x-hidden w-full max-w-[100vw]">{children}</main>
     </div>
   );
 };
