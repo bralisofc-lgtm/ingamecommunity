@@ -69,6 +69,8 @@
 
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
+    max-width: 100vw;
   }
 
   body {
@@ -77,6 +79,7 @@
     background-image: var(--gradient-bg);
     background-attachment: fixed;
     overflow-x: hidden;
+    max-width: 100vw;
   }
 
   ::selection {
