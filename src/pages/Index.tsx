@@ -102,14 +102,40 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Degradê animado de transição para a próxima seção */}
-        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-b from-transparent via-background/70 to-background animate-gradient-flow" aria-hidden />
+        {/* Bridge: degradê roxo profundo + névoa + partículas → conecta hero ao próximo bloco sem flash preto */}
+        <div className="pointer-events-none absolute -bottom-2 left-0 right-0 h-[40vh] z-[5]" aria-hidden>
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(270_70%_8%/0.55)] to-background" />
+          <div className="absolute inset-x-0 bottom-0 h-2/3 bg-[radial-gradient(ellipse_at_center_bottom,hsl(var(--primary)/0.35),transparent_70%)] animate-hero-haze" />
+          <div className="absolute inset-0 overflow-hidden">
+            {Array.from({ length: 14 }).map((_, i) => {
+              const left = (i * 7.3) % 100;
+              const size = 3 + ((i * 13) % 6);
+              const delay = (i * 0.45) % 5;
+              const duration = 6 + ((i * 1.7) % 5);
+              return (
+                <span
+                  key={i}
+                  className="absolute rounded-full bg-primary-glow/70 shadow-[0_0_12px_hsl(var(--primary-glow)/0.9)] animate-particle-rise"
+                  style={{
+                    left: `${left}%`,
+                    bottom: `-${size}px`,
+                    width: `${size}px`,
+                    height: `${size}px`,
+                    animationDelay: `${delay}s`,
+                    animationDuration: `${duration}s`,
+                  }}
+                />
+              );
+            })}
+          </div>
+        </div>
       </section>
 
-      {/* 2. SOBRE (resumo) */}
-      <section className="relative py-24 px-4 bg-background/40 backdrop-blur-sm">
-        <div className="container mx-auto max-w-5xl">
-          <div className="text-center mb-12 animate-fade-up">
+      {/* 2. SOBRE (resumo) — fundo roxo suave, sem flash preto */}
+      <section className="relative py-24 px-4 bg-gradient-to-b from-background via-[hsl(270_60%_6%)] to-background overflow-hidden">
+        <div className="pointer-events-none absolute inset-x-0 -top-20 h-40 bg-[radial-gradient(ellipse_at_center_top,hsl(var(--primary)/0.25),transparent_70%)]" aria-hidden />
+        <div className="container mx-auto max-w-5xl relative">
+          <Reveal className="text-center mb-12">
             <p className="text-primary-glow uppercase tracking-[0.3em] text-xs font-bold mb-3">A comunidade</p>
             <h2 className="text-4xl md:text-5xl font-black mb-5">
               Um espaço que <span className="text-gradient">respira indie</span>
@@ -118,25 +144,21 @@ const Index = () => {
               A In Game reúne pessoas que enxergam beleza em pequenos mundos — jogos feitos com alma,
               criados por times pequenos e cheios de coragem.
             </p>
-          </div>
+          </Reveal>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
             {miniFeatures.map((f, i) => (
-              <div
-                key={f.title}
-                className="indie-card p-5 text-center animate-fade-up"
-                style={{ animationDelay: `${i * 0.1}s` }}
-              >
+              <Reveal key={f.title} delay={0.12 + i * 0.12} className="indie-card p-5 text-center">
                 <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-primary/15 border border-primary/40 flex items-center justify-center text-primary-glow">
                   {f.icon}
                 </div>
                 <h3 className="text-base font-bold mb-1">{f.title}</h3>
                 <p className="text-xs text-muted-foreground leading-relaxed">{f.desc}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
 
-          <div className="text-center">
+          <Reveal delay={0.3} className="text-center">
             <Link
               to="/sobre"
               className="inline-flex items-center gap-2 text-primary-glow font-semibold text-sm uppercase tracking-wider group"
@@ -144,7 +166,7 @@ const Index = () => {
               Saber mais sobre nós
               <span className="transition-transform group-hover:translate-x-1">→</span>
             </Link>
-          </div>
+          </Reveal>
         </div>
       </section>
 
