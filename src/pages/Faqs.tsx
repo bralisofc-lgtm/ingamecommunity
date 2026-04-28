@@ -1,6 +1,7 @@
 import { useState } from "react";
 import SiteLayout from "@/components/SiteLayout";
 import SectionDivider from "@/components/SectionDivider";
+import faqBanner from "@/assets/faq-banner.png";
 
 const faqs = [
   {
@@ -59,7 +60,18 @@ const Faqs = () => {
       title="FAQs — In Game"
       description="Perguntas frequentes sobre a comunidade In Game, sorteios, divulgação de jogos indies e como participar."
     >
-      <section className="relative pt-32 pb-12 px-4">
+      <section className="relative pt-28 pb-8 px-4">
+        <div className="container mx-auto max-w-5xl animate-fade-up">
+          <img
+            src={faqBanner}
+            alt="Ajude nossa comunidade — In Game"
+            className="w-full h-auto object-contain mx-auto drop-shadow-[0_0_40px_hsl(var(--primary)/0.35)]"
+            loading="eager"
+          />
+        </div>
+      </section>
+
+      <section className="relative pb-12 px-4">
         <div className="container mx-auto max-w-4xl text-center animate-fade-up">
           <p className="text-primary-glow uppercase tracking-[0.3em] text-xs font-bold mb-3">Dúvidas frequentes</p>
           <h1 className="text-5xl md:text-7xl font-black mb-5">
