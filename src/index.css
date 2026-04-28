@@ -293,3 +293,12 @@
   background-size: 400% 400%;
   animation: gradient-shift 18s ease infinite;
 }
+
+/* Performance: respeita usuários que pedem menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

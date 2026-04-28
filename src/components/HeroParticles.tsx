@@ -69,7 +69,7 @@ interface FloatItem {
 const HeroParticles = () => {
   const dots: FloatItem[] = useMemo(
     () =>
-      Array.from({ length: 22 }).map((_, i) => ({
+      Array.from({ length: 10 }).map((_, i) => ({
         left: (i * 11.37) % 100,
         top: (i * 17.91) % 100,
         size: 2 + ((i * 7) % 5),
@@ -85,7 +85,7 @@ const HeroParticles = () => {
 
   const icons: FloatItem[] = useMemo(
     () =>
-      Array.from({ length: 10 }).map((_, i) => ({
+      Array.from({ length: 5 }).map((_, i) => ({
         left: 5 + ((i * 19) % 85),
         top: 8 + ((i * 23) % 75),
         size: 22 + ((i * 5) % 26),
