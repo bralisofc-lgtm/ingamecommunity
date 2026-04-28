@@ -1,8 +1,7 @@
 import SiteLayout from "@/components/SiteLayout";
 
 const Apoiar = () => {
-  // Substitua pela URL real do formulário da comunidade
-  const supportUrl = "https://forms.gle/your-community-form";
+  const supportUrl = "https://forms.gle/kX4vtVjzZQpgk97M7";
 
   return (
     <SiteLayout
