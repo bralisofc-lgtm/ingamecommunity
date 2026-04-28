@@ -5,7 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 const tabs = [
   { to: "/", label: "Início" },
   { to: "/sobre", label: "Sobre a Comunidade" },
-  { to: "/apoiar", label: "Apoiar a Comunidade" },
+  { to: "/faqs", label: "FAQs" },
 ];
 
 const Navbar = () => {
