@@ -5,6 +5,7 @@ import PostCard from "@/components/PostCard";
 import { usePosts } from "@/hooks/usePosts";
 import ingameLogo from "@/assets/ingame-logo.png";
 import heroLandscape from "@/assets/hero-landscape.png";
+import Reveal from "@/components/Reveal";
 
 
 const miniFeatures = [
