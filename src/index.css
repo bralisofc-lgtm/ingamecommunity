@@ -2,95 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* In Game — Indie community design system. All colors HSL. */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 270 40% 4%;
+    --foreground: 270 20% 96%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 270 35% 8%;
+    --card-foreground: 270 20% 96%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 270 35% 8%;
+    --popover-foreground: 270 20% 96%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 270 90% 65%;
+    --primary-foreground: 270 40% 6%;
+    --primary-glow: 280 95% 72%;
+    --primary-deep: 265 80% 35%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 270 30% 14%;
+    --secondary-foreground: 270 20% 96%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 270 25% 12%;
+    --muted-foreground: 270 15% 70%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 285 90% 70%;
+    --accent-foreground: 270 40% 6%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 270 50% 25%;
+    --input: 270 30% 14%;
+    --ring: 270 90% 65%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
 
-    --sidebar-background: 0 0% 98%;
+    /* Gradients */
+    --gradient-bg: radial-gradient(ellipse at top, hsl(270 70% 18%) 0%, hsl(270 60% 8%) 45%, hsl(270 80% 3%) 100%);
+    --gradient-purple: linear-gradient(135deg, hsl(var(--primary-deep)), hsl(var(--primary)) 50%, hsl(var(--primary-glow)));
+    --gradient-card: linear-gradient(160deg, hsl(270 40% 10% / 0.9), hsl(270 50% 6% / 0.95));
+    --gradient-text: linear-gradient(135deg, hsl(var(--primary-glow)), hsl(280 100% 80%), hsl(var(--primary)));
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    /* Shadows / glows */
+    --glow-primary: 0 0 30px hsl(var(--primary) / 0.55), 0 0 60px hsl(var(--primary-glow) / 0.25);
+    --glow-soft: 0 0 24px hsl(var(--primary) / 0.35);
+    --shadow-card: 0 10px 40px -10px hsl(270 90% 50% / 0.35);
 
-    --sidebar-primary: 240 5.9% 10%;
+    --transition-smooth: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 270 40% 4%;
+    --sidebar-foreground: 270 20% 96%;
+    --sidebar-primary: 270 90% 65%;
+    --sidebar-primary-foreground: 270 40% 6%;
+    --sidebar-accent: 270 30% 14%;
+    --sidebar-accent-foreground: 270 20% 96%;
+    --sidebar-border: 270 50% 25%;
+    --sidebar-ring: 270 90% 65%;
   }
 }
 
@@ -99,7 +67,158 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
-  body {
-    @apply bg-background text-foreground;
+  html {
+    scroll-behavior: smooth;
   }
+
+  body {
+    @apply text-foreground font-sans antialiased;
+    background: hsl(var(--background));
+    background-image: var(--gradient-bg);
+    background-attachment: fixed;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.4);
+    color: hsl(var(--foreground));
+  }
+}
+
+@layer components {
+  .text-gradient {
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .glow-text {
+    text-shadow: 0 0 20px hsl(var(--primary-glow) / 0.6), 0 0 40px hsl(var(--primary) / 0.4);
+  }
+
+  .indie-card {
+    background: var(--gradient-card);
+    border: 1px solid hsl(var(--border));
+    border-radius: 18px 22px 16px 24px / 22px 16px 24px 18px;
+    transition: var(--transition-smooth);
+    backdrop-filter: blur(8px);
+  }
+
+  .indie-card:hover {
+    transform: translateY(-6px) rotate(-0.4deg);
+    border-color: hsl(var(--primary));
+    box-shadow: var(--shadow-card), var(--glow-soft);
+  }
+
+  .btn-glow {
+    position: relative;
+    overflow: hidden;
+    background: var(--gradient-purple);
+    transition: var(--transition-smooth);
+    box-shadow: 0 6px 20px -6px hsl(var(--primary) / 0.6);
+  }
+
+  .btn-glow::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 30%, hsl(0 0% 100% / 0.35) 50%, transparent 70%);
+    transform: translateX(-120%);
+    transition: transform 0.7s ease;
+  }
+
+  .btn-glow:hover::before {
+    transform: translateX(120%);
+  }
+
+  .btn-glow:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: var(--glow-primary);
+  }
+
+  .pixel-border {
+    box-shadow:
+      0 0 0 2px hsl(var(--background)),
+      0 0 0 4px hsl(var(--primary) / 0.6),
+      var(--glow-soft);
+  }
+
+  .nav-link {
+    position: relative;
+    transition: var(--transition-smooth);
+  }
+
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -6px;
+    width: 0;
+    height: 2px;
+    background: var(--gradient-purple);
+    transition: var(--transition-smooth);
+    transform: translateX(-50%);
+    border-radius: 2px;
+  }
+
+  .nav-link:hover::after,
+  .nav-link[data-active="true"]::after {
+    width: 80%;
+  }
+
+  .nav-link[data-active="true"] {
+    color: hsl(var(--primary-glow));
+  }
+}
+
+@layer utilities {
+  .bg-gradient-purple { background: var(--gradient-purple); }
+  .bg-gradient-bg { background: var(--gradient-bg); }
+}
+
+/* Animations */
+@keyframes float-up {
+  0% { transform: translateY(110vh) translateX(0) scale(0.6); opacity: 0; }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.6; }
+  100% { transform: translateY(-10vh) translateX(40px) scale(1); opacity: 0; }
+}
+
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(30px, -20px) rotate(8deg); }
+}
+
+@keyframes ghost-bob {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-14px) rotate(2deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px hsl(var(--primary) / 0.4); }
+  50% { box-shadow: 0 0 40px hsl(var(--primary-glow) / 0.7); }
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-float-up { animation: float-up linear infinite; }
+.animate-drift { animation: drift 8s ease-in-out infinite; }
+.animate-ghost-bob { animation: ghost-bob 4s ease-in-out infinite; }
+.animate-pulse-glow { animation: pulse-glow 2.5s ease-in-out infinite; }
+.animate-fade-up { animation: fade-up 0.7s ease-out both; }
+
+.bg-animated {
+  background: linear-gradient(135deg, hsl(270 80% 8%), hsl(280 70% 14%), hsl(265 90% 6%), hsl(285 60% 12%));
+  background-size: 400% 400%;
+  animation: gradient-shift 18s ease infinite;
 }
