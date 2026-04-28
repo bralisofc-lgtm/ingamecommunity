@@ -3,7 +3,7 @@ import SiteLayout from "@/components/SiteLayout";
 import SectionDivider from "@/components/SectionDivider";
 import PostCard from "@/components/PostCard";
 import { usePosts } from "@/hooks/usePosts";
-import logo from "@/assets/ingame-logo.png";
+import heroScene from "@/assets/hero-indie-scene.jpg";
 
 const miniFeatures = [
   {
@@ -45,41 +45,68 @@ const Index = () => {
       title="In Game — Comunidade de jogos indies"
       description="In Game é uma comunidade feita por quem ama jogos indies. Descubra novos títulos, participe de sorteios e compartilhe experiências."
     >
-      {/* 1. HERO */}
-      <section className="relative pt-32 pb-24 px-4 min-h-[90vh] flex items-center">
-        <div className="container mx-auto text-center max-w-4xl animate-fade-up">
-          <div className="flex justify-center mb-8 animate-ghost-bob">
-            <img
-              src={logo}
-              alt="In Game"
-              className="h-40 md:h-56 w-auto"
-              style={{ filter: "drop-shadow(0 0 40px hsl(var(--primary) / 0.6))" }}
-            />
-          </div>
+      {/* 1. HERO — estilo indie game (OFF-like) */}
+      <section className="relative min-h-screen w-full overflow-hidden flex items-center">
+        {/* Background scene */}
+        <img
+          src={heroScene}
+          alt="Cidade indie com fantasminhas flutuando ao entardecer"
+          width={1920}
+          height={1080}
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        {/* Subtle darkening for legibility */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-background/20 to-transparent" />
 
-          <h1 className="text-6xl md:text-8xl font-black tracking-tight mb-6">
-            <span className="text-gradient glow-text">In Game</span>
-          </h1>
-
-          <p className="text-xl md:text-2xl text-muted-foreground font-light mb-10 max-w-2xl mx-auto">
-            Uma comunidade feita por <span className="text-primary-glow font-medium">quem ama jogos indies</span>.
-          </p>
-
-          <div className="flex flex-wrap justify-center gap-4">
-            <a
-              href="#postagens"
-              className="btn-glow inline-flex items-center gap-2 px-8 py-4 rounded-full text-primary-foreground font-bold uppercase tracking-wider text-sm"
+        {/* Content */}
+        <div className="relative z-10 container mx-auto px-6 md:px-10 pt-32 pb-20">
+          <div className="max-w-2xl animate-fade-up">
+            {/* Stamp-style title */}
+            <h1
+              className="font-black uppercase leading-[0.85] tracking-tight text-foreground mb-6"
+              style={{
+                fontSize: "clamp(4.5rem, 14vw, 11rem)",
+                textShadow: "6px 6px 0 hsl(var(--primary-deep)), 0 0 40px hsl(0 0% 0% / 0.6)",
+                WebkitTextStroke: "1px hsl(var(--primary-glow) / 0.4)",
+              }}
             >
-              Explorar postagens
-            </a>
-            <Link
-              to="/apoiar"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full border-2 border-primary/60 text-foreground font-bold uppercase tracking-wider text-sm hover:border-primary hover:bg-primary/10 transition-all"
-            >
-              Apoiar comunidade
-            </Link>
+              In<br />Game
+            </h1>
+
+            {/* Black tag stripe */}
+            <div className="inline-block bg-background border-2 border-primary px-5 py-2 mb-8 -rotate-1 shadow-[6px_6px_0_hsl(var(--primary-deep))]">
+              <p className="text-primary-glow font-bold uppercase tracking-[0.25em] text-sm md:text-base">
+                Comunidade ativa ✦ Indies
+              </p>
+            </div>
+
+            <p className="text-lg md:text-xl text-foreground/90 font-light mb-10 max-w-xl leading-relaxed">
+              Uma comunidade feita por{" "}
+              <span className="text-primary-glow font-medium">quem ama jogos indies</span>. Descubra,
+              compartilhe, participe.
+            </p>
+
+            {/* Flat purple buttons with hard shadow */}
+            <div className="flex flex-wrap gap-4">
+              <a
+                href="#postagens"
+                className="group inline-flex items-center gap-2 px-7 py-4 bg-primary border-2 border-primary-glow text-primary-foreground font-black uppercase tracking-widest text-sm shadow-[6px_6px_0_hsl(var(--primary-deep))] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[3px_3px_0_hsl(var(--primary-deep))] transition-all"
+              >
+                Explorar postagens
+              </a>
+              <Link
+                to="/apoiar"
+                className="group inline-flex items-center gap-2 px-7 py-4 bg-background border-2 border-primary text-foreground font-black uppercase tracking-widest text-sm shadow-[6px_6px_0_hsl(var(--primary)/0.6)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[3px_3px_0_hsl(var(--primary)/0.6)] transition-all"
+              >
+                Apoiar comunidade
+              </Link>
+            </div>
           </div>
         </div>
+
+        {/* Bottom torn-paper edge */}
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background to-transparent z-10" />
       </section>
 
       <SectionDivider />
