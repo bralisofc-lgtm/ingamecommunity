@@ -69,7 +69,7 @@ const Index = () => {
       description="In Game é uma comunidade feita por quem ama jogos indies. Descubra novos títulos, participe de sorteios e compartilhe experiências."
     >
       {/* 1. HERO — paisagem indie com logo integrada */}
-      <section className="relative min-h-screen w-full overflow-hidden flex items-center justify-center bg-[hsl(270_80%_5%)]">
+      <section className="relative min-h-[100svh] w-full overflow-hidden flex items-start justify-center pt-[clamp(3rem,7vh,5rem)] pb-24 bg-[hsl(270_80%_5%)]">
         {/* Parede animada de capas indies (4 colunas alternando direção) */}
         <HeroCoverWall />
 
@@ -83,7 +83,7 @@ const Index = () => {
         <div className="relative z-10 w-full container mx-auto px-6 md:px-10 flex justify-center">
           <div className="w-full max-w-3xl mx-auto text-center flex flex-col items-center animate-fade-up">
             {/* Logo art — integrada como parte da paisagem */}
-            <h1 className="mb-2 md:mb-4 flex justify-center w-full">
+            <h1 className="relative mb-3 md:mb-5 flex justify-center w-full max-w-[820px] aspect-[909/469]">
               <span className="sr-only">In Game</span>
               <img
                 src={ingameLogo}
@@ -93,7 +93,7 @@ const Index = () => {
                 loading="eager"
                 fetchPriority="high"
                 decoding="async"
-                className="w-full max-w-[820px] h-auto select-none mix-blend-screen drop-shadow-[0_8px_25px_hsl(270_80%_8%/0.8)] animate-logo-float"
+                className="absolute left-[-5.5%] top-[-56.7%] w-[110%] max-w-none h-auto select-none mix-blend-screen drop-shadow-[0_8px_25px_hsl(270_80%_8%/0.8)] animate-logo-float"
                 draggable={false}
               />
             </h1>

@@ -74,6 +74,8 @@
 
   html {
     scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--primary-glow) / 0.9) hsl(var(--background) / 0.25);
   }
 
   body {
@@ -91,6 +93,26 @@
   ::selection {
     background: hsl(var(--primary) / 0.4);
     color: hsl(var(--foreground));
+  }
+
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background) / 0.18);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, hsl(var(--primary-glow) / 0.95), hsl(var(--primary) / 0.65));
+    border: 3px solid hsl(var(--background) / 0.25);
+    border-radius: 999px;
+    box-shadow: 0 0 16px hsl(var(--primary-glow) / 0.85);
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: transparent;
   }
 }
 
