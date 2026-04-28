@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 
@@ -10,10 +10,36 @@ const tabs = [
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { pathname } = useLocation();
 
+  // Só usa o modo "transparente no topo" na home; em outras rotas fica sempre sólido.
+  const isHome = pathname === "/";
+
+  useEffect(() => {
+    if (!isHome) {
+      setScrolled(true);
+      return;
+    }
+    const onScroll = () => {
+      // Considera "rolou" quando passou ~70% da viewport (saindo do hero)
+      setScrolled(window.scrollY > window.innerHeight * 0.7);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [isHome]);
+
+  const transparent = isHome && !scrolled;
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-background/60 border-b border-border/50">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        transparent
+          ? "bg-transparent backdrop-blur-0 border-b border-transparent"
+          : "backdrop-blur-xl bg-background/60 border-b border-border/50"
+      }`}
+    >
       <nav className="container mx-auto px-4 py-3 flex items-center justify-center relative">
 
         <ul className="hidden md:flex items-center gap-4">
@@ -26,7 +52,9 @@ const Navbar = () => {
                   className={`relative inline-flex items-center px-5 py-2 rounded-full text-xs uppercase tracking-widest font-bold border transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 ${
                     active
                       ? "bg-primary text-primary-foreground border-primary-glow shadow-[0_0_20px_hsl(var(--primary-glow)/0.7)]"
-                      : "bg-background/40 text-foreground/80 border-border hover:border-primary-glow hover:text-primary-glow hover:shadow-[0_0_18px_hsl(var(--primary-glow)/0.5)]"
+                      : transparent
+                        ? "bg-transparent text-foreground/90 border-transparent hover:border-primary-glow hover:text-primary-glow hover:shadow-[0_0_18px_hsl(var(--primary-glow)/0.5)]"
+                        : "bg-background/40 text-foreground/80 border-border hover:border-primary-glow hover:text-primary-glow hover:shadow-[0_0_18px_hsl(var(--primary-glow)/0.5)]"
                   }`}
                 >
                   {t.label}
