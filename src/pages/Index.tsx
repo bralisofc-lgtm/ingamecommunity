@@ -3,6 +3,7 @@ import SiteLayout from "@/components/SiteLayout";
 import SectionDivider from "@/components/SectionDivider";
 import PostCard from "@/components/PostCard";
 import { usePosts } from "@/hooks/usePosts";
+import ingameLogo from "@/assets/ingame-logo.png";
 
 
 const miniFeatures = [
@@ -62,18 +63,15 @@ const Index = () => {
         {/* Content */}
         <div className="relative z-10 container mx-auto px-6 md:px-10 pt-32 pb-20">
           <div className="max-w-3xl mx-auto text-center animate-fade-up">
-            {/* Stamp-style title */}
-            <h1
-              className="uppercase leading-[0.85] tracking-tight text-foreground mb-10"
-              style={{
-                fontFamily: '"Permanent Marker", "Caveat Brush", cursive',
-                fontSize: "clamp(5rem, 16vw, 13rem)",
-                textShadow: "5px 5px 0 hsl(var(--primary-deep)), 0 0 35px hsl(var(--primary-glow) / 0.45)",
-                WebkitTextStroke: "1px hsl(var(--primary-glow) / 0.35)",
-                transform: "rotate(-2deg)",
-              }}
-            >
-              In<br />Game
+            {/* Logo art — sketched IN + solid GAME */}
+            <h1 className="mb-10 flex justify-center">
+              <span className="sr-only">In Game</span>
+              <img
+                src={ingameLogo}
+                alt="In Game"
+                className="w-full max-w-[820px] h-auto select-none drop-shadow-[0_0_45px_hsl(var(--primary-glow)/0.35)]"
+                draggable={false}
+              />
             </h1>
 
             {/* Flat purple buttons with hard shadow */}
