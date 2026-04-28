@@ -83,7 +83,7 @@ const Index = () => {
         <div className="relative z-10 w-full container mx-auto px-6 md:px-10 flex justify-center">
           <div className="w-full max-w-3xl mx-auto text-center flex flex-col items-center animate-fade-up">
             {/* Logo art — integrada como parte da paisagem */}
-            <h1 className="-mb-4 md:-mb-10 flex justify-center w-full">
+            <h1 className="mb-2 md:mb-4 flex justify-center w-full">
               <span className="sr-only">In Game</span>
               <img
                 src={ingameLogo}

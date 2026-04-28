@@ -80,8 +80,8 @@ const HeroCoverWall = () => {
   const cols = useMemo(() => COLUMNS, []);
 
   return (
-    <div className="absolute inset-0 overflow-hidden" aria-hidden>
-      <div className="absolute inset-0 grid grid-cols-4 gap-3 md:gap-4 px-2 md:px-4">
+    <div className="absolute inset-0 overflow-hidden w-full max-w-[100vw]" aria-hidden>
+      <div className="absolute inset-0 grid grid-cols-4 gap-3 md:gap-4 px-2 md:px-4 overflow-hidden">
         {cols.map((col, ci) => (
           <div key={ci} className="relative overflow-hidden">
             <div
