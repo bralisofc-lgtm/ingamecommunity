@@ -4,6 +4,7 @@ import SectionDivider from "@/components/SectionDivider";
 import PostCard from "@/components/PostCard";
 import { usePosts } from "@/hooks/usePosts";
 import ingameLogo from "@/assets/ingame-logo.png";
+import heroLandscape from "@/assets/hero-landscape.png";
 
 
 const miniFeatures = [
