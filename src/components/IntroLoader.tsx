@@ -144,7 +144,7 @@ const IntroLoader = ({ onFinish }: { onFinish: () => void }) => {
       return () => clearTimeout(t);
     }
     if (phase === "logo") {
-      const t = setTimeout(() => setPhase("done"), 1600);
+      const t = setTimeout(() => setPhase("done"), 2400);
       return () => clearTimeout(t);
     }
     if (phase === "done") {
@@ -327,35 +327,42 @@ const IntroLoader = ({ onFinish }: { onFinish: () => void }) => {
         </div>
       </div>
 
-      {/* LOGO REVEAL — sempre com glow roxo neon */}
+      {/* LOGO REVEAL — fade-in + crescimento contínuo até o tamanho final */}
       <div
-        className={`absolute inset-0 flex items-center justify-center pointer-events-none transition-all duration-700 ${
-          phase === "logo" || phase === "done"
-            ? "opacity-100 scale-100"
-            : "opacity-0 scale-90"
-        }`}
+        className="absolute inset-0 flex items-center justify-center pointer-events-none"
       >
-        <div className="relative">
+        <div
+          className="relative will-change-transform"
+          style={{
+            opacity: phase === "logo" || phase === "done" ? 1 : 0,
+            transform:
+              phase === "logo" || phase === "done"
+                ? "scale(1)"
+                : "scale(0.35)",
+            transition:
+              "opacity 1400ms ease-out, transform 1600ms cubic-bezier(0.16, 1, 0.3, 1)",
+          }}
+        >
           {/* Halo grande pulsando */}
           <div
-            className="absolute inset-0 -m-24 rounded-full blur-[80px]"
+            className="absolute inset-0 -m-32 rounded-full blur-[90px]"
             style={{
               background:
-                "radial-gradient(circle, hsl(280 95% 65% / 0.55), hsl(270 80% 50% / 0.35) 45%, transparent 70%)",
+                "radial-gradient(circle, hsl(280 95% 65% / 0.6), hsl(270 80% 50% / 0.35) 45%, transparent 70%)",
               animation: "logo-glow-pulse 2.2s ease-in-out infinite",
             }}
           />
           {/* Halo interno mais intenso */}
           <div
-            className="absolute inset-0 -m-10 rounded-full blur-3xl"
+            className="absolute inset-0 -m-12 rounded-full blur-3xl"
             style={{
-              background: "hsl(280 95% 70% / 0.55)",
+              background: "hsl(280 95% 70% / 0.6)",
               animation: "logo-glow-pulse 1.6s ease-in-out infinite",
             }}
           />
           {/* Raios sutis girando */}
           <div
-            className="absolute inset-0 -m-32 rounded-full opacity-60"
+            className="absolute inset-0 -m-40 rounded-full opacity-60"
             style={{
               background:
                 "conic-gradient(from 0deg, transparent, hsl(280 95% 70% / 0.25), transparent, hsl(270 80% 55% / 0.2), transparent)",
@@ -368,10 +375,12 @@ const IntroLoader = ({ onFinish }: { onFinish: () => void }) => {
             alt="In Game"
             width={909}
             height={469}
-            className="relative h-[28vh] max-h-[260px] w-auto object-contain"
+            className="relative w-auto object-contain"
             style={{
+              height: "min(48vh, 440px)",
+              maxWidth: "90vw",
               filter:
-                "drop-shadow(0 0 30px hsl(280 95% 70% / 0.95)) drop-shadow(0 0 60px hsl(270 80% 55% / 0.7))",
+                "drop-shadow(0 0 40px hsl(280 95% 70% / 0.95)) drop-shadow(0 0 80px hsl(270 80% 55% / 0.7))",
             }}
           />
         </div>
