@@ -186,9 +186,13 @@ const IntroLoader = ({ onFinish }: { onFinish: () => void }) => {
 
       {/* Local keyframes */}
       <style>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
+        @keyframes runner-bob {
+          0%, 100% { transform: translateY(0) rotate(-2deg); }
+          50% { transform: translateY(-6px) rotate(2deg); }
+        }
+        @keyframes runner-dust {
+          0% { opacity: 0.9; transform: translate(0, 0) scale(1); }
+          100% { opacity: 0; transform: translate(-14px, 4px) scale(0.3); }
         }
       `}</style>
     </div>
