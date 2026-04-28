@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import SiteLayout from "@/components/SiteLayout";
 import SectionDivider from "@/components/SectionDivider";
@@ -7,6 +8,7 @@ import ingameLogo from "@/assets/ingame-logo.png";
 import Reveal from "@/components/Reveal";
 import HeroParticles from "@/components/HeroParticles";
 import HeroCoverWall from "@/components/HeroCoverWall";
+import { POST_TAGS } from "@/lib/tags";
 
 
 const miniFeatures = [
@@ -45,6 +47,7 @@ const RECENT_COUNT = 3;
 
 const Index = () => {
   const { posts } = usePosts();
+  const [activeTag, setActiveTag] = useState<string>("Todas");
 
   // Ordena por data desc (mais recentes primeiro). Em empate, mantém ordem original.
   const sortedPosts = [...posts].sort((a, b) => {
@@ -52,6 +55,11 @@ const Index = () => {
     const db = b.date ? new Date(b.date).getTime() : 0;
     return db - da;
   });
+
+  const filteredPosts =
+    activeTag === "Todas"
+      ? sortedPosts
+      : sortedPosts.filter((p) => p.tag === activeTag);
 
   return (
     <SiteLayout
@@ -175,13 +183,36 @@ const Index = () => {
             </p>
           </Reveal>
 
-          {sortedPosts.length === 0 ? (
+          {/* Filtro de tags */}
+          <Reveal className="flex flex-wrap gap-2 mb-10">
+            {(["Todas", ...POST_TAGS] as const).map((tag) => {
+              const active = activeTag === tag;
+              return (
+                <button
+                  key={tag}
+                  type="button"
+                  onClick={() => setActiveTag(tag)}
+                  className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider border transition-all ${
+                    active
+                      ? "bg-primary text-primary-foreground border-primary-glow shadow-[0_0_18px_hsl(var(--primary-glow)/0.6)]"
+                      : "bg-secondary/40 text-muted-foreground border-border hover:border-primary/60 hover:text-primary-glow"
+                  }`}
+                >
+                  {tag}
+                </button>
+              );
+            })}
+          </Reveal>
+
+          {filteredPosts.length === 0 ? (
             <div className="indie-card p-10 text-center text-muted-foreground">
-              Nenhuma postagem por aqui ainda. Volte em breve! ✦
+              {sortedPosts.length === 0
+                ? "Nenhuma postagem por aqui ainda. Volte em breve! ✦"
+                : `Nenhuma postagem com a tag "${activeTag}".`}
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {sortedPosts.map((post, i) => (
+              {filteredPosts.map((post, i) => (
                 <Reveal key={post.id} delay={Math.min(i * 0.1, 0.5)}>
                   <PostCard post={post} index={i} isRecent={i < RECENT_COUNT} />
                 </Reveal>
