@@ -20,10 +20,10 @@ const PostCard = ({ post, index = 0, isRecent = false }: PostCardProps) => {
       className="indie-card group flex flex-col overflow-hidden animate-fade-up relative"
       style={{ animationDelay: `${index * 0.1}s` }}
     >
-      {/* RECENT badge — top-right corner */}
+      {/* RECENT badge — above the image */}
       {isRecent && (
-        <div className="absolute top-3 right-3 z-20 animate-recent-float">
-          <span className="inline-flex items-center gap-1 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] rounded-full bg-primary text-primary-foreground border border-primary-glow shadow-[0_0_18px_hsl(var(--primary-glow)/0.85)] animate-recent-pulse">
+        <div className="flex justify-end px-4 pt-4 pb-2">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] rounded-full bg-primary text-primary-foreground border border-primary-glow shadow-[0_0_18px_hsl(var(--primary-glow)/0.85)] animate-recent-pulse animate-recent-float">
             <span className="w-1.5 h-1.5 rounded-full bg-primary-foreground" />
             Recente
           </span>
@@ -31,14 +31,17 @@ const PostCard = ({ post, index = 0, isRecent = false }: PostCardProps) => {
       )}
 
       {post.image && (
-        <div className="relative aspect-[16/9] overflow-hidden">
+        <div
+          className="relative w-full overflow-hidden"
+          style={{ aspectRatio: "1397 / 400" }}
+        >
           <img
             src={post.image}
             alt={post.title}
             loading="lazy"
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent" />
           <span className="absolute top-4 left-4 px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full bg-primary/90 text-primary-foreground border border-primary-glow shadow-[0_0_20px_hsl(var(--primary)/0.6)]">
             {post.tag}
           </span>

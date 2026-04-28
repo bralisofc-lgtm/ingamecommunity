@@ -161,7 +161,7 @@ const Index = () => {
               Nenhuma postagem por aqui ainda. Volte em breve! ✦
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="flex flex-col gap-8 max-w-5xl mx-auto">
               {sortedPosts.map((post, i) => (
                 <PostCard key={post.id} post={post} index={i} isRecent={i < RECENT_COUNT} />
               ))}
