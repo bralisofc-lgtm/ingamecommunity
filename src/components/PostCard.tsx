@@ -44,12 +44,6 @@ const PostCard = ({ post, index = 0, isRecent = false }: PostCardProps) => {
           </span>
         </div>
       )}
-          <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
-          <span className="absolute top-4 left-4 px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full bg-primary/90 text-primary-foreground border border-primary-glow shadow-[0_0_20px_hsl(var(--primary)/0.6)]">
-            {post.tag}
-          </span>
-        </div>
-      )}
 
       <div className="flex flex-col flex-1 p-6">
         {dateLabel && (
