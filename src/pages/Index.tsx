@@ -3,7 +3,7 @@ import SiteLayout from "@/components/SiteLayout";
 import SectionDivider from "@/components/SectionDivider";
 import PostCard from "@/components/PostCard";
 import { usePosts } from "@/hooks/usePosts";
-import heroScene from "@/assets/hero-indie-scene.jpg";
+
 
 const miniFeatures = [
   {
@@ -37,8 +37,17 @@ const miniFeatures = [
   },
 ];
 
+const RECENT_COUNT = 3;
+
 const Index = () => {
   const { posts } = usePosts();
+
+  // Ordena por data desc (mais recentes primeiro). Em empate, mantém ordem original.
+  const sortedPosts = [...posts].sort((a, b) => {
+    const da = a.date ? new Date(a.date).getTime() : 0;
+    const db = b.date ? new Date(b.date).getTime() : 0;
+    return db - da;
+  });
 
   return (
     <SiteLayout
@@ -158,14 +167,14 @@ const Index = () => {
             </p>
           </div>
 
-          {posts.length === 0 ? (
+          {sortedPosts.length === 0 ? (
             <div className="indie-card p-10 text-center text-muted-foreground">
               Nenhuma postagem por aqui ainda. Volte em breve! ✦
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {posts.map((post, i) => (
-                <PostCard key={post.id} post={post} index={i} />
+              {sortedPosts.map((post, i) => (
+                <PostCard key={post.id} post={post} index={i} isRecent={i < RECENT_COUNT} />
               ))}
             </div>
           )}
