@@ -61,13 +61,20 @@ const Sobre = () => {
           </h1>
           <div className="space-y-4 text-lg text-muted-foreground leading-relaxed">
             <p>
-              A <span className="text-primary-glow font-semibold">In Game</span> nasceu do desejo de reunir pessoas
-              que enxergam beleza em pequenos mundos — aqueles jogos feitos com alma, criados por times pequenos
-              e cheios de coragem.
+              Existe algo essencial em qualquer comunidade que realmente cresce: a interação e a presença do público.
             </p>
             <p>
-              Aqui a gente valoriza jogos indies, divulga experiências, promove conversas, organiza sorteios e
-              aproxima jogadores de novas descobertas. É um espaço acolhedor, curioso e apaixonado.
+              Não é só sobre estar presente, mas sobre participar, comentar, compartilhar experiências — é esse
+              movimento que mantém tudo vivo. Tudo isso constrói um espaço que não depende só de quem cria, mas de
+              quem faz parte. <span className="text-primary-glow font-semibold">Nada disso existe sem vocês!</span>
+            </p>
+            <p>
+              É justamente essa energia que impulsiona tudo aqui. Nossa comunidade tem o intuito de dar mais
+              visibilidade a jogos independentes, dando apoio e suporte aos desenvolvedores indies.
+            </p>
+            <p>
+              Nossa comunidade é um espaço para quem vê nos jogos indie mais do que entretenimento, mas ideias,
+              sentimentos e histórias únicas feitas com amor.
             </p>
             <p className="text-foreground/90 italic">Se você ama indies, você já é parte da In Game. ✦</p>
           </div>
