@@ -379,10 +379,16 @@ const IntroLoader = ({ onFinish }: { onFinish: () => void }) => {
 
       {/* Local keyframes */}
       <style>{`
-        /* runner-bob: agora está dentro do RunnerCharacter */
         @keyframes runner-dust {
           0% { opacity: 0.9; transform: translate(0, 0) scale(1); }
           100% { opacity: 0; transform: translate(-14px, 4px) scale(0.3); }
+        }
+        @keyframes logo-glow-pulse {
+          0%, 100% { transform: scale(1); opacity: 0.85; }
+          50%      { transform: scale(1.15); opacity: 1; }
+        }
+        @keyframes logo-rays-spin {
+          to { transform: rotate(360deg); }
         }
       `}</style>
     </div>
