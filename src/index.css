@@ -269,6 +269,13 @@
   animation: gradient-flow 7s ease-in-out infinite;
 }
 
+@keyframes particle-rise {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  15% { opacity: 1; }
+  100% { transform: translateY(-45vh) translateX(8px); opacity: 0; }
+}
+.animate-particle-rise { animation: particle-rise linear infinite; will-change: transform, opacity; }
+
 .bg-animated {
   background: linear-gradient(135deg, hsl(270 80% 8%), hsl(280 70% 14%), hsl(265 90% 6%), hsl(285 60% 12%));
   background-size: 400% 400%;
