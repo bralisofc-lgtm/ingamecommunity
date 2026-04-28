@@ -302,3 +302,13 @@
     transition-duration: 0.001ms !important;
   }
 }
+
+/* Hero cover wall — colunas de capas indies rolando */
+@keyframes cover-scroll-up {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(0, -33.3333%, 0); }
+}
+@keyframes cover-scroll-down {
+  0% { transform: translate3d(0, -33.3333%, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
