@@ -169,63 +169,81 @@ const Admin = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="md:col-span-2">
-                <label className={labelClass}>Título</label>
+                <label className={labelClass}>Título *</label>
                 <input
-                  className={inputClass}
+                  className={inputClass("title")}
                   value={form.title}
-                  onChange={(e) => setForm({ ...form, title: e.target.value })}
+                  onChange={(e) => updateField("title", e.target.value)}
                   placeholder="Título da postagem"
+                  maxLength={120}
                 />
+                {errors.title && <p className={errorClass}>{errors.title}</p>}
               </div>
 
               <div>
                 <label className={labelClass}>Tag / Categoria</label>
                 <input
-                  className={inputClass}
+                  className={inputClass("tag")}
                   value={form.tag}
-                  onChange={(e) => setForm({ ...form, tag: e.target.value })}
+                  onChange={(e) => updateField("tag", e.target.value)}
                   placeholder="Análise, Sorteio, Lista..."
+                  maxLength={30}
                 />
+                {errors.tag && <p className={errorClass}>{errors.tag}</p>}
               </div>
 
               <div>
                 <label className={labelClass}>Data</label>
                 <input
                   type="date"
-                  className={inputClass}
+                  className={inputClass("date")}
                   value={form.date}
-                  onChange={(e) => setForm({ ...form, date: e.target.value })}
+                  onChange={(e) => updateField("date", e.target.value)}
                 />
+                {errors.date && <p className={errorClass}>{errors.date}</p>}
               </div>
 
               <div className="md:col-span-2">
                 <label className={labelClass}>Imagem (URL)</label>
                 <input
-                  className={inputClass}
+                  className={inputClass("image")}
                   value={form.image}
-                  onChange={(e) => setForm({ ...form, image: e.target.value })}
+                  onChange={(e) => updateField("image", e.target.value)}
                   placeholder="https://..."
+                  maxLength={2000}
                 />
+                {errors.image && <p className={errorClass}>{errors.image}</p>}
               </div>
 
               <div className="md:col-span-2">
                 <label className={labelClass}>Descrição curta</label>
                 <textarea
-                  className={inputClass + " min-h-[100px] resize-y"}
+                  className={`${inputClass("description")} min-h-[100px] resize-y`}
                   value={form.description}
-                  onChange={(e) => setForm({ ...form, description: e.target.value })}
+                  onChange={(e) => updateField("description", e.target.value)}
                   placeholder="Pequeno resumo da postagem..."
+                  maxLength={500}
                 />
+                <div className="flex justify-between mt-1">
+                  {errors.description ? (
+                    <p className={errorClass}>{errors.description}</p>
+                  ) : <span />}
+                  <span className="text-xs text-muted-foreground">
+                    {form.description.length}/500
+                  </span>
+                </div>
               </div>
 
               <div className="md:col-span-2">
                 <label className={labelClass}>Link externo</label>
                 <input
-                  className={inputClass}
+                  className={inputClass("link")}
                   value={form.link}
-                  onChange={(e) => setForm({ ...form, link: e.target.value })}
+                  onChange={(e) => updateField("link", e.target.value)}
                   placeholder="https://..."
+                  maxLength={2000}
                 />
+                {errors.link && <p className={errorClass}>{errors.link}</p>}
               </div>
             </div>
 
