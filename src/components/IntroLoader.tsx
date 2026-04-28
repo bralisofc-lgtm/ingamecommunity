@@ -168,16 +168,17 @@ const IntroLoader = ({ onFinish }: { onFinish: () => void }) => {
 
   return (
     <div
-      className={`fixed inset-0 z-[9999] overflow-hidden bg-background transition-opacity duration-700 ${
+      className={`fixed inset-0 z-[9999] overflow-hidden transition-opacity duration-700 ${
         fadingOut ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
+      style={{ background: "#000" }}
       aria-hidden="true"
     >
       {/* Ambient glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vmin] h-[80vmin] rounded-full blur-[120px]"
-          style={{ background: `hsl(${theme.glowSoft} / 0.22)` }}
+          style={{ background: `hsl(${theme.glowSoft} / 0.18)` }}
         />
       </div>
 
