@@ -1,10 +1,51 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { z } from "zod";
 import SiteLayout from "@/components/SiteLayout";
 import { usePosts, type Post } from "@/hooks/usePosts";
 import { toast } from "@/hooks/use-toast";
 
-const emptyForm: Omit<Post, "id"> = {
+const postSchema = z.object({
+  title: z
+    .string()
+    .trim()
+    .min(3, { message: "Título precisa ter pelo menos 3 caracteres." })
+    .max(120, { message: "Título deve ter no máximo 120 caracteres." }),
+  tag: z
+    .string()
+    .trim()
+    .max(30, { message: "Tag deve ter no máximo 30 caracteres." })
+    .optional()
+    .or(z.literal("")),
+  date: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, { message: "Data inválida (use AAAA-MM-DD)." }),
+  image: z
+    .string()
+    .trim()
+    .max(2000, { message: "URL da imagem muito longa." })
+    .url({ message: "URL da imagem inválida." })
+    .optional()
+    .or(z.literal("")),
+  description: z
+    .string()
+    .trim()
+    .max(500, { message: "Descrição deve ter no máximo 500 caracteres." })
+    .optional()
+    .or(z.literal("")),
+  link: z
+    .string()
+    .trim()
+    .max(2000, { message: "Link muito longo." })
+    .url({ message: "Link externo inválido." })
+    .optional()
+    .or(z.literal("")),
+});
+
+type FormState = Omit<Post, "id">;
+type FieldErrors = Partial<Record<keyof FormState, string>>;
+
+const emptyForm: FormState = {
   title: "",
   tag: "",
   date: new Date().toISOString().slice(0, 10),
@@ -16,10 +57,17 @@ const emptyForm: Omit<Post, "id"> = {
 const Admin = () => {
   const { posts, create, update, remove, resetToDefaults } = usePosts();
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [form, setForm] = useState<Omit<Post, "id">>(emptyForm);
+  const [form, setForm] = useState<FormState>(emptyForm);
+  const [errors, setErrors] = useState<FieldErrors>({});
+
+  const updateField = <K extends keyof FormState>(key: K, value: FormState[K]) => {
+    setForm((f) => ({ ...f, [key]: value }));
+    if (errors[key]) setErrors((e) => ({ ...e, [key]: undefined }));
+  };
 
   const startEdit = (p: Post) => {
     setEditingId(p.id);
+    setErrors({});
     setForm({
       title: p.title,
       tag: p.tag,
@@ -34,20 +82,40 @@ const Admin = () => {
   const resetForm = () => {
     setEditingId(null);
     setForm(emptyForm);
+    setErrors({});
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.title.trim()) {
-      toast({ title: "Título obrigatório", description: "Preencha pelo menos o título da postagem." });
+    const result = postSchema.safeParse(form);
+    if (!result.success) {
+      const fieldErrors: FieldErrors = {};
+      for (const issue of result.error.issues) {
+        const key = issue.path[0] as keyof FormState;
+        if (key && !fieldErrors[key]) fieldErrors[key] = issue.message;
+      }
+      setErrors(fieldErrors);
+      toast({
+        title: "Verifique os campos",
+        description: "Há erros de validação no formulário.",
+        variant: "destructive",
+      });
       return;
     }
+    const clean: FormState = {
+      title: result.data.title,
+      tag: result.data.tag ?? "",
+      date: result.data.date,
+      image: result.data.image ?? "",
+      description: result.data.description ?? "",
+      link: result.data.link ?? "",
+    };
     if (editingId) {
-      update(editingId, form);
-      toast({ title: "Postagem atualizada", description: form.title });
+      update(editingId, clean);
+      toast({ title: "Postagem atualizada", description: clean.title });
     } else {
-      create(form);
-      toast({ title: "Postagem criada", description: form.title });
+      create(clean);
+      toast({ title: "Postagem publicada", description: clean.title });
     }
     resetForm();
   };
@@ -60,9 +128,16 @@ const Admin = () => {
     }
   };
 
-  const inputClass =
-    "w-full px-4 py-3 rounded-xl bg-secondary/60 border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition text-foreground placeholder:text-muted-foreground";
+  const inputBase =
+    "w-full px-4 py-3 rounded-xl bg-secondary/60 border focus:outline-none focus:ring-2 transition text-foreground placeholder:text-muted-foreground";
+  const inputClass = (field: keyof FormState) =>
+    `${inputBase} ${
+      errors[field]
+        ? "border-destructive focus:ring-destructive/30"
+        : "border-border focus:border-primary focus:ring-primary/30"
+    }`;
   const labelClass = "block text-xs font-bold uppercase tracking-widest text-primary-glow mb-2";
+  const errorClass = "mt-1.5 text-xs text-destructive font-medium";
 
   return (
     <SiteLayout title="Admin — In Game" description="Painel de administração das postagens da In Game.">
@@ -94,63 +169,81 @@ const Admin = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="md:col-span-2">
-                <label className={labelClass}>Título</label>
+                <label className={labelClass}>Título *</label>
                 <input
-                  className={inputClass}
+                  className={inputClass("title")}
                   value={form.title}
-                  onChange={(e) => setForm({ ...form, title: e.target.value })}
+                  onChange={(e) => updateField("title", e.target.value)}
                   placeholder="Título da postagem"
+                  maxLength={120}
                 />
+                {errors.title && <p className={errorClass}>{errors.title}</p>}
               </div>
 
               <div>
                 <label className={labelClass}>Tag / Categoria</label>
                 <input
-                  className={inputClass}
+                  className={inputClass("tag")}
                   value={form.tag}
-                  onChange={(e) => setForm({ ...form, tag: e.target.value })}
+                  onChange={(e) => updateField("tag", e.target.value)}
                   placeholder="Análise, Sorteio, Lista..."
+                  maxLength={30}
                 />
+                {errors.tag && <p className={errorClass}>{errors.tag}</p>}
               </div>
 
               <div>
                 <label className={labelClass}>Data</label>
                 <input
                   type="date"
-                  className={inputClass}
+                  className={inputClass("date")}
                   value={form.date}
-                  onChange={(e) => setForm({ ...form, date: e.target.value })}
+                  onChange={(e) => updateField("date", e.target.value)}
                 />
+                {errors.date && <p className={errorClass}>{errors.date}</p>}
               </div>
 
               <div className="md:col-span-2">
                 <label className={labelClass}>Imagem (URL)</label>
                 <input
-                  className={inputClass}
+                  className={inputClass("image")}
                   value={form.image}
-                  onChange={(e) => setForm({ ...form, image: e.target.value })}
+                  onChange={(e) => updateField("image", e.target.value)}
                   placeholder="https://..."
+                  maxLength={2000}
                 />
+                {errors.image && <p className={errorClass}>{errors.image}</p>}
               </div>
 
               <div className="md:col-span-2">
                 <label className={labelClass}>Descrição curta</label>
                 <textarea
-                  className={inputClass + " min-h-[100px] resize-y"}
+                  className={`${inputClass("description")} min-h-[100px] resize-y`}
                   value={form.description}
-                  onChange={(e) => setForm({ ...form, description: e.target.value })}
+                  onChange={(e) => updateField("description", e.target.value)}
                   placeholder="Pequeno resumo da postagem..."
+                  maxLength={500}
                 />
+                <div className="flex justify-between mt-1">
+                  {errors.description ? (
+                    <p className={errorClass}>{errors.description}</p>
+                  ) : <span />}
+                  <span className="text-xs text-muted-foreground">
+                    {form.description.length}/500
+                  </span>
+                </div>
               </div>
 
               <div className="md:col-span-2">
                 <label className={labelClass}>Link externo</label>
                 <input
-                  className={inputClass}
+                  className={inputClass("link")}
                   value={form.link}
-                  onChange={(e) => setForm({ ...form, link: e.target.value })}
+                  onChange={(e) => updateField("link", e.target.value)}
                   placeholder="https://..."
+                  maxLength={2000}
                 />
+                {errors.link && <p className={errorClass}>{errors.link}</p>}
               </div>
             </div>
 
