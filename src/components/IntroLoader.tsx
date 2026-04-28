@@ -1,14 +1,121 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import character from "@/assets/loader-character.png";
 import logo from "@/assets/ingame-logo.png";
 
 type Phase = "loading" | "doors" | "logo" | "done";
 
 const STORAGE_KEY = "ingame_intro_seen";
+const THEME_KEY = "ingame_loader_last_theme";
+
+type LoaderTheme = {
+  name: string;
+  // HSL raw triplets ("H S% L%")
+  barFrom: string;
+  barMid: string;
+  barTo: string;
+  glow: string;
+  glowSoft: string;
+  dust: string;
+  doorBorder: string;
+  bobMs: number;
+  shadowAlpha: number; // 0–1
+};
+
+const THEMES: LoaderTheme[] = [
+  {
+    name: "Roxo Neon",
+    barFrom: "270 80% 55%",
+    barMid: "280 95% 70%",
+    barTo: "270 80% 55%",
+    glow: "280 95% 70%",
+    glowSoft: "270 80% 55%",
+    dust: "280 95% 70%",
+    doorBorder: "270 80% 55%",
+    bobMs: 320,
+    shadowAlpha: 0.7,
+  },
+  {
+    name: "Magenta Arcade",
+    barFrom: "320 85% 55%",
+    barMid: "330 95% 70%",
+    barTo: "290 80% 60%",
+    glow: "325 95% 68%",
+    glowSoft: "300 80% 55%",
+    dust: "330 95% 72%",
+    doorBorder: "315 80% 55%",
+    bobMs: 280,
+    shadowAlpha: 0.85,
+  },
+  {
+    name: "Ciano Glitch",
+    barFrom: "190 90% 55%",
+    barMid: "180 95% 65%",
+    barTo: "260 70% 60%",
+    glow: "185 95% 65%",
+    glowSoft: "260 70% 55%",
+    dust: "185 95% 70%",
+    doorBorder: "200 80% 55%",
+    bobMs: 300,
+    shadowAlpha: 0.65,
+  },
+  {
+    name: "Verde Indie",
+    barFrom: "140 70% 50%",
+    barMid: "120 80% 60%",
+    barTo: "270 70% 55%",
+    glow: "130 85% 60%",
+    glowSoft: "270 60% 50%",
+    dust: "130 80% 65%",
+    doorBorder: "270 70% 50%",
+    bobMs: 340,
+    shadowAlpha: 0.55,
+  },
+  {
+    name: "Âmbar Crepúsculo",
+    barFrom: "30 90% 55%",
+    barMid: "20 95% 60%",
+    barTo: "280 70% 55%",
+    glow: "25 95% 62%",
+    glowSoft: "280 70% 50%",
+    dust: "30 95% 65%",
+    doorBorder: "270 70% 55%",
+    bobMs: 360,
+    shadowAlpha: 0.7,
+  },
+  {
+    name: "Branco Etéreo",
+    barFrom: "270 30% 90%",
+    barMid: "0 0% 100%",
+    barTo: "270 60% 80%",
+    glow: "270 40% 92%",
+    glowSoft: "270 60% 70%",
+    dust: "0 0% 100%",
+    doorBorder: "270 50% 70%",
+    bobMs: 400,
+    shadowAlpha: 0.8,
+  },
+];
+
+const pickTheme = (): LoaderTheme => {
+  let last = -1;
+  try {
+    const raw = sessionStorage.getItem(THEME_KEY);
+    if (raw !== null) last = parseInt(raw, 10);
+  } catch {}
+  let idx = Math.floor(Math.random() * THEMES.length);
+  if (THEMES.length > 1 && idx === last) {
+    idx = (idx + 1) % THEMES.length;
+  }
+  try {
+    sessionStorage.setItem(THEME_KEY, String(idx));
+  } catch {}
+  return THEMES[idx];
+};
 
 const IntroLoader = ({ onFinish }: { onFinish: () => void }) => {
   const [progress, setProgress] = useState(0);
   const [phase, setPhase] = useState<Phase>("loading");
+  const theme = useMemo(pickTheme, []);
 
   // Progress bar
   useEffect(() => {
@@ -18,7 +125,6 @@ const IntroLoader = ({ onFinish }: { onFinish: () => void }) => {
     const duration = 2800;
     const tick = (now: number) => {
       const t = Math.min(1, (now - start) / duration);
-      // ease-out
       const eased = 1 - Math.pow(1 - t, 2.2);
       setProgress(Math.round(eased * 100));
       if (t < 1) {
@@ -53,6 +159,13 @@ const IntroLoader = ({ onFinish }: { onFinish: () => void }) => {
   const doorsOpening = phase === "doors" || phase === "logo" || phase === "done";
   const fadingOut = phase === "done";
 
+  const glow = `hsl(${theme.glow})`;
+  const glowSoft = `hsl(${theme.glowSoft})`;
+  const dust = `hsl(${theme.dust})`;
+  const doorBorder = `hsl(${theme.doorBorder} / 0.45)`;
+  const doorEdge = `hsl(${theme.glow} / 0.6)`;
+  const doorShadow = `hsl(${theme.glowSoft} / 0.4)`;
+
   return (
     <div
       className={`fixed inset-0 z-[9999] overflow-hidden bg-background transition-opacity duration-700 ${
@@ -62,39 +175,67 @@ const IntroLoader = ({ onFinish }: { onFinish: () => void }) => {
     >
       {/* Ambient glow */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vmin] h-[80vmin] rounded-full bg-primary/20 blur-[120px]" />
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vmin] h-[80vmin] rounded-full blur-[120px]"
+          style={{ background: `hsl(${theme.glowSoft} / 0.22)` }}
+        />
       </div>
 
       {/* DOORS */}
       <div className="absolute inset-0 flex pointer-events-none">
         <div
-          className={`relative h-full w-1/2 bg-gradient-to-r from-background via-background to-[hsl(var(--primary)/0.08)] border-r-2 border-primary/40 transition-transform duration-[1100ms] ease-[cubic-bezier(0.83,0,0.17,1)] ${
+          className={`relative h-full w-1/2 transition-transform duration-[1100ms] ease-[cubic-bezier(0.83,0,0.17,1)] ${
             doorsOpening ? "-translate-x-full" : "translate-x-0"
           }`}
           style={{
+            background: `linear-gradient(to right, hsl(var(--background)), hsl(var(--background)), hsl(${theme.glowSoft} / 0.08))`,
+            borderRight: `2px solid ${doorBorder}`,
             boxShadow: doorsOpening
-              ? "20px 0 60px hsl(var(--primary) / 0.4)"
-              : "inset -2px 0 30px hsl(var(--primary) / 0.25)",
+              ? `20px 0 60px ${doorShadow}`
+              : `inset -2px 0 30px hsl(${theme.glowSoft} / 0.25)`,
           }}
         >
-          {/* Door panel detail */}
-          <div className="absolute inset-6 border border-primary/20 rounded-sm" />
-          <div className="absolute inset-10 border border-primary/10 rounded-sm" />
-          <div className="absolute right-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-transparent via-primary-glow/60 to-transparent" />
+          <div
+            className="absolute inset-6 rounded-sm"
+            style={{ border: `1px solid hsl(${theme.doorBorder} / 0.25)` }}
+          />
+          <div
+            className="absolute inset-10 rounded-sm"
+            style={{ border: `1px solid hsl(${theme.doorBorder} / 0.12)` }}
+          />
+          <div
+            className="absolute right-0 top-0 bottom-0 w-[2px]"
+            style={{
+              background: `linear-gradient(to bottom, transparent, ${doorEdge}, transparent)`,
+            }}
+          />
         </div>
         <div
-          className={`relative h-full w-1/2 bg-gradient-to-l from-background via-background to-[hsl(var(--primary)/0.08)] border-l-2 border-primary/40 transition-transform duration-[1100ms] ease-[cubic-bezier(0.83,0,0.17,1)] ${
+          className={`relative h-full w-1/2 transition-transform duration-[1100ms] ease-[cubic-bezier(0.83,0,0.17,1)] ${
             doorsOpening ? "translate-x-full" : "translate-x-0"
           }`}
           style={{
+            background: `linear-gradient(to left, hsl(var(--background)), hsl(var(--background)), hsl(${theme.glowSoft} / 0.08))`,
+            borderLeft: `2px solid ${doorBorder}`,
             boxShadow: doorsOpening
-              ? "-20px 0 60px hsl(var(--primary) / 0.4)"
-              : "inset 2px 0 30px hsl(var(--primary) / 0.25)",
+              ? `-20px 0 60px ${doorShadow}`
+              : `inset 2px 0 30px hsl(${theme.glowSoft} / 0.25)`,
           }}
         >
-          <div className="absolute inset-6 border border-primary/20 rounded-sm" />
-          <div className="absolute inset-10 border border-primary/10 rounded-sm" />
-          <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-transparent via-primary-glow/60 to-transparent" />
+          <div
+            className="absolute inset-6 rounded-sm"
+            style={{ border: `1px solid hsl(${theme.doorBorder} / 0.25)` }}
+          />
+          <div
+            className="absolute inset-10 rounded-sm"
+            style={{ border: `1px solid hsl(${theme.doorBorder} / 0.12)` }}
+          />
+          <div
+            className="absolute left-0 top-0 bottom-0 w-[2px]"
+            style={{
+              background: `linear-gradient(to bottom, transparent, ${doorEdge}, transparent)`,
+            }}
+          />
         </div>
       </div>
 
@@ -105,7 +246,10 @@ const IntroLoader = ({ onFinish }: { onFinish: () => void }) => {
         }`}
       >
         <div className="relative flex flex-col items-center">
-          <p className="text-[11px] tracking-[0.5em] uppercase text-primary-glow font-bold mb-10 animate-pulse">
+          <p
+            className="text-[11px] tracking-[0.5em] uppercase font-bold mb-10 animate-pulse"
+            style={{ color: glow }}
+          >
             Entrando no jogo
           </p>
 
@@ -117,27 +261,48 @@ const IntroLoader = ({ onFinish }: { onFinish: () => void }) => {
                 transform: `translateX(calc(${progress}% - 50%))`,
               }}
             >
-              <div className="relative animate-[runner-bob_0.32s_ease-in-out_infinite]">
+              <div
+                className="relative"
+                style={{
+                  animation: `runner-bob ${theme.bobMs}ms ease-in-out infinite`,
+                }}
+              >
                 <img
                   src={character}
                   alt=""
                   width={128}
                   height={128}
-                  className="h-[64px] w-auto object-contain drop-shadow-[0_6px_14px_hsl(var(--primary)/0.7)]"
-                  style={{ imageRendering: "pixelated" }}
+                  className="h-[64px] w-auto object-contain"
+                  style={{
+                    imageRendering: "pixelated",
+                    filter: `drop-shadow(0 6px 14px hsl(${theme.glow} / ${theme.shadowAlpha}))`,
+                  }}
                 />
                 {/* Dust puffs */}
-                <span className="absolute -bottom-1 left-1 w-2 h-2 rounded-full bg-primary-glow/70 blur-[2px] animate-[runner-dust_0.6s_ease-out_infinite]" />
                 <span
-                  className="absolute -bottom-1 left-3 w-1.5 h-1.5 rounded-full bg-primary/60 blur-[2px] animate-[runner-dust_0.6s_ease-out_infinite]"
-                  style={{ animationDelay: "0.15s" }}
+                  className="absolute -bottom-1 left-1 w-2 h-2 rounded-full blur-[2px]"
+                  style={{
+                    background: `hsl(${theme.dust} / 0.7)`,
+                    animation: "runner-dust 0.6s ease-out infinite",
+                  }}
+                />
+                <span
+                  className="absolute -bottom-1 left-3 w-1.5 h-1.5 rounded-full blur-[2px]"
+                  style={{
+                    background: `hsl(${theme.glowSoft} / 0.6)`,
+                    animation: "runner-dust 0.6s ease-out infinite",
+                    animationDelay: "0.15s",
+                  }}
                 />
               </div>
             </div>
 
             {/* Header */}
             <div className="flex items-center justify-between mb-2">
-              <span className="text-[10px] tracking-[0.4em] uppercase text-primary-glow font-bold">
+              <span
+                className="text-[10px] tracking-[0.4em] uppercase font-bold"
+                style={{ color: glow }}
+              >
                 Carregando
               </span>
               <span className="text-[10px] tracking-[0.2em] text-muted-foreground font-mono">
@@ -146,13 +311,19 @@ const IntroLoader = ({ onFinish }: { onFinish: () => void }) => {
             </div>
 
             {/* Bar */}
-            <div className="relative h-[6px] w-full rounded-full bg-primary/10 overflow-hidden border border-primary/30">
+            <div
+              className="relative h-[6px] w-full rounded-full overflow-hidden"
+              style={{
+                background: `hsl(${theme.glowSoft} / 0.12)`,
+                border: `1px solid hsl(${theme.glowSoft} / 0.35)`,
+              }}
+            >
               <div
-                className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-primary via-primary-glow to-primary transition-[width] duration-150 ease-out"
+                className="absolute inset-y-0 left-0 rounded-full transition-[width] duration-150 ease-out"
                 style={{
                   width: `${progress}%`,
-                  boxShadow:
-                    "0 0 12px hsl(var(--primary-glow) / 0.9), 0 0 24px hsl(var(--primary) / 0.6)",
+                  background: `linear-gradient(to right, hsl(${theme.barFrom}), hsl(${theme.barMid}), hsl(${theme.barTo}))`,
+                  boxShadow: `0 0 12px hsl(${theme.glow} / 0.9), 0 0 24px hsl(${theme.glowSoft} / 0.6)`,
                 }}
               />
               <div
@@ -173,13 +344,19 @@ const IntroLoader = ({ onFinish }: { onFinish: () => void }) => {
         }`}
       >
         <div className="relative">
-          <div className="absolute inset-0 -m-10 rounded-full bg-primary/30 blur-3xl animate-pulse" />
+          <div
+            className="absolute inset-0 -m-10 rounded-full blur-3xl animate-pulse"
+            style={{ background: `hsl(${theme.glowSoft} / 0.35)` }}
+          />
           <img
             src={logo}
             alt="In Game"
             width={909}
             height={469}
-            className="relative h-[28vh] max-h-[260px] w-auto object-contain drop-shadow-[0_0_40px_hsl(var(--primary-glow)/0.8)]"
+            className="relative h-[28vh] max-h-[260px] w-auto object-contain"
+            style={{
+              filter: `drop-shadow(0 0 40px hsl(${theme.glow} / 0.85))`,
+            }}
           />
         </div>
       </div>
