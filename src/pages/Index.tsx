@@ -135,7 +135,40 @@ const Index = () => {
         </div>
       </section>
 
-      {/* 2. SOBRE (resumo) — fundo roxo suave, sem flash preto */}
+      {/* 2. POSTAGENS RECENTES */}
+      <section id="postagens" className="relative py-24 px-4">
+        <div className="container mx-auto">
+          <Reveal className="flex items-end justify-between mb-12 flex-wrap gap-4">
+            <div>
+              <p className="text-primary-glow uppercase tracking-[0.3em] text-xs font-bold mb-2">Da comunidade</p>
+              <h2 className="text-4xl md:text-5xl font-black">
+                Postagens <span className="text-gradient">recentes</span>
+              </h2>
+            </div>
+            <p className="text-muted-foreground max-w-md">
+              Conteúdos, análises e novidades feitos por quem faz parte da In Game.
+            </p>
+          </Reveal>
+
+          {sortedPosts.length === 0 ? (
+            <div className="indie-card p-10 text-center text-muted-foreground">
+              Nenhuma postagem por aqui ainda. Volte em breve! ✦
+            </div>
+          ) : (
+            <div className="flex flex-col gap-8 max-w-5xl mx-auto">
+              {sortedPosts.map((post, i) => (
+                <Reveal key={post.id} delay={Math.min(i * 0.1, 0.5)}>
+                  <PostCard post={post} index={i} isRecent={i < RECENT_COUNT} />
+                </Reveal>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      <SectionDivider />
+
+      {/* 3. SOBRE (resumo) — agora no final */}
       <section className="relative py-24 px-4 bg-gradient-to-b from-background via-[hsl(270_60%_6%)] to-background overflow-hidden">
         <div className="pointer-events-none absolute inset-x-0 -top-20 h-40 bg-[radial-gradient(ellipse_at_center_top,hsl(var(--primary)/0.25),transparent_70%)]" aria-hidden />
         <div className="container mx-auto max-w-5xl relative">
@@ -171,39 +204,6 @@ const Index = () => {
               <span className="transition-transform group-hover:translate-x-1">→</span>
             </Link>
           </Reveal>
-        </div>
-      </section>
-
-      <SectionDivider />
-
-      {/* 3. POSTAGENS RECENTES */}
-      <section id="postagens" className="relative py-24 px-4">
-        <div className="container mx-auto">
-          <Reveal className="flex items-end justify-between mb-12 flex-wrap gap-4">
-            <div>
-              <p className="text-primary-glow uppercase tracking-[0.3em] text-xs font-bold mb-2">Da comunidade</p>
-              <h2 className="text-4xl md:text-5xl font-black">
-                Postagens <span className="text-gradient">recentes</span>
-              </h2>
-            </div>
-            <p className="text-muted-foreground max-w-md">
-              Conteúdos, análises e novidades feitos por quem faz parte da In Game.
-            </p>
-          </Reveal>
-
-          {sortedPosts.length === 0 ? (
-            <div className="indie-card p-10 text-center text-muted-foreground">
-              Nenhuma postagem por aqui ainda. Volte em breve! ✦
-            </div>
-          ) : (
-            <div className="flex flex-col gap-8 max-w-5xl mx-auto">
-              {sortedPosts.map((post, i) => (
-                <Reveal key={post.id} delay={Math.min(i * 0.1, 0.5)}>
-                  <PostCard post={post} index={i} isRecent={i < RECENT_COUNT} />
-                </Reveal>
-              ))}
-            </div>
-          )}
         </div>
       </section>
 
