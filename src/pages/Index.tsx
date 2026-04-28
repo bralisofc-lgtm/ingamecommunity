@@ -6,6 +6,7 @@ import { usePosts } from "@/hooks/usePosts";
 import ingameLogo from "@/assets/ingame-logo.png";
 import heroLandscape from "@/assets/hero-landscape.png";
 import Reveal from "@/components/Reveal";
+import HeroParticles from "@/components/HeroParticles";
 
 
 const miniFeatures = [
@@ -69,6 +70,9 @@ const Index = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-primary-deep/30 via-transparent to-transparent animate-hero-haze" aria-hidden />
         {/* Soft vignette to seat the logo into the scene */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,hsl(var(--background)/0.55)_85%)]" aria-hidden />
+
+        {/* Partículas e ícones indies flutuando sobre a paisagem */}
+        <HeroParticles />
 
         {/* Content */}
         <div className="relative z-10 container mx-auto px-6 md:px-10 pt-20 pb-10">
