@@ -60,18 +60,7 @@ const Faqs = () => {
       title="FAQs — In Game"
       description="Perguntas frequentes sobre a comunidade In Game, sorteios, divulgação de jogos indies e como participar."
     >
-      <section className="relative pt-28 pb-8 px-4">
-        <div className="container mx-auto max-w-5xl animate-fade-up">
-          <img
-            src={faqBanner}
-            alt="Ajude nossa comunidade — In Game"
-            className="w-full h-auto object-contain mx-auto drop-shadow-[0_0_40px_hsl(var(--primary)/0.35)]"
-            loading="eager"
-          />
-        </div>
-      </section>
-
-      <section className="relative pb-12 px-4">
+      <section className="relative pt-32 pb-12 px-4">
         <div className="container mx-auto max-w-4xl text-center animate-fade-up">
           <p className="text-primary-glow uppercase tracking-[0.3em] text-xs font-bold mb-3">Dúvidas frequentes</p>
           <h1 className="text-5xl md:text-7xl font-black mb-5">
@@ -89,9 +78,28 @@ const Faqs = () => {
         <div className="container mx-auto max-w-3xl space-y-4">
           {faqs.map((f, i) => (
             <div key={f.q} className="animate-fade-up" style={{ animationDelay: `${i * 0.06}s` }}>
-              <FaqItem q={f.q} a={f.a} defaultOpen={i === 0} />
+              <FaqItem q={f.q} a={f.a} />
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="relative pt-4 pb-20 px-4">
+        <div className="container mx-auto max-w-5xl flex flex-col items-center gap-6 animate-fade-up">
+          <img
+            src={faqBanner}
+            alt="Ajude nossa comunidade — In Game"
+            className="w-full h-auto object-contain mx-auto drop-shadow-[0_0_40px_hsl(var(--primary)/0.35)]"
+            loading="lazy"
+          />
+          <a
+            href="https://forms.gle/kX4vtVjzZQpgk97M7"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-background/60 backdrop-blur-sm border-2 border-primary text-foreground font-black uppercase tracking-widest text-xs shadow-[4px_4px_0_hsl(var(--primary)/0.6),0_0_20px_hsl(var(--primary)/0.4)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_hsl(var(--primary)/0.6),0_0_28px_hsl(var(--primary)/0.7)] transition-all"
+          >
+            Apoiar comunidade
+          </a>
         </div>
       </section>
     </SiteLayout>
