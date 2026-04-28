@@ -75,7 +75,7 @@
   html {
     scroll-behavior: smooth;
     scrollbar-width: thin;
-    scrollbar-color: hsl(var(--primary-glow) / 0.7) transparent;
+    scrollbar-color: hsl(var(--primary-glow) / 0.9) hsl(var(--background) / 0.25);
   }
 
   body {
@@ -96,28 +96,19 @@
   }
 
   ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-    background: transparent;
+    width: 12px;
+    height: 12px;
   }
 
   ::-webkit-scrollbar-track {
-    background: transparent;
-    border: none;
+    background: hsl(var(--background) / 0.18);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, hsl(var(--primary-glow) / 0.7), hsl(var(--primary) / 0.5));
-    border: 2px solid transparent;
-    background-clip: padding-box;
+    background: linear-gradient(180deg, hsl(var(--primary-glow) / 0.95), hsl(var(--primary) / 0.65));
+    border: 3px solid hsl(var(--background) / 0.25);
     border-radius: 999px;
-    box-shadow: 0 0 12px hsl(var(--primary-glow) / 0.6);
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, hsl(var(--primary-glow) / 0.9), hsl(var(--primary) / 0.7));
-    background-clip: padding-box;
-    box-shadow: 0 0 18px hsl(var(--primary-glow) / 0.9);
+    box-shadow: 0 0 16px hsl(var(--primary-glow) / 0.85);
   }
 
   ::-webkit-scrollbar-corner {
