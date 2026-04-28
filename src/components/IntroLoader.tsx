@@ -98,23 +98,44 @@ const IntroLoader = ({ onFinish }: { onFinish: () => void }) => {
         </div>
       </div>
 
-      {/* LOADING CONTENT (character + bar) */}
+      {/* LOADING CONTENT (running character + bar) */}
       <div
         className={`absolute inset-0 flex flex-col items-center justify-center px-6 transition-opacity duration-500 ${
           phase === "loading" ? "opacity-100" : "opacity-0"
         }`}
       >
         <div className="relative flex flex-col items-center">
-          <img
-            src={character}
-            alt=""
-            width={1024}
-            height={1024}
-            className="h-[52vh] max-h-[480px] w-auto object-contain drop-shadow-[0_20px_50px_hsl(var(--primary)/0.45)] animate-[float_3s_ease-in-out_infinite]"
-            style={{ imageRendering: "auto" }}
-          />
+          <p className="text-[11px] tracking-[0.5em] uppercase text-primary-glow font-bold mb-10 animate-pulse">
+            Entrando no jogo
+          </p>
 
-          <div className="mt-8 w-[min(420px,80vw)]">
+          <div className="relative w-[min(520px,85vw)]">
+            {/* Character running on top of the bar */}
+            <div
+              className="absolute -top-[68px] left-0 will-change-transform transition-[transform] duration-150 ease-out"
+              style={{
+                transform: `translateX(calc(${progress}% - 50%))`,
+              }}
+            >
+              <div className="relative animate-[runner-bob_0.32s_ease-in-out_infinite]">
+                <img
+                  src={character}
+                  alt=""
+                  width={128}
+                  height={128}
+                  className="h-[64px] w-auto object-contain drop-shadow-[0_6px_14px_hsl(var(--primary)/0.7)]"
+                  style={{ imageRendering: "pixelated" }}
+                />
+                {/* Dust puffs */}
+                <span className="absolute -bottom-1 left-1 w-2 h-2 rounded-full bg-primary-glow/70 blur-[2px] animate-[runner-dust_0.6s_ease-out_infinite]" />
+                <span
+                  className="absolute -bottom-1 left-3 w-1.5 h-1.5 rounded-full bg-primary/60 blur-[2px] animate-[runner-dust_0.6s_ease-out_infinite]"
+                  style={{ animationDelay: "0.15s" }}
+                />
+              </div>
+            </div>
+
+            {/* Header */}
             <div className="flex items-center justify-between mb-2">
               <span className="text-[10px] tracking-[0.4em] uppercase text-primary-glow font-bold">
                 Carregando
@@ -123,6 +144,8 @@ const IntroLoader = ({ onFinish }: { onFinish: () => void }) => {
                 {progress.toString().padStart(3, "0")}%
               </span>
             </div>
+
+            {/* Bar */}
             <div className="relative h-[6px] w-full rounded-full bg-primary/10 overflow-hidden border border-primary/30">
               <div
                 className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-primary via-primary-glow to-primary transition-[width] duration-150 ease-out"
