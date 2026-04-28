@@ -22,8 +22,8 @@ const Navbar = () => {
       return;
     }
     const onScroll = () => {
-      // Aparece só depois de sair do banner (~70vh)
-      setScrolled(window.scrollY > window.innerHeight * 0.6);
+      // Aparece só depois de sair do hero (passar dos botões)
+      setScrolled(window.scrollY > window.innerHeight - 80);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });

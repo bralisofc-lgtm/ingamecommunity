@@ -68,8 +68,8 @@ const Index = () => {
       title="In Game — Comunidade de jogos indies"
       description="In Game é uma comunidade feita por quem ama jogos indies. Descubra novos títulos, participe de sorteios e compartilhe experiências."
     >
-      {/* 1. HERO — banner com capas, logo centralizada e botões abaixo */}
-      <section className="relative w-full h-[70vh] min-h-[480px] max-h-[760px] overflow-hidden flex items-center justify-center bg-[hsl(270_80%_5%)]">
+      {/* 1. HERO — paisagem indie com logo integrada */}
+      <section className="relative min-h-screen w-full overflow-hidden flex items-center justify-center bg-[hsl(270_80%_5%)]">
         {/* Parede animada de capas indies (4 colunas alternando direção) */}
         <HeroCoverWall />
 
@@ -80,20 +80,20 @@ const Index = () => {
         <HeroParticles />
 
         {/* Content */}
-        <div className="relative z-10 container mx-auto px-6 md:px-10 pt-16 pb-8">
-          <div className="max-w-3xl mx-auto text-center animate-fade-up flex flex-col items-center gap-2">
-            {/* Logo art — centralizada */}
-            <h1 className="flex justify-center m-0">
+        <div className="relative z-10 container mx-auto px-6 md:px-10 pt-20 pb-10">
+          <div className="max-w-3xl mx-auto text-center animate-fade-up">
+            {/* Logo art — integrada como parte da paisagem */}
+            <h1 className="-mb-4 md:-mb-10 -mt-2 flex justify-center">
               <span className="sr-only">In Game</span>
               <img
                 src={ingameLogo}
                 alt="In Game"
-                width={620}
-                height={230}
+                width={820}
+                height={300}
                 loading="eager"
                 fetchPriority="high"
                 decoding="async"
-                className="w-full max-w-[520px] md:max-w-[620px] h-auto select-none mix-blend-screen drop-shadow-[0_8px_25px_hsl(270_80%_8%/0.8)] animate-logo-float"
+                className="w-full max-w-[820px] h-auto select-none mix-blend-screen drop-shadow-[0_8px_25px_hsl(270_80%_8%/0.8)] animate-logo-float"
                 draggable={false}
               />
             </h1>
