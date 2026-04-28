@@ -4,28 +4,20 @@ import SectionDivider from "@/components/SectionDivider";
 
 const faqs = [
   {
-    q: "O que é a In Game?",
-    a: "A In Game é uma comunidade dedicada a quem ama jogos indies — um espaço para descobrir novos títulos, compartilhar experiências e participar de sorteios.",
+    q: "🔍 : Como Funciona o Jogo Misterioso",
+    a: "O Jogo Misterioso é uma forma de manter a comunidade sempre ativa e envolvida. De tempos em tempos, ele é sorteado de forma inesperada, geralmente durante a madrugada como uma maneira de valorizar quem está presente e participando.\n\nNão existe uma data fixa para esses sorteios, eles acontecem de forma totalmente surpresa, então quanto mais você acompanha e interage, maiores são as chances de não perder quando acontecer.\n\nApós o encerramento do sorteio, o jogo é revelado para todos, mostrando qual título estava sendo distribuído naquele momento.",
   },
   {
-    q: "Como faço para participar da comunidade?",
-    a: "É só acompanhar nossas postagens, interagir com o conteúdo e ficar de olho nos canais oficiais. A entrada é livre e gratuita.",
+    q: "🎁 : Sobre Sorteios",
+    a: "No momento, todos os jogos distribuídos nos sorteios são resgatáveis exclusivamente na Steam.",
   },
   {
-    q: "Como funcionam os sorteios?",
-    a: "De tempos em tempos publicamos sorteios de chaves, brindes e oportunidades exclusivas. Cada sorteio tem suas próprias regras descritas no post.",
+    q: "💬 : Sua Participação na Comunidade",
+    a: "Com a sua participação, através de interações, opiniões e experiências, ajudamos a construir um espaço mais ativo e significativo para todos, que ao longo do tempo, também serão realizados sorteios de jogos indie, como forma de valorizar e engajar ainda mais quem faz parte da comunidade.\n\nPortanto, precisamos manter sempre o respeito ao próximo e evitar qualquer tipo de toxicidade, focando em discussões saudáveis e construtivas.",
   },
   {
-    q: "Posso indicar um jogo indie para a comunidade?",
-    a: "Com certeza! Adoramos descobrir novos jogos por indicação da comunidade. Mande seu indie favorito pelos canais oficiais.",
-  },
-  {
-    q: "Sou desenvolvedor indie. Posso divulgar meu jogo?",
-    a: "Sim. A In Game existe também para apoiar quem cria. Entre em contato e converse com a gente sobre seu projeto.",
-  },
-  {
-    q: "Como posso apoiar a In Game?",
-    a: "Você pode apoiar preenchendo o formulário disponível na página de apoio. Cada apoio ajuda a manter sorteios, conteúdos e novas iniciativas vivas.",
+    q: "📌 : Proposta da Comunidade",
+    a: "A comunidade tem como objetivo trazer informações, possíveis reviews e análises sobre jogos independentes, criando um espaço de descoberta e discussão.\n\nA ideia é dar mais visibilidade a projetos que muitas vezes passam despercebidos, valorizando não só o jogo em si mas também o trabalho por trás dele.",
   },
 ];
 
@@ -54,7 +46,7 @@ const FaqItem = ({ q, a, defaultOpen = false }: { q: string; a: string; defaultO
         }`}
       >
         <div className="overflow-hidden">
-          <p className="px-5 md:px-6 pb-6 text-muted-foreground leading-relaxed">{a}</p>
+          <p className="px-5 md:px-6 pb-6 text-muted-foreground leading-relaxed whitespace-pre-line">{a}</p>
         </div>
       </div>
     </div>
