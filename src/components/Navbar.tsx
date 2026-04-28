@@ -40,7 +40,11 @@ const Navbar = () => {
           : "backdrop-blur-xl bg-background/60 border-b border-border/50"
       }`}
     >
-      <nav className="container mx-auto px-4 py-3 flex items-center justify-center relative">
+      <nav
+        className={`container mx-auto px-4 py-3 flex items-center justify-center relative transition-opacity duration-500 ${
+          transparent ? "opacity-0 pointer-events-none" : "opacity-100"
+        }`}
+      >
 
         <ul className="hidden md:flex items-center gap-4">
           {tabs.map((t) => {
