@@ -312,3 +312,10 @@
   0% { transform: translate3d(0, -33.3333%, 0); }
   100% { transform: translate3d(0, 0, 0); }
 }
+
+@keyframes btn-particle {
+  0% { transform: translateY(0) scale(0.6); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(-60px) scale(1); opacity: 0; }
+}
+.animate-btn-particle { animation: btn-particle linear infinite; will-change: transform, opacity; }
