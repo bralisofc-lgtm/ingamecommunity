@@ -9,6 +9,7 @@ import Reveal from "@/components/Reveal";
 import HeroParticles from "@/components/HeroParticles";
 import HeroCoverWall from "@/components/HeroCoverWall";
 import { POST_TAGS } from "@/lib/tags";
+import { SlidersHorizontal, Check, X } from "lucide-react";
 
 
 const miniFeatures = [
@@ -48,6 +49,7 @@ const RECENT_COUNT = 3;
 const Index = () => {
   const { posts } = usePosts();
   const [activeTag, setActiveTag] = useState<string>("Todas");
+  const [filterOpen, setFilterOpen] = useState(false);
 
   // Ordena por data desc (mais recentes primeiro). Em empate, mantém ordem original.
   const sortedPosts = [...posts].sort((a, b) => {
@@ -183,25 +185,67 @@ const Index = () => {
             </p>
           </Reveal>
 
-          {/* Filtro de tags */}
-          <Reveal className="flex flex-wrap gap-2 mb-10">
-            {(["Todas", ...POST_TAGS] as const).map((tag) => {
-              const active = activeTag === tag;
-              return (
+          {/* Filtro de tags (botão expansível) */}
+          <Reveal className="mb-10">
+            <div className="flex items-center gap-3 flex-wrap">
+              <button
+                type="button"
+                onClick={() => setFilterOpen((o) => !o)}
+                aria-expanded={filterOpen}
+                className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider border transition-all ${
+                  filterOpen || activeTag !== "Todas"
+                    ? "bg-primary/15 text-primary-glow border-primary/60 shadow-[0_0_18px_hsl(var(--primary-glow)/0.3)]"
+                    : "bg-secondary/40 text-muted-foreground border-border hover:border-primary/60 hover:text-primary-glow"
+                }`}
+              >
+                <SlidersHorizontal className="w-4 h-4" />
+                Filtros
+                {activeTag !== "Todas" && (
+                  <span className="ml-1 px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-[10px]">
+                    1
+                  </span>
+                )}
+              </button>
+
+              {activeTag !== "Todas" && (
                 <button
-                  key={tag}
                   type="button"
-                  onClick={() => setActiveTag(tag)}
-                  className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider border transition-all ${
-                    active
-                      ? "bg-primary text-primary-foreground border-primary-glow shadow-[0_0_18px_hsl(var(--primary-glow)/0.6)]"
-                      : "bg-secondary/40 text-muted-foreground border-border hover:border-primary/60 hover:text-primary-glow"
-                  }`}
+                  onClick={() => setActiveTag("Todas")}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider text-muted-foreground hover:text-foreground transition"
                 >
-                  {tag}
+                  <X className="w-3 h-3" />
+                  Limpar ({activeTag})
                 </button>
-              );
-            })}
+              )}
+            </div>
+
+            {filterOpen && (
+              <div className="mt-4 indie-card p-4 animate-fade-in">
+                <div className="flex flex-wrap gap-2">
+                  {(["Todas", ...POST_TAGS] as const).map((tag) => {
+                    const active = activeTag === tag;
+                    return (
+                      <button
+                        key={tag}
+                        type="button"
+                        onClick={() => {
+                          setActiveTag(tag);
+                          setFilterOpen(false);
+                        }}
+                        className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider border transition-all ${
+                          active
+                            ? "bg-primary text-primary-foreground border-primary-glow shadow-[0_0_18px_hsl(var(--primary-glow)/0.6)]"
+                            : "bg-secondary/40 text-muted-foreground border-border hover:border-primary/60 hover:text-primary-glow"
+                        }`}
+                      >
+                        {active && <Check className="w-3 h-3" />}
+                        {tag}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </Reveal>
 
           {filteredPosts.length === 0 ? (
