@@ -4,6 +4,7 @@ import SectionDivider from "@/components/SectionDivider";
 import PostCard from "@/components/PostCard";
 import { usePosts } from "@/hooks/usePosts";
 import ingameLogo from "@/assets/ingame-logo.png";
+import heroLandscape from "@/assets/hero-landscape.png";
 
 
 const miniFeatures = [
@@ -55,45 +56,54 @@ const Index = () => {
       title="In Game — Comunidade de jogos indies"
       description="In Game é uma comunidade feita por quem ama jogos indies. Descubra novos títulos, participe de sorteios e compartilhe experiências."
     >
-      {/* 1. HERO — estilo indie game */}
+      {/* 1. HERO — paisagem indie com logo integrada */}
       <section className="relative min-h-screen w-full overflow-hidden flex items-start justify-center">
-        {/* Ambient gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-primary-deep/20 via-transparent to-background" />
+        {/* Background landscape with slow parallax drift */}
+        <div
+          className="absolute inset-0 bg-cover bg-center animate-hero-pan"
+          style={{ backgroundImage: `url(${heroLandscape})` }}
+          aria-hidden
+        />
+        {/* Atmospheric haze that breathes */}
+        <div className="absolute inset-0 bg-gradient-to-b from-primary-deep/30 via-transparent to-transparent animate-hero-haze" aria-hidden />
+        {/* Soft vignette to seat the logo into the scene */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,hsl(var(--background)/0.55)_85%)]" aria-hidden />
 
         {/* Content */}
-        <div className="relative z-10 container mx-auto px-6 md:px-10 pt-24 pb-10">
+        <div className="relative z-10 container mx-auto px-6 md:px-10 pt-20 pb-10">
           <div className="max-w-3xl mx-auto text-center animate-fade-up">
-            {/* Logo art — sketched IN + solid GAME */}
-            <h1 className="-mb-4 md:-mb-10 -mt-6 flex justify-center">
-              <span className="sr-only">​</span>
+            {/* Logo art — integrada como parte da paisagem */}
+            <h1 className="-mb-4 md:-mb-10 -mt-2 flex justify-center">
+              <span className="sr-only">In Game</span>
               <img
                 src={ingameLogo}
                 alt="In Game"
-                className="w-full max-w-[820px] h-auto select-none drop-shadow-[0_0_45px_hsl(var(--primary-glow)/0.45)] animate-logo-float"
+                className="w-full max-w-[820px] h-auto select-none mix-blend-screen drop-shadow-[0_8px_25px_hsl(270_80%_8%/0.8)] animate-logo-float"
                 draggable={false}
               />
             </h1>
 
-            {/* Flat purple buttons with hard shadow */}
-            <div className="flex flex-wrap gap-4 justify-center">
+            {/* Botões integrados como tótens da paisagem */}
+            <div className="flex flex-wrap gap-4 justify-center animate-buttons-rise">
               <a
                 href="#postagens"
-                className="group inline-flex items-center gap-2 px-7 py-4 bg-primary border-2 border-primary-glow text-primary-foreground font-black uppercase tracking-widest text-sm shadow-[6px_6px_0_hsl(var(--primary-deep))] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[3px_3px_0_hsl(var(--primary-deep))] transition-all"
+                className="group inline-flex items-center gap-2 px-7 py-4 bg-primary/90 backdrop-blur-sm border-2 border-primary-glow text-primary-foreground font-black uppercase tracking-widest text-sm shadow-[6px_6px_0_hsl(var(--primary-deep)),0_0_30px_hsl(var(--primary-glow)/0.5)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[3px_3px_0_hsl(var(--primary-deep)),0_0_40px_hsl(var(--primary-glow)/0.8)] transition-all"
               >
                 Explorar postagens
               </a>
               <Link
                 to="/apoiar"
-                className="group inline-flex items-center gap-2 px-7 py-4 bg-background border-2 border-primary text-foreground font-black uppercase tracking-widest text-sm shadow-[6px_6px_0_hsl(var(--primary)/0.6)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[3px_3px_0_hsl(var(--primary)/0.6)] transition-all"
+                className="group inline-flex items-center gap-2 px-7 py-4 bg-background/60 backdrop-blur-sm border-2 border-primary text-foreground font-black uppercase tracking-widest text-sm shadow-[6px_6px_0_hsl(var(--primary)/0.6),0_0_25px_hsl(var(--primary)/0.4)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[3px_3px_0_hsl(var(--primary)/0.6),0_0_35px_hsl(var(--primary)/0.7)] transition-all"
               >
                 Apoiar comunidade
               </Link>
             </div>
           </div>
         </div>
-      </section>
 
-      <SectionDivider />
+        {/* Degradê animado de transição para a próxima seção */}
+        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-b from-transparent via-background/70 to-background animate-gradient-flow" aria-hidden />
+      </section>
 
       {/* 2. SOBRE (resumo) */}
       <section className="relative py-24 px-4 bg-background/40 backdrop-blur-sm">
