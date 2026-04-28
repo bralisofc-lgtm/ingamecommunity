@@ -175,7 +175,7 @@ const Index = () => {
       {/* 3. POSTAGENS RECENTES */}
       <section id="postagens" className="relative py-24 px-4">
         <div className="container mx-auto">
-          <div className="flex items-end justify-between mb-12 flex-wrap gap-4 animate-fade-up">
+          <Reveal className="flex items-end justify-between mb-12 flex-wrap gap-4">
             <div>
               <p className="text-primary-glow uppercase tracking-[0.3em] text-xs font-bold mb-2">Da comunidade</p>
               <h2 className="text-4xl md:text-5xl font-black">
@@ -185,7 +185,7 @@ const Index = () => {
             <p className="text-muted-foreground max-w-md">
               Conteúdos, análises e novidades feitos por quem faz parte da In Game.
             </p>
-          </div>
+          </Reveal>
 
           {sortedPosts.length === 0 ? (
             <div className="indie-card p-10 text-center text-muted-foreground">
@@ -194,7 +194,9 @@ const Index = () => {
           ) : (
             <div className="flex flex-col gap-8 max-w-5xl mx-auto">
               {sortedPosts.map((post, i) => (
-                <PostCard key={post.id} post={post} index={i} isRecent={i < RECENT_COUNT} />
+                <Reveal key={post.id} delay={Math.min(i * 0.1, 0.5)}>
+                  <PostCard post={post} index={i} isRecent={i < RECENT_COUNT} />
+                </Reveal>
               ))}
             </div>
           )}
