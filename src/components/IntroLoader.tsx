@@ -189,7 +189,7 @@ const IntroLoader = ({ onFinish }: { onFinish: () => void }) => {
             doorsOpening ? "-translate-x-full" : "translate-x-0"
           }`}
           style={{
-            background: `linear-gradient(to right, hsl(var(--background)), hsl(var(--background)), hsl(${theme.glowSoft} / 0.08))`,
+            background: `linear-gradient(to right, #000, #000, hsl(${theme.glowSoft} / 0.08))`,
             borderRight: `2px solid ${doorBorder}`,
             boxShadow: doorsOpening
               ? `20px 0 60px ${doorShadow}`
@@ -216,7 +216,7 @@ const IntroLoader = ({ onFinish }: { onFinish: () => void }) => {
             doorsOpening ? "translate-x-full" : "translate-x-0"
           }`}
           style={{
-            background: `linear-gradient(to left, hsl(var(--background)), hsl(var(--background)), hsl(${theme.glowSoft} / 0.08))`,
+            background: `linear-gradient(to left, #000, #000, hsl(${theme.glowSoft} / 0.08))`,
             borderLeft: `2px solid ${doorBorder}`,
             boxShadow: doorsOpening
               ? `-20px 0 60px ${doorShadow}`
@@ -327,7 +327,7 @@ const IntroLoader = ({ onFinish }: { onFinish: () => void }) => {
         </div>
       </div>
 
-      {/* LOGO REVEAL */}
+      {/* LOGO REVEAL — sempre com glow roxo neon */}
       <div
         className={`absolute inset-0 flex items-center justify-center pointer-events-none transition-all duration-700 ${
           phase === "logo" || phase === "done"
@@ -336,9 +336,32 @@ const IntroLoader = ({ onFinish }: { onFinish: () => void }) => {
         }`}
       >
         <div className="relative">
+          {/* Halo grande pulsando */}
           <div
-            className="absolute inset-0 -m-10 rounded-full blur-3xl animate-pulse"
-            style={{ background: `hsl(${theme.glowSoft} / 0.35)` }}
+            className="absolute inset-0 -m-24 rounded-full blur-[80px]"
+            style={{
+              background:
+                "radial-gradient(circle, hsl(280 95% 65% / 0.55), hsl(270 80% 50% / 0.35) 45%, transparent 70%)",
+              animation: "logo-glow-pulse 2.2s ease-in-out infinite",
+            }}
+          />
+          {/* Halo interno mais intenso */}
+          <div
+            className="absolute inset-0 -m-10 rounded-full blur-3xl"
+            style={{
+              background: "hsl(280 95% 70% / 0.55)",
+              animation: "logo-glow-pulse 1.6s ease-in-out infinite",
+            }}
+          />
+          {/* Raios sutis girando */}
+          <div
+            className="absolute inset-0 -m-32 rounded-full opacity-60"
+            style={{
+              background:
+                "conic-gradient(from 0deg, transparent, hsl(280 95% 70% / 0.25), transparent, hsl(270 80% 55% / 0.2), transparent)",
+              filter: "blur(40px)",
+              animation: "logo-rays-spin 8s linear infinite",
+            }}
           />
           <img
             src={logo}
@@ -347,7 +370,8 @@ const IntroLoader = ({ onFinish }: { onFinish: () => void }) => {
             height={469}
             className="relative h-[28vh] max-h-[260px] w-auto object-contain"
             style={{
-              filter: `drop-shadow(0 0 40px hsl(${theme.glow} / 0.85))`,
+              filter:
+                "drop-shadow(0 0 30px hsl(280 95% 70% / 0.95)) drop-shadow(0 0 60px hsl(270 80% 55% / 0.7))",
             }}
           />
         </div>
