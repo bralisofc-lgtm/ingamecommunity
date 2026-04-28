@@ -22,8 +22,8 @@ const Navbar = () => {
       return;
     }
     const onScroll = () => {
-      // Considera "rolou" quando passou ~70% da viewport (saindo do hero)
-      setScrolled(window.scrollY > window.innerHeight * 0.7);
+      // Aparece só depois de sair do hero (passar dos botões)
+      setScrolled(window.scrollY > window.innerHeight - 80);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
