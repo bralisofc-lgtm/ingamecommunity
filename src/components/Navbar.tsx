@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import logo from "@/assets/ingame-logo.png";
+
 
 const tabs = [
   { to: "/", label: "Início" },
@@ -15,13 +15,12 @@ const Navbar = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-background/60 border-b border-border/50">
       <nav className="container mx-auto px-4 py-3 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2 group" onClick={() => setOpen(false)}>
-          <img
-            src={logo}
-            alt="In Game logo"
-            className="h-10 w-auto transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[-3deg]"
-            style={{ filter: "drop-shadow(0 0 12px hsl(var(--primary) / 0.5))" }}
-          />
+        <Link
+          to="/"
+          onClick={() => setOpen(false)}
+          className="text-lg font-black tracking-widest uppercase text-gradient hover:opacity-80 transition-opacity"
+        >
+          In Game
         </Link>
 
         <ul className="hidden md:flex items-center gap-10">
