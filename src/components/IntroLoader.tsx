@@ -144,7 +144,7 @@ const IntroLoader = ({ onFinish }: { onFinish: () => void }) => {
       return () => clearTimeout(t);
     }
     if (phase === "logo") {
-      const t = setTimeout(() => setPhase("done"), 1600);
+      const t = setTimeout(() => setPhase("done"), 2400);
       return () => clearTimeout(t);
     }
     if (phase === "done") {
