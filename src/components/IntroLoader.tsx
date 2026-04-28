@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import character from "@/assets/loader-character.png";
 import logo from "@/assets/ingame-logo.png";
+import RunnerCharacter from "./RunnerCharacter";
 
 type Phase = "loading" | "doors" | "logo" | "done";
 
@@ -256,38 +256,29 @@ const IntroLoader = ({ onFinish }: { onFinish: () => void }) => {
           <div className="relative w-[min(520px,85vw)]">
             {/* Character running on top of the bar */}
             <div
-              className="absolute -top-[68px] left-0 will-change-transform transition-[transform] duration-150 ease-out"
+              className="absolute -top-[72px] left-0 will-change-transform transition-[transform] duration-150 ease-out"
               style={{
                 transform: `translateX(calc(${progress}% - 50%))`,
               }}
             >
-              <div
-                className="relative"
-                style={{
-                  animation: `runner-bob ${theme.bobMs}ms ease-in-out infinite`,
-                }}
-              >
-                <img
-                  src={character}
-                  alt=""
-                  width={128}
-                  height={128}
-                  className="h-[64px] w-auto object-contain"
-                  style={{
-                    imageRendering: "pixelated",
-                    filter: `drop-shadow(0 6px 14px hsl(${theme.glow} / ${theme.shadowAlpha}))`,
-                  }}
+              <div className="relative">
+                <RunnerCharacter
+                  size={64}
+                  bodyColor="hsl(0 0% 8%)"
+                  accentColor="hsl(0 0% 96%)"
+                  glow={`hsl(${theme.glow} / ${theme.shadowAlpha})`}
+                  speedMs={theme.bobMs}
                 />
                 {/* Dust puffs */}
                 <span
-                  className="absolute -bottom-1 left-1 w-2 h-2 rounded-full blur-[2px]"
+                  className="absolute -bottom-1 left-3 w-2 h-2 rounded-full blur-[2px]"
                   style={{
                     background: `hsl(${theme.dust} / 0.7)`,
                     animation: "runner-dust 0.6s ease-out infinite",
                   }}
                 />
                 <span
-                  className="absolute -bottom-1 left-3 w-1.5 h-1.5 rounded-full blur-[2px]"
+                  className="absolute -bottom-1 left-6 w-1.5 h-1.5 rounded-full blur-[2px]"
                   style={{
                     background: `hsl(${theme.glowSoft} / 0.6)`,
                     animation: "runner-dust 0.6s ease-out infinite",
