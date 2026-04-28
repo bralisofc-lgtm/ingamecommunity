@@ -70,22 +70,22 @@ const ALL = [
 
 // Distribui em 4 colunas intercalando para misturar estilos
 const COLUMNS: { items: string[]; direction: "up" | "down"; duration: number }[] = [
-  { items: ALL.filter((_, i) => i % 4 === 0), direction: "down", duration: 80 },
-  { items: ALL.filter((_, i) => i % 4 === 1), direction: "up", duration: 90 },
-  { items: ALL.filter((_, i) => i % 4 === 2), direction: "down", duration: 85 },
-  { items: ALL.filter((_, i) => i % 4 === 3), direction: "up", duration: 95 },
+  { items: ALL.filter((_, i) => i % 4 === 0), direction: "down", duration: 70 },
+  { items: ALL.filter((_, i) => i % 4 === 1), direction: "up", duration: 78 },
+  { items: ALL.filter((_, i) => i % 4 === 2), direction: "down", duration: 74 },
+  { items: ALL.filter((_, i) => i % 4 === 3), direction: "up", duration: 82 },
 ];
 
 const HeroCoverWall = () => {
   const cols = useMemo(() => COLUMNS, []);
 
   return (
-    <div className="absolute inset-0 overflow-hidden w-full max-w-[100vw]" aria-hidden>
-      <div className="absolute inset-0 grid grid-cols-4 gap-3 md:gap-4 px-2 md:px-4 overflow-hidden">
+    <div className="absolute inset-0 overflow-hidden w-full max-w-full" aria-hidden>
+      <div className="absolute -inset-x-3 inset-y-0 grid grid-cols-4 gap-3 md:gap-5 px-3 md:px-6 overflow-hidden rotate-[-1deg] scale-[1.03]">
         {cols.map((col, ci) => (
           <div key={ci} className="relative overflow-hidden">
             <div
-              className="flex flex-col gap-3 md:gap-4 will-change-transform"
+              className="flex flex-col gap-3 md:gap-5 will-change-transform"
               style={{
                 animation: `cover-scroll-${col.direction} ${col.duration}s linear infinite`,
               }}
@@ -94,17 +94,17 @@ const HeroCoverWall = () => {
               {[...col.items, ...col.items].map((src, i) => (
                 <div
                   key={i}
-                  className="relative aspect-[460/215] w-full overflow-hidden rounded-lg border border-primary/20 shadow-[0_8px_30px_hsl(270_80%_4%/0.6)]"
+                  className="relative aspect-[460/215] w-full overflow-hidden rounded-lg border border-primary/30 shadow-[0_0_22px_hsl(var(--primary)/0.16),0_10px_36px_hsl(270_80%_4%/0.7)] opacity-95"
                 >
                   <img
                     src={src}
                     alt=""
                     loading="lazy"
                     decoding="async"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover saturate-[1.25] contrast-[1.08]"
                     draggable={false}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/35 via-primary/10 to-transparent" />
                 </div>
               ))}
             </div>
