@@ -4,9 +4,9 @@ import SectionDivider from "@/components/SectionDivider";
 import PostCard from "@/components/PostCard";
 import { usePosts } from "@/hooks/usePosts";
 import ingameLogo from "@/assets/ingame-logo.png";
-import heroLandscape from "@/assets/hero-landscape.jpg";
 import Reveal from "@/components/Reveal";
 import HeroParticles from "@/components/HeroParticles";
+import HeroCoverWall from "@/components/HeroCoverWall";
 
 
 const miniFeatures = [
@@ -59,17 +59,12 @@ const Index = () => {
       description="In Game é uma comunidade feita por quem ama jogos indies. Descubra novos títulos, participe de sorteios e compartilhe experiências."
     >
       {/* 1. HERO — paisagem indie com logo integrada */}
-      <section className="relative min-h-screen w-full overflow-hidden flex items-start justify-center">
-        {/* Background landscape with slow parallax drift */}
-        <div
-          className="absolute inset-0 bg-cover bg-center animate-hero-pan"
-          style={{ backgroundImage: `url(${heroLandscape})` }}
-          aria-hidden
-        />
+      <section className="relative min-h-screen w-full overflow-hidden flex items-center justify-center bg-[hsl(270_80%_5%)]">
+        {/* Parede animada de capas indies (4 colunas alternando direção) */}
+        <HeroCoverWall />
+
         {/* Atmospheric haze that breathes */}
-        <div className="absolute inset-0 bg-gradient-to-b from-primary-deep/30 via-transparent to-transparent animate-hero-haze" aria-hidden />
-        {/* Soft vignette to seat the logo into the scene */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,hsl(var(--background)/0.55)_85%)]" aria-hidden />
+        <div className="absolute inset-0 bg-gradient-to-b from-primary-deep/30 via-transparent to-transparent animate-hero-haze pointer-events-none" aria-hidden />
 
         {/* Partículas e ícones indies flutuando sobre a paisagem */}
         <HeroParticles />
