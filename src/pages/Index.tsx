@@ -4,7 +4,7 @@ import SectionDivider from "@/components/SectionDivider";
 import PostCard from "@/components/PostCard";
 import { usePosts } from "@/hooks/usePosts";
 import ingameLogo from "@/assets/ingame-logo.png";
-import heroLandscape from "@/assets/hero-landscape.png";
+import heroLandscape from "@/assets/hero-landscape.jpg";
 import Reveal from "@/components/Reveal";
 import HeroParticles from "@/components/HeroParticles";
 
@@ -111,7 +111,7 @@ const Index = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(270_70%_8%/0.55)] to-background" />
           <div className="absolute inset-x-0 bottom-0 h-2/3 bg-[radial-gradient(ellipse_at_center_bottom,hsl(var(--primary)/0.35),transparent_70%)] animate-hero-haze" />
           <div className="absolute inset-0 overflow-hidden">
-            {Array.from({ length: 14 }).map((_, i) => {
+            {Array.from({ length: 7 }).map((_, i) => {
               const left = (i * 7.3) % 100;
               const size = 3 + ((i * 13) % 6);
               const delay = (i * 0.45) % 5;
