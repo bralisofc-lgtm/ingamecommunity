@@ -15,13 +15,6 @@ const Navbar = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-background/60 border-b border-border/50">
       <nav className="container mx-auto px-4 py-3 flex items-center justify-center relative">
-        <Link
-          to="/"
-          onClick={() => setOpen(false)}
-          className="absolute left-4 text-lg font-black tracking-widest uppercase text-gradient hover:opacity-80 transition-opacity"
-        >
-          In Game
-        </Link>
 
         <ul className="hidden md:flex items-center gap-4">
           {tabs.map((t) => {

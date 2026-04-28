@@ -64,15 +64,6 @@ const Sobre = () => {
               Existe algo essencial em qualquer comunidade que realmente cresce: a interação e a presença do público.
             </p>
             <p>
-              Não é só sobre estar presente, mas sobre participar, comentar, compartilhar experiências — é esse
-              movimento que mantém tudo vivo. Tudo isso constrói um espaço que não depende só de quem cria, mas de
-              quem faz parte. <span className="text-primary-glow font-semibold">Nada disso existe sem vocês!</span>
-            </p>
-            <p>
-              É justamente essa energia que impulsiona tudo aqui. Nossa comunidade tem o intuito de dar mais
-              visibilidade a jogos independentes, dando apoio e suporte aos desenvolvedores indies.
-            </p>
-            <p>
               Nossa comunidade é um espaço para quem vê nos jogos indie mais do que entretenimento, mas ideias,
               sentimentos e histórias únicas feitas com amor.
             </p>
