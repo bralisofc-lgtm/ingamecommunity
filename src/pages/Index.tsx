@@ -3,7 +3,7 @@ import SiteLayout from "@/components/SiteLayout";
 import SectionDivider from "@/components/SectionDivider";
 import PostCard from "@/components/PostCard";
 import { usePosts } from "@/hooks/usePosts";
-import heroScene from "@/assets/hero-indie-scene.jpg";
+
 
 const miniFeatures = [
   {
@@ -37,34 +37,34 @@ const miniFeatures = [
   },
 ];
 
+const RECENT_COUNT = 3;
+
 const Index = () => {
   const { posts } = usePosts();
+
+  // Ordena por data desc (mais recentes primeiro). Em empate, mantém ordem original.
+  const sortedPosts = [...posts].sort((a, b) => {
+    const da = a.date ? new Date(a.date).getTime() : 0;
+    const db = b.date ? new Date(b.date).getTime() : 0;
+    return db - da;
+  });
 
   return (
     <SiteLayout
       title="In Game — Comunidade de jogos indies"
       description="In Game é uma comunidade feita por quem ama jogos indies. Descubra novos títulos, participe de sorteios e compartilhe experiências."
     >
-      {/* 1. HERO — estilo indie game (OFF-like) */}
-      <section className="relative min-h-screen w-full overflow-hidden flex items-center">
-        {/* Background scene */}
-        <img
-          src={heroScene}
-          alt="Cidade indie com fantasminhas flutuando ao entardecer"
-          width={1920}
-          height={1080}
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        {/* Subtle darkening for legibility */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-background/20 to-transparent" />
+      {/* 1. HERO — estilo indie game */}
+      <section className="relative min-h-screen w-full overflow-hidden flex items-center justify-center">
+        {/* Ambient gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-primary-deep/20 via-transparent to-background" />
 
         {/* Content */}
         <div className="relative z-10 container mx-auto px-6 md:px-10 pt-32 pb-20">
-          <div className="max-w-2xl animate-fade-up">
+          <div className="max-w-3xl mx-auto text-center animate-fade-up">
             {/* Stamp-style title */}
             <h1
-              className="font-black uppercase leading-[0.85] tracking-tight text-foreground mb-6"
+              className="font-black uppercase leading-[0.85] tracking-tight text-foreground mb-8"
               style={{
                 fontSize: "clamp(4.5rem, 14vw, 11rem)",
                 textShadow: "6px 6px 0 hsl(var(--primary-deep)), 0 0 40px hsl(0 0% 0% / 0.6)",
@@ -81,14 +81,14 @@ const Index = () => {
               </p>
             </div>
 
-            <p className="text-lg md:text-xl text-foreground/90 font-light mb-10 max-w-xl leading-relaxed">
+            <p className="text-lg md:text-xl text-foreground/90 font-light mb-10 max-w-xl mx-auto leading-relaxed">
               Uma comunidade feita por{" "}
               <span className="text-primary-glow font-medium">quem ama jogos indies</span>. Descubra,
               compartilhe, participe.
             </p>
 
             {/* Flat purple buttons with hard shadow */}
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-4 justify-center">
               <a
                 href="#postagens"
                 className="group inline-flex items-center gap-2 px-7 py-4 bg-primary border-2 border-primary-glow text-primary-foreground font-black uppercase tracking-widest text-sm shadow-[6px_6px_0_hsl(var(--primary-deep))] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[3px_3px_0_hsl(var(--primary-deep))] transition-all"
@@ -104,9 +104,6 @@ const Index = () => {
             </div>
           </div>
         </div>
-
-        {/* Bottom torn-paper edge */}
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background to-transparent z-10" />
       </section>
 
       <SectionDivider />
@@ -170,14 +167,14 @@ const Index = () => {
             </p>
           </div>
 
-          {posts.length === 0 ? (
+          {sortedPosts.length === 0 ? (
             <div className="indie-card p-10 text-center text-muted-foreground">
               Nenhuma postagem por aqui ainda. Volte em breve! ✦
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {posts.map((post, i) => (
-                <PostCard key={post.id} post={post} index={i} />
+              {sortedPosts.map((post, i) => (
+                <PostCard key={post.id} post={post} index={i} isRecent={i < RECENT_COUNT} />
               ))}
             </div>
           )}

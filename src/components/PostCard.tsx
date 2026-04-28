@@ -1,6 +1,12 @@
 import type { Post } from "@/hooks/usePosts";
 
-const PostCard = ({ post, index = 0 }: { post: Post; index?: number }) => {
+interface PostCardProps {
+  post: Post;
+  index?: number;
+  isRecent?: boolean;
+}
+
+const PostCard = ({ post, index = 0, isRecent = false }: PostCardProps) => {
   const dateLabel = post.date
     ? new Date(post.date).toLocaleDateString("pt-BR", {
         day: "2-digit",
@@ -11,9 +17,19 @@ const PostCard = ({ post, index = 0 }: { post: Post; index?: number }) => {
 
   return (
     <article
-      className="indie-card group flex flex-col overflow-hidden animate-fade-up"
+      className="indie-card group flex flex-col overflow-hidden animate-fade-up relative"
       style={{ animationDelay: `${index * 0.1}s` }}
     >
+      {/* RECENT badge — top-right corner */}
+      {isRecent && (
+        <div className="absolute top-3 right-3 z-20 animate-recent-float">
+          <span className="inline-flex items-center gap-1 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] rounded-full bg-primary text-primary-foreground border border-primary-glow shadow-[0_0_18px_hsl(var(--primary-glow)/0.85)] animate-recent-pulse">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary-foreground" />
+            Recente
+          </span>
+        </div>
+      )}
+
       {post.image && (
         <div className="relative aspect-[16/9] overflow-hidden">
           <img
