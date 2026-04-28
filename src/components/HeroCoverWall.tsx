@@ -40,8 +40,18 @@ import hifiRush from "@/assets/covers/hi-fi-rush.jpg";
 import signalis from "@/assets/covers/signalis.jpg";
 import unpacking from "@/assets/covers/unpacking.jpg";
 import chainedEchoes from "@/assets/covers/chained-echoes.jpg";
+import enigmaOfFear from "@/assets/covers/enigma-of-fear.jpg";
+import coralIsland from "@/assets/covers/coral-island.jpg";
+import dredge from "@/assets/covers/dredge.jpg";
+import seaOfStars from "@/assets/covers/sea-of-stars.jpg";
+import blasphemous from "@/assets/covers/blasphemous.jpg";
+import blasphemous2 from "@/assets/covers/blasphemous-2.jpg";
+import lethalCompany from "@/assets/covers/lethal-company.jpg";
+import webfishing from "@/assets/covers/webfishing.jpg";
+import balatro from "@/assets/covers/balatro.jpg";
+import animalWell from "@/assets/covers/animal-well.jpg";
 
-// 40 capas distribuídas em 4 colunas de 10 — direções alternadas
+// 50 capas distribuídas em 4 colunas — direções alternadas
 const ALL = [
   hollowKnight, slayTheSpire, hades, undertale,
   stardew, celeste, obraDinn, cuphead,
@@ -53,14 +63,17 @@ const ALL = [
   loopHero, factorio, rimworld, shovelKnight,
   isaac, spelunky2, noita, valheim,
   hifiRush, signalis, unpacking, chainedEchoes,
+  enigmaOfFear, balatro, dredge, seaOfStars,
+  blasphemous, blasphemous2, animalWell, lethalCompany,
+  coralIsland, webfishing,
 ];
 
 // Distribui em 4 colunas intercalando para misturar estilos
 const COLUMNS: { items: string[]; direction: "up" | "down"; duration: number }[] = [
-  { items: ALL.filter((_, i) => i % 4 === 0), direction: "down", duration: 70 },
-  { items: ALL.filter((_, i) => i % 4 === 1), direction: "up", duration: 80 },
-  { items: ALL.filter((_, i) => i % 4 === 2), direction: "down", duration: 75 },
-  { items: ALL.filter((_, i) => i % 4 === 3), direction: "up", duration: 85 },
+  { items: ALL.filter((_, i) => i % 4 === 0), direction: "down", duration: 80 },
+  { items: ALL.filter((_, i) => i % 4 === 1), direction: "up", duration: 90 },
+  { items: ALL.filter((_, i) => i % 4 === 2), direction: "down", duration: 85 },
+  { items: ALL.filter((_, i) => i % 4 === 3), direction: "up", duration: 95 },
 ];
 
 const HeroCoverWall = () => {
