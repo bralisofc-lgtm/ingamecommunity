@@ -16,20 +16,51 @@ import slayTheSpire from "@/assets/covers/slay-the-spire.jpg";
 import stardew from "@/assets/covers/stardew-valley.jpg";
 import terraria from "@/assets/covers/terraria.jpg";
 import undertale from "@/assets/covers/undertale.jpg";
+import katanaZero from "@/assets/covers/katana-zero.jpg";
+import inscryption from "@/assets/covers/inscryption.jpg";
+import shortHike from "@/assets/covers/a-short-hike.jpg";
+import gris from "@/assets/covers/gris.jpg";
+import oriBlind from "@/assets/covers/ori-blind-forest.jpg";
+import oriWisps from "@/assets/covers/ori-will-of-wisps.jpg";
+import hyperLight from "@/assets/covers/hyper-light-drifter.jpg";
+import tunic from "@/assets/covers/tunic.jpg";
+import crosscode from "@/assets/covers/crosscode.jpg";
+import stray from "@/assets/covers/stray.jpg";
+import cultLamb from "@/assets/covers/cult-of-the-lamb.jpg";
+import vampireSurvivors from "@/assets/covers/vampire-survivors.jpg";
+import loopHero from "@/assets/covers/loop-hero.jpg";
+import factorio from "@/assets/covers/factorio.jpg";
+import rimworld from "@/assets/covers/rimworld.jpg";
+import shovelKnight from "@/assets/covers/shovel-knight.jpg";
+import isaac from "@/assets/covers/binding-of-isaac.jpg";
+import spelunky2 from "@/assets/covers/spelunky-2.jpg";
+import noita from "@/assets/covers/noita.jpg";
+import valheim from "@/assets/covers/valheim.jpg";
+import hifiRush from "@/assets/covers/hi-fi-rush.jpg";
+import signalis from "@/assets/covers/signalis.jpg";
+import unpacking from "@/assets/covers/unpacking.jpg";
+import chainedEchoes from "@/assets/covers/chained-echoes.jpg";
 
+// 40 capas distribuídas em 4 colunas de 10 — direções alternadas
 const ALL = [
   hollowKnight, slayTheSpire, hades, undertale,
   stardew, celeste, obraDinn, cuphead,
   outerWilds, deadCells, discoElysium, gungeon,
   hotlineMiami, pizzaTower, terraria, risk2,
+  katanaZero, inscryption, shortHike, gris,
+  oriBlind, oriWisps, hyperLight, tunic,
+  crosscode, stray, cultLamb, vampireSurvivors,
+  loopHero, factorio, rimworld, shovelKnight,
+  isaac, spelunky2, noita, valheim,
+  hifiRush, signalis, unpacking, chainedEchoes,
 ];
 
-// 4 colunas — direções alternadas (down / up / down / up)
+// Distribui em 4 colunas intercalando para misturar estilos
 const COLUMNS: { items: string[]; direction: "up" | "down"; duration: number }[] = [
-  { items: [ALL[0], ALL[4], ALL[8], ALL[12]], direction: "down", duration: 38 },
-  { items: [ALL[1], ALL[5], ALL[9], ALL[13]], direction: "up", duration: 46 },
-  { items: [ALL[2], ALL[6], ALL[10], ALL[14]], direction: "down", duration: 42 },
-  { items: [ALL[3], ALL[7], ALL[11], ALL[15]], direction: "up", duration: 50 },
+  { items: ALL.filter((_, i) => i % 4 === 0), direction: "down", duration: 70 },
+  { items: ALL.filter((_, i) => i % 4 === 1), direction: "up", duration: 80 },
+  { items: ALL.filter((_, i) => i % 4 === 2), direction: "down", duration: 75 },
+  { items: ALL.filter((_, i) => i % 4 === 3), direction: "up", duration: 85 },
 ];
 
 const HeroCoverWall = () => {
@@ -37,7 +68,6 @@ const HeroCoverWall = () => {
 
   return (
     <div className="absolute inset-0 overflow-hidden" aria-hidden>
-      {/* parede de capas — 4 colunas */}
       <div className="absolute inset-0 grid grid-cols-4 gap-3 md:gap-4 px-2 md:px-4">
         {cols.map((col, ci) => (
           <div key={ci} className="relative overflow-hidden">
@@ -47,8 +77,8 @@ const HeroCoverWall = () => {
                 animation: `cover-scroll-${col.direction} ${col.duration}s linear infinite`,
               }}
             >
-              {/* duplica a lista para loop infinito sem corte */}
-              {[...col.items, ...col.items, ...col.items].map((src, i) => (
+              {/* duplica para loop infinito */}
+              {[...col.items, ...col.items].map((src, i) => (
                 <div
                   key={i}
                   className="relative aspect-[460/215] w-full overflow-hidden rounded-lg border border-primary/20 shadow-[0_8px_30px_hsl(270_80%_4%/0.6)]"
