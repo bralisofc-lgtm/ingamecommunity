@@ -64,28 +64,17 @@ const Index = () => {
           <div className="max-w-3xl mx-auto text-center animate-fade-up">
             {/* Stamp-style title */}
             <h1
-              className="font-black uppercase leading-[0.85] tracking-tight text-foreground mb-8"
+              className="uppercase leading-[0.85] tracking-tight text-foreground mb-10"
               style={{
-                fontSize: "clamp(4.5rem, 14vw, 11rem)",
-                textShadow: "6px 6px 0 hsl(var(--primary-deep)), 0 0 40px hsl(0 0% 0% / 0.6)",
-                WebkitTextStroke: "1px hsl(var(--primary-glow) / 0.4)",
+                fontFamily: '"Permanent Marker", "Caveat Brush", cursive',
+                fontSize: "clamp(5rem, 16vw, 13rem)",
+                textShadow: "5px 5px 0 hsl(var(--primary-deep)), 0 0 35px hsl(var(--primary-glow) / 0.45)",
+                WebkitTextStroke: "1px hsl(var(--primary-glow) / 0.35)",
+                transform: "rotate(-2deg)",
               }}
             >
               In<br />Game
             </h1>
-
-            {/* Black tag stripe */}
-            <div className="inline-block bg-background border-2 border-primary px-5 py-2 mb-8 -rotate-1 shadow-[6px_6px_0_hsl(var(--primary-deep))]">
-              <p className="text-primary-glow font-bold uppercase tracking-[0.25em] text-sm md:text-base">
-                Comunidade ativa ✦ Indies
-              </p>
-            </div>
-
-            <p className="text-lg md:text-xl text-foreground/90 font-light mb-10 max-w-xl mx-auto leading-relaxed">
-              Uma comunidade feita por{" "}
-              <span className="text-primary-glow font-medium">quem ama jogos indies</span>. Descubra,
-              compartilhe, participe.
-            </p>
 
             {/* Flat purple buttons with hard shadow */}
             <div className="flex flex-wrap gap-4 justify-center">
@@ -181,30 +170,6 @@ const Index = () => {
         </div>
       </section>
 
-      <SectionDivider />
-
-      {/* 4. CTA APOIAR */}
-      <section className="relative py-24 px-4">
-        <div className="container mx-auto max-w-4xl">
-          <div className="indie-card p-10 md:p-14 text-center relative overflow-hidden animate-fade-up">
-            <p className="text-primary-glow uppercase tracking-[0.3em] text-xs font-bold mb-3">Apoie a In Game</p>
-            <h2 className="text-3xl md:text-5xl font-black mb-5">
-              Ajude a comunidade a <span className="text-gradient">crescer</span>
-            </h2>
-            <p className="text-muted-foreground max-w-xl mx-auto mb-8">
-              Seu apoio mantém os sorteios, conteúdos e novas iniciativas vivas para todos que amam jogos indies.
-            </p>
-            <Link
-              to="/apoiar"
-              className="btn-glow inline-flex items-center gap-3 px-10 py-5 rounded-full text-primary-foreground font-black uppercase tracking-widest text-sm md:text-base animate-pulse-glow"
-            >
-              <span>★</span>
-              Apoiar a In Game
-              <span>★</span>
-            </Link>
-          </div>
-        </div>
-      </section>
     </SiteLayout>
   );
 };
