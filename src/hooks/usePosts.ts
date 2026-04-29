@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 export interface Post {
   id: string;
@@ -10,11 +11,8 @@ export interface Post {
   link: string;
 }
 
-const STORAGE_KEY = "ingame_posts_v1";
-
-const defaultPosts: Post[] = [
+const defaultPosts: Omit<Post, "id">[] = [
   {
-    id: "p1",
     title: "Hollow Knight: Silksong finalmente chegou",
     tag: "Análise",
     date: "2026-04-20",
@@ -25,7 +23,6 @@ const defaultPosts: Post[] = [
     link: "https://example.com/silksong",
   },
   {
-    id: "p2",
     title: "Sorteio: 3 chaves de Hades II",
     tag: "Sorteio",
     date: "2026-04-18",
@@ -36,7 +33,6 @@ const defaultPosts: Post[] = [
     link: "https://example.com/sorteio",
   },
   {
-    id: "p3",
     title: "5 indies brasileiros para ficar de olho",
     tag: "Lista",
     date: "2026-04-12",
@@ -48,54 +44,86 @@ const defaultPosts: Post[] = [
   },
 ];
 
-function load(): Post[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return defaultPosts;
-    const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed)) return defaultPosts;
-    return parsed as Post[];
-  } catch {
-    return defaultPosts;
+async function fetchPosts(): Promise<Post[]> {
+  const { data, error } = await supabase
+    .from("posts")
+    .select("*")
+    .order("date", { ascending: false })
+    .order("created_at", { ascending: false });
+  if (error) {
+    console.error("Failed to fetch posts:", error);
+    return [];
   }
-}
-
-function save(posts: Post[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
-  window.dispatchEvent(new CustomEvent("ingame:posts-updated"));
+  return (data ?? []).map((p) => ({
+    id: p.id,
+    title: p.title,
+    tag: p.tag ?? "",
+    date: p.date,
+    image: p.image ?? "",
+    description: p.description ?? "",
+    link: p.link ?? "",
+  }));
 }
 
 export const usePosts = () => {
   const [posts, setPosts] = useState<Post[]>([]);
 
+  const refresh = useCallback(async () => {
+    const data = await fetchPosts();
+    setPosts(data);
+  }, []);
+
   useEffect(() => {
-    setPosts(load());
-    const onUpdate = () => setPosts(load());
-    window.addEventListener("ingame:posts-updated", onUpdate);
-    window.addEventListener("storage", onUpdate);
+    refresh();
+    const channel = supabase
+      .channel("posts-changes")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "posts" },
+        () => refresh()
+      )
+      .subscribe();
     return () => {
-      window.removeEventListener("ingame:posts-updated", onUpdate);
-      window.removeEventListener("storage", onUpdate);
+      supabase.removeChannel(channel);
     };
-  }, []);
+  }, [refresh]);
 
-  const create = useCallback((post: Omit<Post, "id">) => {
-    const next = [{ ...post, id: crypto.randomUUID() }, ...load()];
-    save(next);
-  }, []);
+  const create = useCallback(async (post: Omit<Post, "id">) => {
+    const { error } = await supabase.from("posts").insert([post]);
+    if (error) {
+      console.error("Failed to create post:", error);
+      throw error;
+    }
+    await refresh();
+  }, [refresh]);
 
-  const update = useCallback((id: string, patch: Partial<Post>) => {
-    const next = load().map((p) => (p.id === id ? { ...p, ...patch } : p));
-    save(next);
-  }, []);
+  const update = useCallback(async (id: string, patch: Partial<Post>) => {
+    const { error } = await supabase.from("posts").update(patch).eq("id", id);
+    if (error) {
+      console.error("Failed to update post:", error);
+      throw error;
+    }
+    await refresh();
+  }, [refresh]);
 
-  const remove = useCallback((id: string) => {
-    save(load().filter((p) => p.id !== id));
-  }, []);
+  const remove = useCallback(async (id: string) => {
+    const { error } = await supabase.from("posts").delete().eq("id", id);
+    if (error) {
+      console.error("Failed to delete post:", error);
+      throw error;
+    }
+    await refresh();
+  }, [refresh]);
 
-  const resetToDefaults = useCallback(() => {
-    save(defaultPosts);
-  }, []);
+  const resetToDefaults = useCallback(async () => {
+    await supabase.from("posts").delete().neq("id", "00000000-0000-0000-0000-000000000000");
+    const { error } = await supabase.from("posts").insert(defaultPosts);
+    if (error) {
+      console.error("Failed to reset posts:", error);
+      throw error;
+    }
+    await refresh();
+  }, [refresh]);
 
   return { posts, create, update, remove, resetToDefaults };
 };
