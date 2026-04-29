@@ -8,7 +8,9 @@ import Sobre from "./pages/Sobre.tsx";
 
 import Admin from "./pages/Admin.tsx";
 import Faqs from "./pages/Faqs.tsx";
+import Auth from "./pages/Auth.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import RequireAdmin from "./components/RequireAdmin.tsx";
 
 const queryClient = new QueryClient();
 
@@ -21,10 +23,17 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/sobre" element={<Sobre />} />
-          
           <Route path="/faqs" element={<Faqs />} />
-          {/* Painel oculto — não está no menu, acesse via /lugar-de-post */}
-          <Route path="/lugar-de-post" element={<Admin />} />
+          <Route path="/auth" element={<Auth />} />
+          {/* Painel oculto — protegido por autenticação + role admin */}
+          <Route
+            path="/lugar-de-post"
+            element={
+              <RequireAdmin>
+                <Admin />
+              </RequireAdmin>
+            }
+          />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
