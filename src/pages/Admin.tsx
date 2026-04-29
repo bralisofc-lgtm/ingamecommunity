@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import SiteLayout from "@/components/SiteLayout";
 import { usePosts, type Post } from "@/hooks/usePosts";
+import { useAuth } from "@/hooks/useAuth";
 import { toast } from "@/hooks/use-toast";
 import { POST_TAGS } from "@/lib/tags";
 
@@ -55,9 +56,17 @@ const emptyForm: FormState = {
 
 const Admin = () => {
   const { posts, create, update, remove, resetToDefaults } = usePosts();
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<FormState>(emptyForm);
   const [errors, setErrors] = useState<FieldErrors>({});
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/", { replace: true });
+  };
+
 
   const updateField = <K extends keyof FormState>(key: K, value: FormState[K]) => {
     setForm((f) => ({ ...f, [key]: value }));
