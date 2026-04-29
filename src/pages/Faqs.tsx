@@ -1,6 +1,7 @@
 import { useState } from "react";
 import SiteLayout from "@/components/SiteLayout";
 import SectionDivider from "@/components/SectionDivider";
+import ajudeBanner from "@/assets/ajude-comunidade.png";
 
 const faqs = [
   {
@@ -21,13 +22,14 @@ const faqs = [
   },
 ];
 
-const FaqItem = ({ q, a, defaultOpen = false }: { q: string; a: string; defaultOpen?: boolean }) => {
-  const [open, setOpen] = useState(defaultOpen);
+const FaqItem = ({ q, a }: { q: string; a: string }) => {
+  const [open, setOpen] = useState(false);
   return (
     <div className="indie-card overflow-hidden">
       <button
         onClick={() => setOpen((o) => !o)}
         className="w-full flex items-center justify-between gap-4 p-5 md:p-6 text-left group"
+        aria-expanded={open}
       >
         <span className="font-bold text-base md:text-lg group-hover:text-primary-glow transition-colors">
           {q}
@@ -77,9 +79,29 @@ const Faqs = () => {
         <div className="container mx-auto max-w-3xl space-y-4">
           {faqs.map((f, i) => (
             <div key={f.q} className="animate-fade-up" style={{ animationDelay: `${i * 0.06}s` }}>
-              <FaqItem q={f.q} a={f.a} defaultOpen={i === 0} />
+              <FaqItem q={f.q} a={f.a} />
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Apoiar comunidade — banner + CTA no fim do FAQ */}
+      <section className="relative pt-4 pb-24 px-4">
+        <div className="container mx-auto max-w-3xl flex flex-col items-center gap-8 text-center animate-fade-up">
+          <img
+            src={ajudeBanner}
+            alt="Ajude nossa comunidade"
+            className="w-full max-w-2xl h-auto select-none drop-shadow-[0_8px_25px_hsl(270_80%_8%/0.6)]"
+            draggable={false}
+          />
+          <a
+            href="https://forms.gle/kX4vtVjzZQpgk97M7"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative overflow-hidden inline-flex items-center gap-2 px-5 py-3 bg-background/60 backdrop-blur-sm border-2 border-primary text-foreground font-black uppercase tracking-widest text-xs shadow-[4px_4px_0_hsl(var(--primary)/0.6),0_0_20px_hsl(var(--primary)/0.4)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_hsl(var(--primary)/0.6),0_0_28px_hsl(var(--primary)/0.7)] transition-all"
+          >
+            <span className="relative">Apoiar comunidade</span>
+          </a>
         </div>
       </section>
     </SiteLayout>
