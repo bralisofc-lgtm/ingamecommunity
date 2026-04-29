@@ -173,13 +173,29 @@ const Admin = () => {
                 Crie, edite e remova postagens. Todas ficam visíveis para qualquer visitante do site.
               </p>
             </div>
-            <Link
-              to="/"
-              className="text-sm uppercase tracking-widest font-semibold text-muted-foreground hover:text-primary-glow"
-            >
-              ← Voltar ao site
-            </Link>
+            <div className="flex flex-col items-end gap-2">
+              {user?.email && (
+                <span className="text-xs text-muted-foreground">
+                  Logado como <span className="text-primary-glow font-semibold">{user.email}</span>
+                </span>
+              )}
+              <div className="flex items-center gap-4">
+                <Link
+                  to="/"
+                  className="text-sm uppercase tracking-widest font-semibold text-muted-foreground hover:text-primary-glow"
+                >
+                  ← Voltar ao site
+                </Link>
+                <button
+                  onClick={handleSignOut}
+                  className="text-sm uppercase tracking-widest font-semibold text-destructive hover:text-destructive/80"
+                >
+                  Sair
+                </button>
+              </div>
+            </div>
           </div>
+
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="indie-card p-6 md:p-8 mb-12 animate-fade-up">
