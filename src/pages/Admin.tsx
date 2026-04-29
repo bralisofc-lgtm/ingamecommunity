@@ -84,7 +84,7 @@ const Admin = () => {
     setErrors({});
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = postSchema.safeParse(form);
     if (!result.success) {
@@ -109,21 +109,33 @@ const Admin = () => {
       description: result.data.description ?? "",
       link: result.data.link ?? "",
     };
-    if (editingId) {
-      update(editingId, clean);
-      toast({ title: "Postagem atualizada", description: clean.title });
-    } else {
-      create(clean);
-      toast({ title: "Postagem publicada", description: clean.title });
+    try {
+      if (editingId) {
+        await update(editingId, clean);
+        toast({ title: "Postagem atualizada", description: clean.title });
+      } else {
+        await create(clean);
+        toast({ title: "Postagem publicada", description: clean.title });
+      }
+      resetForm();
+    } catch (err) {
+      toast({
+        title: "Erro ao salvar",
+        description: "Não foi possível salvar a postagem. Tente novamente.",
+        variant: "destructive",
+      });
     }
-    resetForm();
   };
 
-  const handleDelete = (p: Post) => {
+  const handleDelete = async (p: Post) => {
     if (confirm(`Remover "${p.title}"?`)) {
-      remove(p.id);
-      if (editingId === p.id) resetForm();
-      toast({ title: "Postagem removida" });
+      try {
+        await remove(p.id);
+        if (editingId === p.id) resetForm();
+        toast({ title: "Postagem removida" });
+      } catch {
+        toast({ title: "Erro ao remover", variant: "destructive" });
+      }
     }
   };
 
@@ -149,7 +161,7 @@ const Admin = () => {
                 Gerenciar <span className="text-gradient">postagens</span>
               </h1>
               <p className="text-muted-foreground mt-2 text-sm">
-                Crie, edite e remova postagens. Tudo é salvo neste navegador (localStorage).
+                Crie, edite e remova postagens. Todas ficam visíveis para qualquer visitante do site.
               </p>
             </div>
             <Link
@@ -274,10 +286,14 @@ const Admin = () => {
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold">Postagens publicadas ({posts.length})</h2>
             <button
-              onClick={() => {
+              onClick={async () => {
                 if (confirm("Restaurar postagens de exemplo? Isso substitui as atuais.")) {
-                  resetToDefaults();
-                  toast({ title: "Postagens restauradas" });
+                  try {
+                    await resetToDefaults();
+                    toast({ title: "Postagens restauradas" });
+                  } catch {
+                    toast({ title: "Erro ao restaurar", variant: "destructive" });
+                  }
                 }
               }}
               className="text-xs uppercase tracking-widest text-muted-foreground hover:text-primary-glow"
