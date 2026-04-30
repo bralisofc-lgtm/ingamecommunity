@@ -5,6 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 const tabs = [
   { to: "/", label: "Início" },
   { to: "/sobre", label: "Sobre a Comunidade" },
+  { to: "/parceiros", label: "Parceiros" },
   { to: "/faqs", label: "FAQs" },
 ];
 
