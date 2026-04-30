@@ -201,7 +201,28 @@ const Admin = () => {
             </div>
           </div>
 
+          {/* Tabs */}
+          <div className="flex flex-wrap gap-2 mb-10 border-b border-border/50 pb-2">
+            {([
+              { id: "posts", label: "Postagens" },
+              { id: "faqs", label: "FAQs" },
+              { id: "parceiros", label: "Parceiros" },
+            ] as { id: AdminTab; label: string }[]).map((t) => (
+              <button
+                key={t.id}
+                onClick={() => setTab(t.id)}
+                className={`px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest border transition-all ${
+                  tab === t.id
+                    ? "bg-primary text-primary-foreground border-primary-glow shadow-[0_0_20px_hsl(var(--primary-glow)/0.7)]"
+                    : "border-border text-muted-foreground hover:border-primary-glow hover:text-primary-glow"
+                }`}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
 
+          {tab === "posts" && (<>
           {/* Form */}
           <form onSubmit={handleSubmit} className="indie-card p-6 md:p-8 mb-12 animate-fade-up">
             <h2 className="text-2xl font-bold mb-6">
@@ -377,6 +398,10 @@ const Admin = () => {
               </div>
             ))}
           </div>
+          </>)}
+
+          {tab === "faqs" && <FaqAdminPanel />}
+          {tab === "parceiros" && <ParceirosAdminPanel />}
         </div>
       </section>
     </SiteLayout>
