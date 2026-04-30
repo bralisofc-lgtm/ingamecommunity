@@ -14,6 +14,66 @@ export type Database = {
   }
   public: {
     Tables: {
+      faqs: {
+        Row: {
+          answer: string
+          created_at: string
+          id: string
+          position: number
+          question: string
+          updated_at: string
+        }
+        Insert: {
+          answer: string
+          created_at?: string
+          id?: string
+          position?: number
+          question: string
+          updated_at?: string
+        }
+        Update: {
+          answer?: string
+          created_at?: string
+          id?: string
+          position?: number
+          question?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      parceiros: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          image: string
+          link: string
+          name: string
+          position: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          id?: string
+          image?: string
+          link?: string
+          name: string
+          position?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          image?: string
+          link?: string
+          name?: string
+          position?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       posts: {
         Row: {
           created_at: string
