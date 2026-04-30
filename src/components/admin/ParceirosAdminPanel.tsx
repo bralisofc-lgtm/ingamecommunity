@@ -80,12 +80,19 @@ const ParceirosAdminPanel = () => {
       toast({ title: "Verifique os campos", variant: "destructive" });
       return;
     }
+    const clean = {
+      name: r.data.name,
+      image: r.data.image ?? "",
+      description: r.data.description ?? "",
+      link: r.data.link ?? "",
+      position: r.data.position,
+    };
     try {
       if (editingId) {
-        await update(editingId, r.data);
+        await update(editingId, clean);
         toast({ title: "Parceiro atualizado" });
       } else {
-        await create(r.data);
+        await create(clean);
         toast({ title: "Parceiro adicionado" });
       }
       reset();

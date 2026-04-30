@@ -44,12 +44,17 @@ const FaqAdminPanel = () => {
       toast({ title: "Verifique os campos", variant: "destructive" });
       return;
     }
+    const clean = {
+      question: r.data.question,
+      answer: r.data.answer,
+      position: r.data.position,
+    };
     try {
       if (editingId) {
-        await update(editingId, r.data);
+        await update(editingId, clean);
         toast({ title: "FAQ atualizada" });
       } else {
-        await create(r.data);
+        await create(clean);
         toast({ title: "FAQ criada" });
       }
       reset();
