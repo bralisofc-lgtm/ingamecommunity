@@ -25,7 +25,7 @@ const Parceiros = () => {
             Parc<span className="text-gradient">eiros</span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Pessoas, estúdios e projetos que apoiam a comunidade In Game.
+            Desenvolvedores e Comunidades que acreditaram na In Game.
           </p>
         </div>
       </section>
@@ -44,13 +44,6 @@ const Parceiros = () => {
             <p className="text-center text-muted-foreground animate-pulse">Carregando parceiros...</p>
           )}
 
-          {!loading && parceiros.length === 0 && (
-            <div className="text-center py-16">
-              <p className="text-muted-foreground text-lg">
-                Em breve novos parceiros caminharão com a gente. ✨
-              </p>
-            </div>
-          )}
 
           {!loading && parceiros.length > 0 && (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 md:gap-8">
