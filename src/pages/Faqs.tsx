@@ -2,25 +2,7 @@ import { useState } from "react";
 import SiteLayout from "@/components/SiteLayout";
 import SectionDivider from "@/components/SectionDivider";
 import ajudeBanner from "@/assets/ajude-comunidade.png";
-
-const faqs = [
-  {
-    q: "🔍 : Como Funciona o Jogo Misterioso",
-    a: "O Jogo Misterioso é uma forma de manter a comunidade sempre ativa e envolvida. De tempos em tempos, ele é sorteado de forma inesperada, geralmente durante a madrugada como uma maneira de valorizar quem está presente e participando.\n\nNão existe uma data fixa para esses sorteios, eles acontecem de forma totalmente surpresa, então quanto mais você acompanha e interage, maiores são as chances de não perder quando acontecer.\n\nApós o encerramento do sorteio, o jogo é revelado para todos, mostrando qual título estava sendo distribuído naquele momento.",
-  },
-  {
-    q: "🎁 : Sobre Sorteios",
-    a: "No momento, todos os jogos distribuídos nos sorteios são resgatáveis exclusivamente na Steam.",
-  },
-  {
-    q: "💬 : Sua Participação na Comunidade",
-    a: "Com a sua participação, através de interações, opiniões e experiências, ajudamos a construir um espaço mais ativo e significativo para todos, que ao longo do tempo, também serão realizados sorteios de jogos indie, como forma de valorizar e engajar ainda mais quem faz parte da comunidade.\n\nPortanto, precisamos manter sempre o respeito ao próximo e evitar qualquer tipo de toxicidade, focando em discussões saudáveis e construtivas.",
-  },
-  {
-    q: "📌 : Proposta da Comunidade",
-    a: "A comunidade tem como objetivo trazer informações, possíveis reviews e análises sobre jogos independentes, criando um espaço de descoberta e discussão.\n\nA ideia é dar mais visibilidade a projetos que muitas vezes passam despercebidos, valorizando não só o jogo em si mas também o trabalho por trás dele.",
-  },
-];
+import { useFaqs } from "@/hooks/useFaqs";
 
 const FaqItem = ({ q, a }: { q: string; a: string }) => {
   const [open, setOpen] = useState(false);
