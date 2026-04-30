@@ -38,6 +38,7 @@ const FaqItem = ({ q, a }: { q: string; a: string }) => {
 };
 
 const Faqs = () => {
+  const { faqs, loading } = useFaqs();
   return (
     <SiteLayout
       title="FAQs — In Game"
@@ -59,9 +60,15 @@ const Faqs = () => {
 
       <section className="relative py-16 px-4">
         <div className="container mx-auto max-w-3xl space-y-4">
+          {loading && (
+            <p className="text-center text-muted-foreground animate-pulse">Carregando...</p>
+          )}
+          {!loading && faqs.length === 0 && (
+            <p className="text-center text-muted-foreground">Nenhuma pergunta cadastrada ainda.</p>
+          )}
           {faqs.map((f, i) => (
-            <div key={f.q} className="animate-fade-up" style={{ animationDelay: `${i * 0.06}s` }}>
-              <FaqItem q={f.q} a={f.a} />
+            <div key={f.id} className="animate-fade-up" style={{ animationDelay: `${i * 0.06}s` }}>
+              <FaqItem q={f.question} a={f.answer} />
             </div>
           ))}
         </div>
