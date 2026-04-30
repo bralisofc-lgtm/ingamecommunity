@@ -6,6 +6,10 @@ import { usePosts, type Post } from "@/hooks/usePosts";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "@/hooks/use-toast";
 import { POST_TAGS } from "@/lib/tags";
+import FaqAdminPanel from "@/components/admin/FaqAdminPanel";
+import ParceirosAdminPanel from "@/components/admin/ParceirosAdminPanel";
+
+type AdminTab = "posts" | "faqs" | "parceiros";
 
 const postSchema = z.object({
   title: z
