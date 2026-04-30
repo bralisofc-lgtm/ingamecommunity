@@ -62,6 +62,7 @@ const Admin = () => {
   const { posts, create, update, remove, resetToDefaults } = usePosts();
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
+  const [tab, setTab] = useState<AdminTab>("posts");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<FormState>(emptyForm);
   const [errors, setErrors] = useState<FieldErrors>({});
