@@ -29,6 +29,12 @@ const SiteLayout = ({ children, title, description }: Props) => {
     <div className="relative min-h-screen overflow-x-hidden w-full max-w-[100vw]">
       <ParticlesBackground />
       <Navbar />
+      <div className="fixed top-3 right-3 md:top-4 md:right-5 z-[60] flex items-center gap-2 px-3 py-1.5 rounded-full bg-background/20 backdrop-blur-md border border-foreground/10 opacity-60 hover:opacity-100 transition-opacity pointer-events-none select-none">
+        <img src={ygpLogo} alt="YGP" className="h-5 w-5 md:h-6 md:w-6 object-contain opacity-80" />
+        <span className="text-[10px] md:text-xs uppercase tracking-widest text-foreground/70 font-medium">
+          Comunidade original do YGP
+        </span>
+      </div>
       <main className="relative z-10 overflow-x-hidden w-full max-w-[100vw]">{children}</main>
     </div>
   );
