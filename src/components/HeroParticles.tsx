@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { useDevicePerf } from "@/hooks/useDevicePerf";
 
 /**
  * Floating particles + abstract indie icons drifting over the hero.
