@@ -69,18 +69,6 @@ const ParticlesBackground = () => {
               }}
             />
           )}
-          {p.type === "ghost" && (
-            <svg width={p.size * 2.4} height={p.size * 2.4} viewBox="0 0 32 32" className="animate-ghost-bob">
-              <path
-                d="M16 4 C9 4 5 9 5 16 L5 27 L8 24 L11 27 L14 24 L17 27 L20 24 L23 27 L26 24 L26 16 C26 9 22 4 16 4 Z"
-                fill="hsl(var(--foreground) / 0.85)"
-                stroke="hsl(var(--primary-glow))"
-                strokeWidth="1"
-              />
-              <circle cx="12" cy="14" r="1.6" fill="hsl(var(--primary-deep))" />
-              <circle cx="20" cy="14" r="1.6" fill="hsl(var(--primary-deep))" />
-            </svg>
-          )}
         </div>
       ))}
 
