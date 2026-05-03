@@ -69,12 +69,12 @@ interface FloatItem {
 const HeroParticles = () => {
   const dots: FloatItem[] = useMemo(
     () =>
-      Array.from({ length: 10 }).map((_, i) => ({
+      Array.from({ length: 5 }).map((_, i) => ({
         left: (i * 11.37) % 100,
         top: (i * 17.91) % 100,
         size: 2 + ((i * 7) % 5),
         delay: (i * 0.37) % 6,
-        duration: 7 + ((i * 1.3) % 6),
+        duration: 9 + ((i * 1.3) % 6),
         drift: (i % 2 === 0 ? 1 : -1) * (8 + ((i * 3) % 14)),
         iconIdx: 0,
         hue: (i % 3) / 2,
@@ -85,12 +85,12 @@ const HeroParticles = () => {
 
   const icons: FloatItem[] = useMemo(
     () =>
-      Array.from({ length: 5 }).map((_, i) => ({
+      Array.from({ length: 3 }).map((_, i) => ({
         left: 5 + ((i * 19) % 85),
         top: 8 + ((i * 23) % 75),
         size: 22 + ((i * 5) % 26),
         delay: (i * 0.7) % 7,
-        duration: 11 + ((i * 1.9) % 9),
+        duration: 14 + ((i * 1.9) % 9),
         drift: (i % 2 === 0 ? 1 : -1) * (15 + ((i * 4) % 20)),
         iconIdx: i % ICONS.length,
         hue: i % 2,
