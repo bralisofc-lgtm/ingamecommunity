@@ -38,10 +38,13 @@ const features = [
   },
   {
     title: "Apoiar desenvolvedores",
-    desc: "Valorize quem cria. Cada indie começa com um sonho — e merece ser visto.",
+    desc: "Valorize quem cria. Cada indie começa com um sonho e merece ser visto.",
     icon: (
       <svg viewBox="0 0 32 32" className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M16 27 C16 27 4 19 4 11 C4 7 7 4 11 4 C13 4 15 5 16 7 C17 5 19 4 21 4 C25 4 28 7 28 11 C28 19 16 27 16 27 Z" strokeLinejoin="round" />
+        <path
+          d="M16 27 C16 27 4 19 4 11 C4 7 7 4 11 4 C13 4 15 5 16 7 C17 5 19 4 21 4 C25 4 28 7 28 11 C28 19 16 27 16 27 Z"
+          strokeLinejoin="round"
+        />
       </svg>
     ),
   },
