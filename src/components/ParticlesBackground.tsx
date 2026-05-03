@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface Particle {
   id: number;
@@ -6,23 +7,29 @@ interface Particle {
   size: number;
   duration: number;
   delay: number;
-  type: "dot" | "ghost" | "pixel";
+  type: "dot" | "pixel";
 }
 
 const ParticlesBackground = () => {
   const [particles, setParticles] = useState<Particle[]>([]);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
-    const arr: Particle[] = Array.from({ length: 28 }).map((_, i) => ({
+    if (isMobile) {
+      setParticles([]);
+      return;
+    }
+    const count = 12;
+    const arr: Particle[] = Array.from({ length: count }).map((_, i) => ({
       id: i,
       left: Math.random() * 100,
-      size: 4 + Math.random() * 12,
-      duration: 14 + Math.random() * 18,
+      size: 4 + Math.random() * 8,
+      duration: 18 + Math.random() * 18,
       delay: Math.random() * 20,
-      type: Math.random() > 0.85 ? "ghost" : Math.random() > 0.5 ? "pixel" : "dot",
+      type: Math.random() > 0.5 ? "pixel" : "dot",
     }));
     setParticles(arr);
-  }, []);
+  }, [isMobile]);
 
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
