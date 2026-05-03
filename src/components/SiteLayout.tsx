@@ -1,6 +1,7 @@
 import { ReactNode, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import ParticlesBackground from "@/components/ParticlesBackground";
+import ygpLogo from "@/assets/ygp-logo.png";
 
 
 interface Props {
