@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useDevicePerf } from "@/hooks/useDevicePerf";
 
 interface Particle {
   id: number;
@@ -12,14 +12,14 @@ interface Particle {
 
 const ParticlesBackground = () => {
   const [particles, setParticles] = useState<Particle[]>([]);
-  const isMobile = useIsMobile();
+  const { tier, scale } = useDevicePerf();
 
   useEffect(() => {
-    if (isMobile) {
+    if (tier === "low") {
       setParticles([]);
       return;
     }
-    const count = 12;
+    const count = Math.max(4, Math.round(20 * scale));
     const arr: Particle[] = Array.from({ length: count }).map((_, i) => ({
       id: i,
       left: Math.random() * 100,
@@ -29,7 +29,7 @@ const ParticlesBackground = () => {
       type: Math.random() > 0.5 ? "pixel" : "dot",
     }));
     setParticles(arr);
-  }, [isMobile]);
+  }, [tier, scale]);
 
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">

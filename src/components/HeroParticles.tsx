@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { useDevicePerf } from "@/hooks/useDevicePerf";
 
 /**
  * Floating particles + abstract indie icons drifting over the hero.
@@ -67,9 +68,13 @@ interface FloatItem {
 }
 
 const HeroParticles = () => {
+  const { tier, scale } = useDevicePerf();
+  const dotCount = tier === "low" ? 0 : Math.max(3, Math.round(10 * scale));
+  const iconCount = tier === "low" ? 0 : Math.max(2, Math.round(5 * scale));
+
   const dots: FloatItem[] = useMemo(
     () =>
-      Array.from({ length: 5 }).map((_, i) => ({
+      Array.from({ length: dotCount }).map((_, i) => ({
         left: (i * 11.37) % 100,
         top: (i * 17.91) % 100,
         size: 2 + ((i * 7) % 5),
@@ -80,12 +85,12 @@ const HeroParticles = () => {
         hue: (i % 3) / 2,
         rotate: 0,
       })),
-    []
+    [dotCount]
   );
 
   const icons: FloatItem[] = useMemo(
     () =>
-      Array.from({ length: 3 }).map((_, i) => ({
+      Array.from({ length: iconCount }).map((_, i) => ({
         left: 5 + ((i * 19) % 85),
         top: 8 + ((i * 23) % 75),
         size: 22 + ((i * 5) % 26),
@@ -96,7 +101,7 @@ const HeroParticles = () => {
         hue: i % 2,
         rotate: ((i * 37) % 360) - 180,
       })),
-    []
+    [iconCount]
   );
 
   return (
