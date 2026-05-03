@@ -33,8 +33,8 @@ const ParticlesBackground = () => {
 
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-      {/* Animated gradient overlay */}
-      <div className="absolute inset-0 bg-animated opacity-60" />
+      {/* Static gradient overlay (lighter on perf) */}
+      <div className="absolute inset-0 opacity-50" style={{ background: "linear-gradient(135deg, hsl(270 80% 8%), hsl(280 70% 14%), hsl(265 90% 6%))" }} />
 
       {/* Floating particles */}
       {particles.map((p) => (
