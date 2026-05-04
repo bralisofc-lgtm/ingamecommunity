@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import ParticlesBackground from "@/components/ParticlesBackground";
 import ygpLogo from "@/assets/ygp-logo.png";
+import SiteFooter from "@/components/SiteFooter";
 
 interface Props {
   children: ReactNode;
@@ -61,6 +62,7 @@ const SiteLayout = ({ children, title, description }: Props) => {
         </span>
       </a>
       <main className="relative z-10 overflow-x-hidden w-full max-w-[100vw]">{children}</main>
+      <SiteFooter />
     </div>
   );
 };
