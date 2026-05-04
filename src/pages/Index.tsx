@@ -10,6 +10,8 @@ import HeroParticles from "@/components/HeroParticles";
 import HeroCoverWall from "@/components/HeroCoverWall";
 import { POST_TAGS } from "@/lib/tags";
 import { SlidersHorizontal, Check, X } from "lucide-react";
+import RecentHighlights from "@/components/RecentHighlights";
+import PostsCarousel from "@/components/PostsCarousel";
 
 
 const miniFeatures = [
@@ -172,7 +174,13 @@ const Index = () => {
         </div>
       </section>
 
-      {/* 2. POSTAGENS RECENTES */}
+      {/* 2. DESTAQUES RECENTES (fundo roxo neon) */}
+      <RecentHighlights posts={sortedPosts} />
+
+      {/* 3. POSTAGENS DA COMUNIDADE — carrossel auto-scroll com filtros */}
+      <PostsCarousel posts={sortedPosts} />
+
+      {/* 4. POSTAGENS RECENTES (grid clássico com filtro) */}
       <section id="postagens" className="relative py-24 px-4">
         <div className="container mx-auto">
           <Reveal className="flex items-end justify-between mb-12 flex-wrap gap-4">
