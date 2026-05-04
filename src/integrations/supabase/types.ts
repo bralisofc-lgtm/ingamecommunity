@@ -76,32 +76,41 @@ export type Database = {
       }
       posts: {
         Row: {
+          author: string
           created_at: string
           date: string
           description: string
           id: string
           image: string
           link: string
+          pinned: boolean
+          position: number
           tag: string
           title: string
         }
         Insert: {
+          author?: string
           created_at?: string
           date?: string
           description?: string
           id?: string
           image?: string
           link?: string
+          pinned?: boolean
+          position?: number
           tag?: string
           title: string
         }
         Update: {
+          author?: string
           created_at?: string
           date?: string
           description?: string
           id?: string
           image?: string
           link?: string
+          pinned?: boolean
+          position?: number
           tag?: string
           title?: string
         }
