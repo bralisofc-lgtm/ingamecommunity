@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import SiteLayout from "@/components/SiteLayout";
 import SectionDivider from "@/components/SectionDivider";
@@ -9,8 +8,6 @@ import Reveal from "@/components/Reveal";
 import HeroParticles from "@/components/HeroParticles";
 import HeroCoverWall from "@/components/HeroCoverWall";
 import { POST_TAGS } from "@/lib/tags";
-import { SlidersHorizontal, Check, X } from "lucide-react";
-import RecentHighlights from "@/components/RecentHighlights";
 import PostsCarousel from "@/components/PostsCarousel";
 
 
