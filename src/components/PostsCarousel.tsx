@@ -15,26 +15,27 @@ const PostsCarousel = ({ posts, recentLimit = 3 }: Props) => {
 
   const groupTags = TAB_GROUPS[activeGroup].tags as readonly string[];
 
-  // Posts dessa aba
   const groupPosts = useMemo(
     () => posts.filter((p) => groupTags.includes(p.tag)),
     [posts, groupTags]
   );
 
-  // Recents: pinned primeiro, depois por data desc — top N.
-  // Se só houver 1 post nessa aba, ele fica fixo automaticamente.
-  const recents = useMemo(() => {
-    const sorted = [...groupPosts].sort((a, b) => {
-      if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
-      const da = a.date ? new Date(a.date).getTime() : 0;
-      const db = b.date ? new Date(b.date).getTime() : 0;
-      return db - da;
-    });
-    return sorted.slice(0, recentLimit);
-  }, [groupPosts, recentLimit]);
+  const sortedGroup = useMemo(
+    () =>
+      [...groupPosts].sort((a, b) => {
+        if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
+        const da = a.date ? new Date(a.date).getTime() : 0;
+        const db = b.date ? new Date(b.date).getTime() : 0;
+        return db - da;
+      }),
+    [groupPosts]
+  );
 
-  const filteredRecents =
-    activeTag === "Todas" ? recents : recents.filter((p) => p.tag === activeTag);
+  // "Todas" → mostra apenas os recentes (limit). Filtro específico → mostra TODOS daquela tag.
+  const visiblePosts = useMemo(() => {
+    if (activeTag === "Todas") return sortedGroup.slice(0, recentLimit);
+    return sortedGroup.filter((p) => p.tag === activeTag);
+  }, [sortedGroup, activeTag, recentLimit]);
 
   return (
     <section id="postagens" className="relative py-20 md:py-24 px-4">
