@@ -8,42 +8,20 @@ import { toast } from "@/hooks/use-toast";
 import { POST_TAGS } from "@/lib/tags";
 import FaqAdminPanel from "@/components/admin/FaqAdminPanel";
 import ParceirosAdminPanel from "@/components/admin/ParceirosAdminPanel";
+import { Pin, ArrowUp, ArrowDown } from "lucide-react";
 
 type AdminTab = "posts" | "faqs" | "parceiros";
 
 const postSchema = z.object({
-  title: z
-    .string()
-    .trim()
-    .min(3, { message: "Título precisa ter pelo menos 3 caracteres." })
-    .max(120, { message: "Título deve ter no máximo 120 caracteres." }),
-  tag: z
-    .enum(POST_TAGS, { message: "Selecione uma tag válida." })
-    .or(z.literal(""))
-    .optional(),
-  date: z
-    .string()
-    .regex(/^\d{4}-\d{2}-\d{2}$/, { message: "Data inválida (use AAAA-MM-DD)." }),
-  image: z
-    .string()
-    .trim()
-    .max(2000, { message: "URL da imagem muito longa." })
-    .url({ message: "URL da imagem inválida." })
-    .optional()
-    .or(z.literal("")),
-  description: z
-    .string()
-    .trim()
-    .max(500, { message: "Descrição deve ter no máximo 500 caracteres." })
-    .optional()
-    .or(z.literal("")),
-  link: z
-    .string()
-    .trim()
-    .max(2000, { message: "Link muito longo." })
-    .url({ message: "Link externo inválido." })
-    .optional()
-    .or(z.literal("")),
+  title: z.string().trim().min(3, { message: "Título precisa ter pelo menos 3 caracteres." }).max(120),
+  tag: z.enum(POST_TAGS, { message: "Selecione uma tag válida." }),
+  author: z.string().trim().min(2, { message: "Informe o autor." }).max(80),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, { message: "Data inválida." }),
+  image: z.string().trim().max(2000).url({ message: "URL da imagem inválida." }).optional().or(z.literal("")),
+  description: z.string().trim().max(500).optional().or(z.literal("")),
+  link: z.string().trim().max(2000).url({ message: "Link inválido." }).optional().or(z.literal("")),
+  pinned: z.boolean(),
+  position: z.number().int(),
 });
 
 type FormState = Omit<Post, "id">;
@@ -52,10 +30,13 @@ type FieldErrors = Partial<Record<keyof FormState, string>>;
 const emptyForm: FormState = {
   title: "",
   tag: "",
+  author: "In Game",
   date: new Date().toISOString().slice(0, 10),
   image: "",
   description: "",
   link: "",
+  pinned: false,
+  position: 0,
 };
 
 const Admin = () => {
@@ -72,7 +53,6 @@ const Admin = () => {
     navigate("/", { replace: true });
   };
 
-
   const updateField = <K extends keyof FormState>(key: K, value: FormState[K]) => {
     setForm((f) => ({ ...f, [key]: value }));
     if (errors[key]) setErrors((e) => ({ ...e, [key]: undefined }));
@@ -84,10 +64,13 @@ const Admin = () => {
     setForm({
       title: p.title,
       tag: p.tag,
+      author: p.author || "In Game",
       date: p.date,
       image: p.image,
       description: p.description,
       link: p.link,
+      pinned: p.pinned,
+      position: p.position,
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -108,20 +91,19 @@ const Admin = () => {
         if (key && !fieldErrors[key]) fieldErrors[key] = issue.message;
       }
       setErrors(fieldErrors);
-      toast({
-        title: "Verifique os campos",
-        description: "Há erros de validação no formulário.",
-        variant: "destructive",
-      });
+      toast({ title: "Verifique os campos", description: "Há erros de validação.", variant: "destructive" });
       return;
     }
     const clean: FormState = {
       title: result.data.title,
-      tag: result.data.tag ?? "",
+      tag: result.data.tag,
+      author: result.data.author,
       date: result.data.date,
       image: result.data.image ?? "",
       description: result.data.description ?? "",
       link: result.data.link ?? "",
+      pinned: result.data.pinned,
+      position: result.data.position,
     };
     try {
       if (editingId) {
@@ -132,12 +114,8 @@ const Admin = () => {
         toast({ title: "Postagem publicada", description: clean.title });
       }
       resetForm();
-    } catch (err) {
-      toast({
-        title: "Erro ao salvar",
-        description: "Não foi possível salvar a postagem. Tente novamente.",
-        variant: "destructive",
-      });
+    } catch {
+      toast({ title: "Erro ao salvar", variant: "destructive" });
     }
   };
 
@@ -150,6 +128,22 @@ const Admin = () => {
       } catch {
         toast({ title: "Erro ao remover", variant: "destructive" });
       }
+    }
+  };
+
+  const togglePin = async (p: Post) => {
+    try {
+      await update(p.id, { pinned: !p.pinned });
+    } catch {
+      toast({ title: "Erro ao fixar", variant: "destructive" });
+    }
+  };
+
+  const move = async (p: Post, dir: -1 | 1) => {
+    try {
+      await update(p.id, { position: (p.position ?? 0) + dir });
+    } catch {
+      toast({ title: "Erro ao reordenar", variant: "destructive" });
     }
   };
 
@@ -174,9 +168,6 @@ const Admin = () => {
               <h1 className="text-4xl md:text-5xl font-black">
                 Gerenciar <span className="text-gradient">postagens</span>
               </h1>
-              <p className="text-muted-foreground mt-2 text-sm">
-                Crie, edite e remova postagens. Todas ficam visíveis para qualquer visitante do site.
-              </p>
             </div>
             <div className="flex flex-col items-end gap-2">
               {user?.email && (
@@ -185,23 +176,16 @@ const Admin = () => {
                 </span>
               )}
               <div className="flex items-center gap-4">
-                <Link
-                  to="/"
-                  className="text-sm uppercase tracking-widest font-semibold text-muted-foreground hover:text-primary-glow"
-                >
+                <Link to="/" className="text-sm uppercase tracking-widest font-semibold text-muted-foreground hover:text-primary-glow">
                   ← Voltar ao site
                 </Link>
-                <button
-                  onClick={handleSignOut}
-                  className="text-sm uppercase tracking-widest font-semibold text-destructive hover:text-destructive/80"
-                >
+                <button onClick={handleSignOut} className="text-sm uppercase tracking-widest font-semibold text-destructive hover:text-destructive/80">
                   Sair
                 </button>
               </div>
             </div>
           </div>
 
-          {/* Tabs */}
           <div className="flex flex-wrap gap-2 mb-10 border-b border-border/50 pb-2">
             {([
               { id: "posts", label: "Postagens" },
@@ -223,128 +207,88 @@ const Admin = () => {
           </div>
 
           {tab === "posts" && (<>
-          {/* Form */}
           <form onSubmit={handleSubmit} className="indie-card p-6 md:p-8 mb-12 animate-fade-up">
-            <h2 className="text-2xl font-bold mb-6">
-              {editingId ? "Editar postagem" : "Nova postagem"}
-            </h2>
+            <h2 className="text-2xl font-bold mb-6">{editingId ? "Editar postagem" : "Nova postagem"}</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="md:col-span-2">
                 <label className={labelClass}>Título *</label>
-                <input
-                  className={inputClass("title")}
-                  value={form.title}
-                  onChange={(e) => updateField("title", e.target.value)}
-                  placeholder="Título da postagem"
-                  maxLength={120}
-                />
+                <input className={inputClass("title")} value={form.title} onChange={(e) => updateField("title", e.target.value)} placeholder="Título da postagem" maxLength={120} />
                 {errors.title && <p className={errorClass}>{errors.title}</p>}
               </div>
 
               <div>
-                <label className={labelClass}>Tag / Categoria</label>
-                <select
-                  className={inputClass("tag")}
-                  value={form.tag}
-                  onChange={(e) => updateField("tag", e.target.value)}
-                >
-                  <option value="">Selecione uma tag...</option>
-                  {POST_TAGS.map((t) => (
-                    <option key={t} value={t}>
-                      {t}
-                    </option>
-                  ))}
+                <label className={labelClass}>Categoria *</label>
+                <select className={inputClass("tag")} value={form.tag} onChange={(e) => updateField("tag", e.target.value)}>
+                  <option value="">Selecione...</option>
+                  {POST_TAGS.map((t) => <option key={t} value={t}>{t}</option>)}
                 </select>
                 {errors.tag && <p className={errorClass}>{errors.tag}</p>}
               </div>
 
               <div>
+                <label className={labelClass}>Autor *</label>
+                <input className={inputClass("author")} value={form.author} onChange={(e) => updateField("author", e.target.value)} placeholder="Nome do autor" maxLength={80} />
+                {errors.author && <p className={errorClass}>{errors.author}</p>}
+              </div>
+
+              <div>
                 <label className={labelClass}>Data</label>
-                <input
-                  type="date"
-                  className={inputClass("date")}
-                  value={form.date}
-                  onChange={(e) => updateField("date", e.target.value)}
-                />
+                <input type="date" className={inputClass("date")} value={form.date} onChange={(e) => updateField("date", e.target.value)} />
                 {errors.date && <p className={errorClass}>{errors.date}</p>}
+              </div>
+
+              <div>
+                <label className={labelClass}>Posição (ordem manual)</label>
+                <input type="number" className={inputClass("position")} value={form.position} onChange={(e) => updateField("position", Number(e.target.value) || 0)} />
+                <p className="mt-1 text-[11px] text-muted-foreground">Menor = aparece primeiro. Use 0 para ordenar pela data.</p>
               </div>
 
               <div className="md:col-span-2">
                 <label className={labelClass}>Imagem (URL)</label>
-                <input
-                  className={inputClass("image")}
-                  value={form.image}
-                  onChange={(e) => updateField("image", e.target.value)}
-                  placeholder="https://..."
-                  maxLength={2000}
-                />
+                <input className={inputClass("image")} value={form.image} onChange={(e) => updateField("image", e.target.value)} placeholder="https://..." maxLength={2000} />
                 {errors.image && <p className={errorClass}>{errors.image}</p>}
               </div>
 
               <div className="md:col-span-2">
                 <label className={labelClass}>Descrição curta</label>
-                <textarea
-                  className={`${inputClass("description")} min-h-[100px] resize-y`}
-                  value={form.description}
-                  onChange={(e) => updateField("description", e.target.value)}
-                  placeholder="Pequeno resumo da postagem..."
-                  maxLength={500}
-                />
-                <div className="flex justify-between mt-1">
-                  {errors.description ? (
-                    <p className={errorClass}>{errors.description}</p>
-                  ) : <span />}
-                  <span className="text-xs text-muted-foreground">
-                    {form.description.length}/500
-                  </span>
-                </div>
+                <textarea className={`${inputClass("description")} min-h-[100px] resize-y`} value={form.description} onChange={(e) => updateField("description", e.target.value)} maxLength={500} />
+                {errors.description && <p className={errorClass}>{errors.description}</p>}
               </div>
 
               <div className="md:col-span-2">
                 <label className={labelClass}>Link externo</label>
-                <input
-                  className={inputClass("link")}
-                  value={form.link}
-                  onChange={(e) => updateField("link", e.target.value)}
-                  placeholder="https://..."
-                  maxLength={2000}
-                />
+                <input className={inputClass("link")} value={form.link} onChange={(e) => updateField("link", e.target.value)} placeholder="https://..." maxLength={2000} />
                 {errors.link && <p className={errorClass}>{errors.link}</p>}
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="inline-flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" checked={form.pinned} onChange={(e) => updateField("pinned", e.target.checked)} className="w-4 h-4 accent-primary" />
+                  <span className="text-sm font-bold uppercase tracking-widest text-primary-glow">Fixar postagem</span>
+                </label>
               </div>
             </div>
 
             <div className="flex flex-wrap gap-3 mt-6">
-              <button
-                type="submit"
-                className="btn-glow px-6 py-3 rounded-full text-primary-foreground font-bold uppercase tracking-wider text-xs"
-              >
+              <button type="submit" className="btn-glow px-6 py-3 rounded-full text-primary-foreground font-bold uppercase tracking-wider text-xs">
                 {editingId ? "Salvar alterações" : "Publicar postagem"}
               </button>
               {editingId && (
-                <button
-                  type="button"
-                  onClick={resetForm}
-                  className="px-6 py-3 rounded-full border border-border font-bold uppercase tracking-wider text-xs hover:border-primary transition"
-                >
+                <button type="button" onClick={resetForm} className="px-6 py-3 rounded-full border border-border font-bold uppercase tracking-wider text-xs hover:border-primary transition">
                   Cancelar edição
                 </button>
               )}
             </div>
           </form>
 
-          {/* List */}
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold">Postagens publicadas ({posts.length})</h2>
             <button
               onClick={async () => {
-                if (confirm("Restaurar postagens de exemplo? Isso substitui as atuais.")) {
-                  try {
-                    await resetToDefaults();
-                    toast({ title: "Postagens restauradas" });
-                  } catch {
-                    toast({ title: "Erro ao restaurar", variant: "destructive" });
-                  }
+                if (confirm("Restaurar postagens de exemplo?")) {
+                  try { await resetToDefaults(); toast({ title: "Restauradas" }); }
+                  catch { toast({ title: "Erro", variant: "destructive" }); }
                 }
               }}
               className="text-xs uppercase tracking-widest text-muted-foreground hover:text-primary-glow"
@@ -358,16 +302,9 @@ const Admin = () => {
               <p className="text-muted-foreground text-center py-10">Nenhuma postagem cadastrada.</p>
             )}
             {posts.map((p) => (
-              <div
-                key={p.id}
-                className="indie-card p-4 md:p-5 flex flex-col md:flex-row gap-4 items-start md:items-center"
-              >
+              <div key={p.id} className="indie-card p-4 md:p-5 flex flex-col md:flex-row gap-4 items-start md:items-center">
                 {p.image && (
-                  <img
-                    src={p.image}
-                    alt={p.title}
-                    className="w-full md:w-32 h-24 object-cover rounded-lg border border-border"
-                  />
+                  <img src={p.image} alt={p.title} className="w-full md:w-32 h-24 object-cover rounded-lg border border-border" />
                 )}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1 flex-wrap">
@@ -376,22 +313,31 @@ const Admin = () => {
                         {p.tag}
                       </span>
                     )}
-                    <span className="text-xs text-muted-foreground">{p.date}</span>
+                    {p.pinned && (
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-full bg-primary text-primary-foreground">
+                        <Pin className="w-3 h-3" /> Fixo
+                      </span>
+                    )}
+                    <span className="text-xs text-muted-foreground">por {p.author}</span>
+                    <span className="text-xs text-muted-foreground">• pos {p.position}</span>
                   </div>
                   <h3 className="font-bold truncate">{p.title}</h3>
                   <p className="text-sm text-muted-foreground line-clamp-2">{p.description}</p>
                 </div>
-                <div className="flex gap-2 self-stretch md:self-center">
-                  <button
-                    onClick={() => startEdit(p)}
-                    className="px-4 py-2 rounded-lg border border-primary/50 text-primary-glow font-semibold text-xs uppercase tracking-wider hover:bg-primary/10 transition"
-                  >
+                <div className="flex flex-wrap gap-2 self-stretch md:self-center">
+                  <button onClick={() => move(p, -1)} title="Subir" className="px-3 py-2 rounded-lg border border-border text-muted-foreground hover:text-primary-glow hover:border-primary-glow transition">
+                    <ArrowUp className="w-3.5 h-3.5" />
+                  </button>
+                  <button onClick={() => move(p, 1)} title="Descer" className="px-3 py-2 rounded-lg border border-border text-muted-foreground hover:text-primary-glow hover:border-primary-glow transition">
+                    <ArrowDown className="w-3.5 h-3.5" />
+                  </button>
+                  <button onClick={() => togglePin(p)} title={p.pinned ? "Desfixar" : "Fixar"} className={`px-3 py-2 rounded-lg border font-semibold text-xs uppercase transition ${p.pinned ? "bg-primary text-primary-foreground border-primary-glow" : "border-primary/40 text-primary-glow hover:bg-primary/10"}`}>
+                    <Pin className="w-3.5 h-3.5" />
+                  </button>
+                  <button onClick={() => startEdit(p)} className="px-4 py-2 rounded-lg border border-primary/50 text-primary-glow font-semibold text-xs uppercase tracking-wider hover:bg-primary/10 transition">
                     Editar
                   </button>
-                  <button
-                    onClick={() => handleDelete(p)}
-                    className="px-4 py-2 rounded-lg border border-destructive/50 text-destructive font-semibold text-xs uppercase tracking-wider hover:bg-destructive/10 transition"
-                  >
+                  <button onClick={() => handleDelete(p)} className="px-4 py-2 rounded-lg border border-destructive/50 text-destructive font-semibold text-xs uppercase tracking-wider hover:bg-destructive/10 transition">
                     Remover
                   </button>
                 </div>

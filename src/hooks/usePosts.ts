@@ -9,38 +9,50 @@ export interface Post {
   image: string;
   description: string;
   link: string;
+  author: string;
+  pinned: boolean;
+  position: number;
 }
 
 const defaultPosts: Omit<Post, "id">[] = [
   {
     title: "Hollow Knight: Silksong finalmente chegou",
-    tag: "Análise",
+    tag: "Review",
     date: "2026-04-20",
     image:
       "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80",
     description:
       "Mergulhamos no aguardado novo capítulo do universo Hallownest. Confira nossas primeiras impressões.",
     link: "https://example.com/silksong",
+    author: "In Game",
+    pinned: false,
+    position: 0,
   },
   {
     title: "Sorteio: 3 chaves de Hades II",
-    tag: "Sorteio",
+    tag: "Comunidade",
     date: "2026-04-18",
     image:
       "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1200&q=80",
     description:
       "Estamos sorteando chaves para a comunidade. Veja como participar e boa sorte a todos!",
     link: "https://example.com/sorteio",
+    author: "In Game",
+    pinned: false,
+    position: 0,
   },
   {
     title: "5 indies brasileiros para ficar de olho",
-    tag: "Lista",
+    tag: "Indies Recomendação",
     date: "2026-04-12",
     image:
       "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=1200&q=80",
     description:
       "A cena indie nacional está fervendo. Selecionamos cinco projetos imperdíveis feitos por aqui.",
     link: "https://example.com/indies-br",
+    author: "In Game",
+    pinned: false,
+    position: 0,
   },
 ];
 
@@ -48,6 +60,8 @@ async function fetchPosts(): Promise<Post[]> {
   const { data, error } = await supabase
     .from("posts")
     .select("*")
+    .order("pinned", { ascending: false })
+    .order("position", { ascending: true })
     .order("date", { ascending: false })
     .order("created_at", { ascending: false });
   if (error) {
@@ -62,6 +76,9 @@ async function fetchPosts(): Promise<Post[]> {
     image: p.image ?? "",
     description: p.description ?? "",
     link: p.link ?? "",
+    author: p.author ?? "In Game",
+    pinned: !!p.pinned,
+    position: p.position ?? 0,
   }));
 }
 
