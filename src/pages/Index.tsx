@@ -156,103 +156,50 @@ const Index = () => {
         </div>
       </section>
 
-      {/* 2. DESTAQUES RECENTES (fundo roxo neon) */}
-      <RecentHighlights posts={sortedPosts} />
+      {/* 2. POSTAGENS RECENTES — abas + categorias */}
+      <PostsCarousel posts={posts} recentLimit={3} />
 
-      {/* 3. POSTAGENS DA COMUNIDADE — carrossel auto-scroll com filtros */}
-      <PostsCarousel posts={sortedPosts} />
-
-      {/* 4. POSTAGENS RECENTES (grid clássico com filtro) */}
-      <section id="postagens" className="relative py-24 px-4">
+      {/* 3. EXPLORAR CONTEÚDOS — todas as postagens organizadas por categoria */}
+      <section id="explorar" className="relative py-24 px-4">
         <div className="container mx-auto">
-          <Reveal className="flex items-end justify-between mb-12 flex-wrap gap-4">
-            <div>
-              <p className="text-primary-glow uppercase tracking-[0.3em] text-xs font-bold mb-2">Da comunidade</p>
-              <h2 className="text-4xl md:text-5xl font-black">
-                Postagens <span className="text-gradient">recentes</span>
-              </h2>
-            </div>
-            <p className="text-muted-foreground max-w-md">
-              Conteúdos, análises e novidades feitos por quem faz parte da In Game.
+          <Reveal className="text-center max-w-2xl mx-auto mb-12">
+            <p className="text-primary-glow uppercase tracking-[0.3em] text-xs font-bold mb-3">Biblioteca</p>
+            <h2 className="text-4xl md:text-5xl font-black mb-4">
+              Explorar <span className="text-gradient">conteúdos</span>
+            </h2>
+            <p className="text-muted-foreground text-sm md:text-base">
+              Todas as postagens da comunidade organizadas por categoria.
             </p>
           </Reveal>
 
-          {/* Filtro de tags (botão expansível) */}
-          <Reveal className="mb-10">
-            <div className="flex items-center gap-3 flex-wrap">
-              <button
-                type="button"
-                onClick={() => setFilterOpen((o) => !o)}
-                aria-expanded={filterOpen}
-                className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider border transition-all ${
-                  filterOpen || activeTag !== "Todas"
-                    ? "bg-primary/15 text-primary-glow border-primary/60 shadow-[0_0_18px_hsl(var(--primary-glow)/0.3)]"
-                    : "bg-secondary/40 text-muted-foreground border-border hover:border-primary/60 hover:text-primary-glow"
-                }`}
-              >
-                <SlidersHorizontal className="w-4 h-4" />
-                Filtros
-                {activeTag !== "Todas" && (
-                  <span className="ml-1 px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-[10px]">
-                    1
-                  </span>
-                )}
-              </button>
-
-              {activeTag !== "Todas" && (
-                <button
-                  type="button"
-                  onClick={() => setActiveTag("Todas")}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider text-muted-foreground hover:text-foreground transition"
-                >
-                  <X className="w-3 h-3" />
-                  Limpar ({activeTag})
-                </button>
-              )}
-            </div>
-
-            {filterOpen && (
-              <div className="mt-4 indie-card p-4 animate-fade-in">
-                <div className="flex flex-wrap gap-2">
-                  {(["Todas", ...POST_TAGS] as const).map((tag) => {
-                    const active = activeTag === tag;
-                    return (
-                      <button
-                        key={tag}
-                        type="button"
-                        onClick={() => {
-                          setActiveTag(tag);
-                          setFilterOpen(false);
-                        }}
-                        className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider border transition-all ${
-                          active
-                            ? "bg-primary text-primary-foreground border-primary-glow shadow-[0_0_18px_hsl(var(--primary-glow)/0.6)]"
-                            : "bg-secondary/40 text-muted-foreground border-border hover:border-primary/60 hover:text-primary-glow"
-                        }`}
-                      >
-                        {active && <Check className="w-3 h-3" />}
-                        {tag}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-          </Reveal>
-
-          {filteredPosts.length === 0 ? (
+          {posts.length === 0 ? (
             <div className="indie-card p-10 text-center text-muted-foreground">
-              {sortedPosts.length === 0
-                ? "Nenhuma postagem por aqui ainda. Volte em breve! ✦"
-                : `Nenhuma postagem com a tag "${activeTag}".`}
+              Nenhuma postagem por aqui ainda. Volte em breve! ✦
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredPosts.map((post, i) => (
-                <Reveal key={post.id} delay={Math.min(i * 0.1, 0.5)}>
-                  <PostCard post={post} index={i} isRecent={i < RECENT_COUNT} />
-                </Reveal>
-              ))}
+            <div className="space-y-16">
+              {POST_TAGS.map((tag) => {
+                const items = posts.filter((p) => p.tag === tag);
+                if (items.length === 0) return null;
+                return (
+                  <div key={tag}>
+                    <Reveal className="flex items-center gap-3 mb-6">
+                      <span className="h-px flex-1 bg-gradient-to-r from-primary/60 to-transparent" />
+                      <h3 className="text-sm md:text-base font-black uppercase tracking-[0.3em] text-primary-glow">
+                        {tag}
+                      </h3>
+                      <span className="h-px flex-1 bg-gradient-to-l from-primary/60 to-transparent" />
+                    </Reveal>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                      {items.map((post, i) => (
+                        <Reveal key={post.id} delay={Math.min(i * 0.08, 0.4)}>
+                          <PostCard post={post} index={i} />
+                        </Reveal>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>
