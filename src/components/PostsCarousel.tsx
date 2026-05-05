@@ -103,19 +103,19 @@ const PostsCarousel = ({ posts, recentLimit = 3 }: Props) => {
         </Reveal>
 
         {/* Cards */}
-        {filteredRecents.length === 0 ? (
+        {visiblePosts.length === 0 ? (
           <div className="indie-card p-10 text-center text-muted-foreground">
             Nenhuma postagem nesta categoria ainda.
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredRecents.map((post, i) => (
+            {visiblePosts.map((post, i) => (
               <Reveal key={post.id} delay={Math.min(i * 0.08, 0.4)}>
                 <a
                   href={post.link || "#"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group block rounded-2xl overflow-hidden bg-card border border-border hover:border-primary-glow transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_10px_40px_-10px_hsl(var(--primary)/0.6)]"
+                  className="group block rounded-2xl overflow-hidden bg-card border border-border hover:border-primary-glow transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_10px_40px_-10px_hsl(var(--primary)/0.6)] h-full"
                 >
                   <div className="relative aspect-[16/10] overflow-hidden">
                     {post.image ? (
@@ -140,13 +140,18 @@ const PostsCarousel = ({ posts, recentLimit = 3 }: Props) => {
                       </span>
                     )}
                   </div>
-                  <div className="p-5">
+                  <div className="p-5 flex flex-col">
                     <p className="text-[10px] uppercase tracking-[0.25em] text-primary-glow font-bold mb-2">
                       Por {post.author || "In Game"}
                     </p>
                     <h3 className="text-base md:text-lg font-bold leading-snug line-clamp-2 group-hover:text-primary-glow transition-colors">
                       {post.title}
                     </h3>
+                    {post.description && (
+                      <p className="mt-2 text-sm text-muted-foreground leading-relaxed line-clamp-3">
+                        {post.description}
+                      </p>
+                    )}
                   </div>
                 </a>
               </Reveal>
