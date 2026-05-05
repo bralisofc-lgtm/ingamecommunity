@@ -162,7 +162,7 @@ const Index = () => {
       {/* 3. EXPLORAR CONTEÚDOS — todas as postagens organizadas por categoria */}
       <section id="explorar" className="relative py-24 px-4">
         <div className="container mx-auto">
-          <Reveal className="text-center max-w-2xl mx-auto mb-12">
+          <div className="text-center max-w-2xl mx-auto mb-12">
             <p className="text-primary-glow uppercase tracking-[0.3em] text-xs font-bold mb-3">Biblioteca</p>
             <h2 className="text-4xl md:text-5xl font-black mb-4">
               Explorar <span className="text-gradient">conteúdos</span>
@@ -170,7 +170,7 @@ const Index = () => {
             <p className="text-muted-foreground text-sm md:text-base">
               Todas as postagens da comunidade organizadas por categoria.
             </p>
-          </Reveal>
+          </div>
 
           {posts.length === 0 ? (
             <div className="indie-card p-10 text-center text-muted-foreground">
@@ -183,18 +183,16 @@ const Index = () => {
                 if (items.length === 0) return null;
                 return (
                   <div key={tag}>
-                    <Reveal className="flex items-center gap-3 mb-6">
+                    <div className="flex items-center gap-3 mb-6">
                       <span className="h-px flex-1 bg-gradient-to-r from-primary/60 to-transparent" />
                       <h3 className="text-sm md:text-base font-black uppercase tracking-[0.3em] text-primary-glow">
                         {tag}
                       </h3>
                       <span className="h-px flex-1 bg-gradient-to-l from-primary/60 to-transparent" />
-                    </Reveal>
+                    </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                      {items.map((post, i) => (
-                        <Reveal key={post.id} delay={Math.min(i * 0.08, 0.4)}>
-                          <PostCard post={post} index={i} />
-                        </Reveal>
+                      {items.map((post) => (
+                        <PostCard key={post.id} post={post} animate={false} />
                       ))}
                     </div>
                   </div>

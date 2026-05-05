@@ -4,13 +4,14 @@ interface PostCardProps {
   post: Post;
   index?: number;
   isRecent?: boolean;
+  animate?: boolean;
 }
 
-const PostCard = ({ post, index = 0, isRecent = false }: PostCardProps) => {
+const PostCard = ({ post, index = 0, isRecent = false, animate = true }: PostCardProps) => {
   return (
     <div
-      className="flex flex-col animate-fade-up"
-      style={{ animationDelay: `${index * 0.1}s` }}
+      className={`flex flex-col ${animate ? "animate-fade-up" : ""}`}
+      style={animate ? { animationDelay: `${index * 0.1}s` } : undefined}
     >
       {isRecent && (
         <div className="flex justify-end mb-3">
