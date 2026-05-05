@@ -7,20 +7,11 @@ interface PostCardProps {
 }
 
 const PostCard = ({ post, index = 0, isRecent = false }: PostCardProps) => {
-  const dateLabel = post.date
-    ? new Date(post.date).toLocaleDateString("pt-BR", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      })
-    : "";
-
   return (
     <div
       className="flex flex-col animate-fade-up"
       style={{ animationDelay: `${index * 0.1}s` }}
     >
-      {/* RECENT badge — completely outside / above the card */}
       {isRecent && (
         <div className="flex justify-end mb-3">
           <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] rounded-full bg-primary text-primary-foreground border border-primary-glow shadow-[0_0_18px_hsl(var(--primary-glow)/0.85)] animate-recent-pulse animate-recent-float">
@@ -43,18 +34,18 @@ const PostCard = ({ post, index = 0, isRecent = false }: PostCardProps) => {
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent" />
-            <span className="absolute top-4 left-4 px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full bg-primary/90 text-primary-foreground border border-primary-glow shadow-[0_0_20px_hsl(var(--primary)/0.6)]">
-              {post.tag}
-            </span>
+            {post.tag && (
+              <span className="absolute top-4 left-4 px-3 py-1 text-[10px] font-black uppercase tracking-wider rounded-full bg-primary/90 text-primary-foreground border border-primary-glow shadow-[0_0_20px_hsl(var(--primary-glow)/0.7)]">
+                {post.tag}
+              </span>
+            )}
           </div>
         )}
 
         <div className="flex flex-col flex-1 p-6">
-          {dateLabel && (
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-2">
-              {dateLabel}
-            </p>
-          )}
+          <p className="text-[10px] uppercase tracking-[0.25em] text-primary-glow font-bold mb-2">
+            Por {post.author || "In Game"}
+          </p>
           <h3 className="text-xl md:text-2xl font-bold mb-3 group-hover:text-primary-glow transition-colors">
             {post.title}
           </h3>
