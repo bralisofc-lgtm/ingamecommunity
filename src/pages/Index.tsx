@@ -43,24 +43,9 @@ const miniFeatures = [
   },
 ];
 
-const RECENT_COUNT = 3;
-
 const Index = () => {
   const { posts } = usePosts();
-  const [activeTag, setActiveTag] = useState<string>("Todas");
-  const [filterOpen, setFilterOpen] = useState(false);
 
-  // Ordena por data desc (mais recentes primeiro). Em empate, mantém ordem original.
-  const sortedPosts = [...posts].sort((a, b) => {
-    const da = a.date ? new Date(a.date).getTime() : 0;
-    const db = b.date ? new Date(b.date).getTime() : 0;
-    return db - da;
-  });
-
-  const filteredPosts =
-    activeTag === "Todas"
-      ? sortedPosts
-      : sortedPosts.filter((p) => p.tag === activeTag);
 
   return (
     <SiteLayout
