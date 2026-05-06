@@ -1,14 +1,13 @@
 import { Link } from "react-router-dom";
 import SiteLayout from "@/components/SiteLayout";
 import SectionDivider from "@/components/SectionDivider";
-import PostCard from "@/components/PostCard";
 import { usePosts } from "@/hooks/usePosts";
 import ingameLogo from "@/assets/ingame-logo.png";
 import Reveal from "@/components/Reveal";
 import HeroParticles from "@/components/HeroParticles";
 import HeroCoverWall from "@/components/HeroCoverWall";
-import { POST_TAGS } from "@/lib/tags";
 import PostsCarousel from "@/components/PostsCarousel";
+import RecentHighlights from "@/components/RecentHighlights";
 
 
 const miniFeatures = [
