@@ -40,11 +40,6 @@ import hifiRush from "@/assets/covers/hi-fi-rush.jpg";
 import signalis from "@/assets/covers/signalis.jpg";
 import unpacking from "@/assets/covers/unpacking.jpg";
 import chainedEchoes from "@/assets/covers/chained-echoes.jpg";
-import deathsDoor from "@/assets/covers/deaths-door.jpg";
-import cocoon from "@/assets/covers/cocoon.jpg";
-import sable from "@/assets/covers/sable.jpg";
-import spiritfarer from "@/assets/covers/spiritfarer.jpg";
-import pentiment from "@/assets/covers/pentiment.jpg";
 import coralIsland from "@/assets/covers/coral-island.jpg";
 import dredge from "@/assets/covers/dredge.jpg";
 import seaOfStars from "@/assets/covers/sea-of-stars.jpg";
@@ -55,7 +50,7 @@ import webfishing from "@/assets/covers/webfishing.jpg";
 import balatro from "@/assets/covers/balatro.jpg";
 import animalWell from "@/assets/covers/animal-well.jpg";
 
-// 50 capas distribuídas em 4 colunas — direções alternadas
+// 54 capas distribuídas em 4 colunas — direções alternadas
 const ALL = [
   hollowKnight, slayTheSpire, hades, undertale,
   stardew, celeste, obraDinn, cuphead,
@@ -67,10 +62,10 @@ const ALL = [
   loopHero, factorio, rimworld, shovelKnight,
   isaac, spelunky2, noita, valheim,
   hifiRush, signalis, unpacking, chainedEchoes,
-  deathsDoor, balatro, dredge, seaOfStars,
-  blasphemous, blasphemous2, animalWell, lethalCompany,
-  coralIsland, webfishing, cocoon, sable,
-  spiritfarer, pentiment,
+  balatro, dredge, seaOfStars, blasphemous,
+  blasphemous2, animalWell, lethalCompany, coralIsland,
+  webfishing, tunic, hades, celeste,
+  hollowKnight, stardew,
 ];
 
 // Distribui em 4 colunas intercalando para misturar estilos
