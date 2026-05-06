@@ -155,52 +155,14 @@ const Index = () => {
         </div>
       </section>
 
-      {/* 2. POSTAGENS RECENTES — abas + categorias */}
-      <PostsCarousel posts={posts} recentLimit={3} />
+      {/* 2. DESTAQUES RECENTES — top 3 posts mais recentes em fundo roxo */}
+      <RecentHighlights posts={posts} />
 
-      {/* 3. EXPLORAR CONTEÚDOS — todas as postagens organizadas por categoria */}
-      <section id="explorar" className="relative py-24 px-4">
-        <div className="container mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-primary-glow uppercase tracking-[0.3em] text-xs font-bold mb-3">Biblioteca</p>
-            <h2 className="text-4xl md:text-5xl font-black mb-4">
-              Explorar <span className="text-gradient">conteúdos</span>
-            </h2>
-            <p className="text-muted-foreground text-sm md:text-base">
-              Todas as postagens da comunidade organizadas por categoria.
-            </p>
-          </div>
-
-          {posts.length === 0 ? (
-            <div className="indie-card p-10 text-center text-muted-foreground">
-              Nenhuma postagem por aqui ainda. Volte em breve! ✦
-            </div>
-          ) : (
-            <div className="space-y-16">
-              {POST_TAGS.map((tag) => {
-                const items = posts.filter((p) => p.tag === tag);
-                if (items.length === 0) return null;
-                return (
-                  <div key={tag}>
-                    <div className="flex items-center gap-3 mb-6">
-                      <span className="h-px flex-1 bg-gradient-to-r from-primary/60 to-transparent" />
-                      <h3 className="text-sm md:text-base font-black uppercase tracking-[0.3em] text-primary-glow">
-                        {tag}
-                      </h3>
-                      <span className="h-px flex-1 bg-gradient-to-l from-primary/60 to-transparent" />
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                      {items.map((post) => (
-                        <PostCard key={post.id} post={post} animate={false} />
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      </section>
+      {/* 3. POSTAGENS RECENTES — carrossel automático + filtros por tag */}
+      <PostsCarousel
+        posts={posts}
+        excludeIds={posts.slice(0, 3).map((p) => p.id)}
+      />
 
       <SectionDivider />
 
