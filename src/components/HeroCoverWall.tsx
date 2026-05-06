@@ -67,7 +67,7 @@ const ALL = [
   loopHero, factorio, rimworld, shovelKnight,
   isaac, spelunky2, noita, valheim,
   hifiRush, signalis, unpacking, chainedEchoes,
-  enigmaOfFearReplacedSlot1, balatro, dredge, seaOfStars,
+  deathsDoor, balatro, dredge, seaOfStars,
   blasphemous, blasphemous2, animalWell, lethalCompany,
   coralIsland, webfishing, deathsDoor, cocoon,
   sable, spiritfarer, pentiment,
