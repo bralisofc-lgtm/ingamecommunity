@@ -69,8 +69,8 @@ const ALL = [
   hifiRush, signalis, unpacking, chainedEchoes,
   deathsDoor, balatro, dredge, seaOfStars,
   blasphemous, blasphemous2, animalWell, lethalCompany,
-  coralIsland, webfishing, deathsDoor, cocoon,
-  sable, spiritfarer, pentiment,
+  coralIsland, webfishing, cocoon, sable,
+  spiritfarer, pentiment,
 ];
 
 // Distribui em 4 colunas intercalando para misturar estilos
