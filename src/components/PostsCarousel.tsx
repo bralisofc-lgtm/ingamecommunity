@@ -6,18 +6,67 @@ import Reveal from "@/components/Reveal";
 
 interface Props {
   posts: Post[];
-  recentLimit?: number;
+  excludeIds?: string[];
 }
 
-const PostsCarousel = ({ posts, recentLimit = 3 }: Props) => {
+const PostCardMini = ({ post }: { post: Post }) => (
+  <a
+    href={post.link || "#"}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group block rounded-2xl overflow-hidden bg-card border border-border hover:border-primary-glow transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_10px_40px_-10px_hsl(var(--primary)/0.6)] h-full"
+  >
+    <div className="relative aspect-[16/10] overflow-hidden">
+      {post.image ? (
+        <img
+          src={post.image}
+          alt={post.title}
+          loading="lazy"
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+        />
+      ) : (
+        <div className="absolute inset-0 bg-gradient-to-br from-primary to-primary-glow" />
+      )}
+      <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-transparent to-transparent" />
+      {post.tag && (
+        <span className="absolute top-3 left-3 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest rounded-full bg-primary/90 text-primary-foreground border border-primary-glow shadow-[0_0_18px_hsl(var(--primary-glow)/0.6)]">
+          {post.tag}
+        </span>
+      )}
+      {post.pinned && (
+        <span className="absolute top-3 right-3 inline-flex items-center gap-1 px-2 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full bg-background/80 text-primary-glow border border-primary-glow">
+          <Pin className="w-3 h-3" /> Fixo
+        </span>
+      )}
+    </div>
+    <div className="p-5 flex flex-col">
+      <p className="text-[10px] uppercase tracking-[0.25em] text-primary-glow font-bold mb-2">
+        Por {post.author || "In Game"}
+      </p>
+      <h3 className="text-base md:text-lg font-bold leading-snug line-clamp-2 group-hover:text-primary-glow transition-colors">
+        {post.title}
+      </h3>
+      {post.description && (
+        <p className="mt-2 text-sm text-muted-foreground leading-relaxed line-clamp-3">
+          {post.description}
+        </p>
+      )}
+    </div>
+  </a>
+);
+
+const PostsCarousel = ({ posts, excludeIds = [] }: Props) => {
   const [activeGroup, setActiveGroup] = useState<TabGroupId>("games-comunidade");
-  const [activeTag, setActiveTag] = useState<string>("Todas");
+  const [activeTag, setActiveTag] = useState<string | null>(null);
 
   const groupTags = TAB_GROUPS[activeGroup].tags as readonly string[];
 
   const groupPosts = useMemo(
-    () => posts.filter((p) => groupTags.includes(p.tag)),
-    [posts, groupTags]
+    () =>
+      posts.filter(
+        (p) => groupTags.includes(p.tag) && !excludeIds.includes(p.id)
+      ),
+    [posts, groupTags, excludeIds]
   );
 
   const sortedGroup = useMemo(
@@ -31,11 +80,14 @@ const PostsCarousel = ({ posts, recentLimit = 3 }: Props) => {
     [groupPosts]
   );
 
-  // "Todas" → mostra apenas os recentes (limit). Filtro específico → mostra TODOS daquela tag.
-  const visiblePosts = useMemo(() => {
-    if (activeTag === "Todas") return sortedGroup.slice(0, recentLimit);
+  const filteredPosts = useMemo(() => {
+    if (!activeTag) return sortedGroup;
     return sortedGroup.filter((p) => p.tag === activeTag);
-  }, [sortedGroup, activeTag, recentLimit]);
+  }, [sortedGroup, activeTag]);
+
+  const isMarquee = !activeTag;
+  // Para o marquee precisamos duplicar a lista para o loop infinito
+  const marqueeItems = useMemo(() => [...sortedGroup, ...sortedGroup], [sortedGroup]);
 
   return (
     <section id="postagens" className="relative py-20 md:py-24 px-4">
@@ -65,7 +117,7 @@ const PostsCarousel = ({ posts, recentLimit = 3 }: Props) => {
                     type="button"
                     onClick={() => {
                       setActiveGroup(id);
-                      setActiveTag("Todas");
+                      setActiveTag(null);
                     }}
                     className={`px-5 py-2 rounded-full text-[11px] md:text-xs font-bold uppercase tracking-widest transition-all ${
                       active
@@ -81,15 +133,15 @@ const PostsCarousel = ({ posts, recentLimit = 3 }: Props) => {
           </div>
         </Reveal>
 
-        {/* Categorias da aba ativa */}
+        {/* Categorias da aba ativa — sem "Todas" */}
         <Reveal className="flex justify-center flex-wrap gap-2 mb-10">
-          {(["Todas", ...groupTags] as string[]).map((tag) => {
+          {groupTags.map((tag) => {
             const active = activeTag === tag;
             return (
               <button
                 key={tag}
                 type="button"
-                onClick={() => setActiveTag(tag)}
+                onClick={() => setActiveTag(active ? null : tag)}
                 className={`px-4 py-2 rounded-full text-[11px] font-bold uppercase tracking-wider border transition-all duration-300 hover:-translate-y-0.5 ${
                   active
                     ? "bg-primary/20 text-primary-glow border-primary-glow shadow-[0_0_22px_hsl(var(--primary-glow)/0.6)]"
@@ -102,59 +154,37 @@ const PostsCarousel = ({ posts, recentLimit = 3 }: Props) => {
           })}
         </Reveal>
 
-        {/* Cards */}
-        {visiblePosts.length === 0 ? (
+        {/* Lista */}
+        {sortedGroup.length === 0 ? (
           <div className="indie-card p-10 text-center text-muted-foreground">
             Nenhuma postagem nesta categoria ainda.
           </div>
+        ) : isMarquee ? (
+          // Carrossel automático infinito
+          <div
+            className="relative overflow-hidden"
+            style={{
+              maskImage:
+                "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
+              WebkitMaskImage:
+                "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
+            }}
+          >
+            <div className="flex gap-6 w-max animate-marquee">
+              {marqueeItems.map((post, i) => (
+                <div
+                  key={`${post.id}-${i}`}
+                  className="w-[280px] sm:w-[320px] md:w-[360px] shrink-0"
+                >
+                  <PostCardMini post={post} />
+                </div>
+              ))}
+            </div>
+          </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {visiblePosts.map((post, i) => (
-              <Reveal key={post.id} delay={Math.min(i * 0.08, 0.4)}>
-                <a
-                  href={post.link || "#"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group block rounded-2xl overflow-hidden bg-card border border-border hover:border-primary-glow transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_10px_40px_-10px_hsl(var(--primary)/0.6)] h-full"
-                >
-                  <div className="relative aspect-[16/10] overflow-hidden">
-                    {post.image ? (
-                      <img
-                        src={post.image}
-                        alt={post.title}
-                        loading="lazy"
-                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      />
-                    ) : (
-                      <div className="absolute inset-0 bg-gradient-to-br from-primary to-primary-glow" />
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-transparent to-transparent" />
-                    {post.tag && (
-                      <span className="absolute top-3 left-3 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest rounded-full bg-primary/90 text-primary-foreground border border-primary-glow shadow-[0_0_18px_hsl(var(--primary-glow)/0.6)]">
-                        {post.tag}
-                      </span>
-                    )}
-                    {post.pinned && (
-                      <span className="absolute top-3 right-3 inline-flex items-center gap-1 px-2 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full bg-background/80 text-primary-glow border border-primary-glow">
-                        <Pin className="w-3 h-3" /> Fixo
-                      </span>
-                    )}
-                  </div>
-                  <div className="p-5 flex flex-col">
-                    <p className="text-[10px] uppercase tracking-[0.25em] text-primary-glow font-bold mb-2">
-                      Por {post.author || "In Game"}
-                    </p>
-                    <h3 className="text-base md:text-lg font-bold leading-snug line-clamp-2 group-hover:text-primary-glow transition-colors">
-                      {post.title}
-                    </h3>
-                    {post.description && (
-                      <p className="mt-2 text-sm text-muted-foreground leading-relaxed line-clamp-3">
-                        {post.description}
-                      </p>
-                    )}
-                  </div>
-                </a>
-              </Reveal>
+            {filteredPosts.map((post) => (
+              <PostCardMini key={post.id} post={post} />
             ))}
           </div>
         )}

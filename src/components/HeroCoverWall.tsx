@@ -40,7 +40,11 @@ import hifiRush from "@/assets/covers/hi-fi-rush.jpg";
 import signalis from "@/assets/covers/signalis.jpg";
 import unpacking from "@/assets/covers/unpacking.jpg";
 import chainedEchoes from "@/assets/covers/chained-echoes.jpg";
-import enigmaOfFear from "@/assets/covers/enigma-of-fear.jpg";
+import deathsDoor from "@/assets/covers/deaths-door.jpg";
+import cocoon from "@/assets/covers/cocoon.jpg";
+import sable from "@/assets/covers/sable.jpg";
+import spiritfarer from "@/assets/covers/spiritfarer.jpg";
+import pentiment from "@/assets/covers/pentiment.jpg";
 import coralIsland from "@/assets/covers/coral-island.jpg";
 import dredge from "@/assets/covers/dredge.jpg";
 import seaOfStars from "@/assets/covers/sea-of-stars.jpg";
@@ -63,9 +67,10 @@ const ALL = [
   loopHero, factorio, rimworld, shovelKnight,
   isaac, spelunky2, noita, valheim,
   hifiRush, signalis, unpacking, chainedEchoes,
-  enigmaOfFear, balatro, dredge, seaOfStars,
+  deathsDoor, balatro, dredge, seaOfStars,
   blasphemous, blasphemous2, animalWell, lethalCompany,
-  coralIsland, webfishing,
+  coralIsland, webfishing, cocoon, sable,
+  spiritfarer, pentiment,
 ];
 
 // Distribui em 4 colunas intercalando para misturar estilos
