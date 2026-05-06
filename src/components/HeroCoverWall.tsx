@@ -67,9 +67,10 @@ const ALL = [
   loopHero, factorio, rimworld, shovelKnight,
   isaac, spelunky2, noita, valheim,
   hifiRush, signalis, unpacking, chainedEchoes,
-  enigmaOfFear, balatro, dredge, seaOfStars,
+  enigmaOfFearReplacedSlot1, balatro, dredge, seaOfStars,
   blasphemous, blasphemous2, animalWell, lethalCompany,
-  coralIsland, webfishing,
+  coralIsland, webfishing, deathsDoor, cocoon,
+  sable, spiritfarer, pentiment,
 ];
 
 // Distribui em 4 colunas intercalando para misturar estilos
