@@ -18,7 +18,8 @@ export interface Post {
   featured: boolean;
 }
 
-const defaultPosts: Omit<Post, "id">[] = [
+const defaultPostBase = { slug: "", subtitle: "", content: "", featured: false };
+const defaultPosts: Omit<Post, "id">[] = ([
   {
     title: "Hollow Knight: Silksong finalmente chegou",
     tag: "Review",
