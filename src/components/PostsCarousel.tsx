@@ -90,7 +90,7 @@ const PostsCarousel = ({ posts, excludeIds = [] }: Props) => {
   const marqueeItems = useMemo(() => [...sortedGroup, ...sortedGroup], [sortedGroup]);
 
   return (
-    <section id="postagens" className="relative py-20 md:py-24 px-4">
+    <section id="postagens" className="relative py-12 md:py-24 px-4">
       <div className="container mx-auto">
         {/* Topo limpo */}
         <Reveal className="text-center max-w-2xl mx-auto mb-10">
