@@ -93,10 +93,10 @@ const ReviewVerdict = ({ grade, note, summary, gameName, techInfo }: Props) => {
               )}
               <div className="flex-1 px-5 sm:px-7 py-6 sm:py-8 flex flex-col justify-center">
                 <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-glow mb-3">
-                  Veredicto
+                  Nota Final
                 </p>
                 <p className="text-[15px] md:text-base text-white/90 leading-relaxed">
-                  {verdictText || "Confira o veredicto completo desta análise."}
+                  {verdictText || "Confira a nota completa desta análise."}
                 </p>
               </div>
             </div>
