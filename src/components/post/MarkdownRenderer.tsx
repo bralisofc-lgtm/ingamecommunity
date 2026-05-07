@@ -16,8 +16,24 @@ type Block =
   | { type: "h"; level: 1 | 2 | 3; text: string }
   | { type: "p"; text: string }
   | { type: "img"; src: string; alt: string }
+  | { type: "video"; src: string }
   | { type: "quote"; text: string }
   | { type: "ul"; items: string[] };
+
+function toEmbedUrl(raw: string): string | null {
+  const url = raw.trim();
+  // YouTube
+  const yt = url.match(
+    /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{6,})/
+  );
+  if (yt) return `https://www.youtube.com/embed/${yt[1]}`;
+  // Vimeo
+  const vm = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  if (vm) return `https://player.vimeo.com/video/${vm[1]}`;
+  // Generic embed (already an embed URL)
+  if (/^https?:\/\/.+\/embed\//.test(url)) return url;
+  return null;
+}
 
 function inline(raw: string): string {
   // ordem importa
