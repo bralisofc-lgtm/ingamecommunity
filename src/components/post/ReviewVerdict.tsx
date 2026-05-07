@@ -65,14 +65,14 @@ const ReviewVerdict = ({ grade, note, summary, gameName, techInfo }: Props) => {
   const verdictText = (note || summary || "").trim();
 
   return (
-    <section className="relative my-10" aria-label="Veredicto da review">
+    <section className="relative my-10" aria-label="Nota final da review">
       {/* bloco externo com borda arredondada e tag flutuante */}
       <div className="relative rounded-[28px] border border-primary/35 bg-[hsl(270_50%_7%)] shadow-[0_30px_80px_-30px_hsl(var(--primary)/0.7)] px-4 sm:px-6 md:px-8 pt-10 pb-6 md:pt-12 md:pb-8">
-        {/* Tag VEREDICTO FINAL no canto superior direito, fora do card interno */}
+        {/* Tag NOTA FINAL no canto superior direito, fora do card interno */}
         <div className="absolute -top-3 right-5 md:right-7 flex items-center gap-2 px-3 py-1.5 rounded-full bg-background border border-primary-glow/70 shadow-[0_0_18px_hsl(var(--primary-glow)/0.55)]">
           <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary-glow shadow-[0_0_8px_hsl(var(--primary-glow))]" />
           <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.3em] text-primary-glow">
-            Veredicto Final
+            Nota Final
           </span>
         </div>
 
