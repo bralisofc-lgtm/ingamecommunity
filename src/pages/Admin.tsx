@@ -149,6 +149,9 @@ const Admin = () => {
       featured: result.data.featured,
       review_grade: (result.data.review_grade ?? "").toUpperCase(),
       review_note: result.data.review_note ?? "",
+      review_summary: result.data.review_summary ?? "",
+      review_game_name: result.data.review_game_name ?? "",
+      review_tech_info: (result.data.review_tech_info ?? {}) as Record<string, string>,
     };
     try {
       if (editingId) {
