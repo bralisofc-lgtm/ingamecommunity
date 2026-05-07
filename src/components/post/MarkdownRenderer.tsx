@@ -69,10 +69,19 @@ function parse(md: string): Block[] {
       continue;
     }
 
-    // video: @[video](url) or @[youtube](url) or bare youtube/vimeo URL on its own line
+    // video: @[video](url) or @[youtube](url) or [](url) or bare URL
     const vid = trimmed.match(/^@\[(?:video|youtube|vimeo)\]\(([^)\s]+)\)$/i);
     if (vid) {
       const embed = toEmbedUrl(vid[1]);
+      if (embed) {
+        blocks.push({ type: "video", src: embed });
+        i++;
+        continue;
+      }
+    }
+    const emptyLink = trimmed.match(/^\[\s*\]\(([^)\s]+)\)$/);
+    if (emptyLink) {
+      const embed = toEmbedUrl(emptyLink[1]);
       if (embed) {
         blocks.push({ type: "video", src: embed });
         i++;
