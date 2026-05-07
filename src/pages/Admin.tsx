@@ -79,6 +79,10 @@ const Admin = () => {
       link: p.link,
       pinned: p.pinned,
       position: p.position,
+      slug: p.slug || "",
+      subtitle: p.subtitle || "",
+      content: p.content || "",
+      featured: !!p.featured,
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
