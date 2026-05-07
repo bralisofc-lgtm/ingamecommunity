@@ -284,6 +284,30 @@ const Admin = () => {
                 {errors.author && <p className={errorClass}>{errors.author}</p>}
               </div>
 
+              <div className="md:col-span-2">
+                <label className={labelClass}>Redes sociais do autor (até 3)</label>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  {[0, 1, 2].map((i) => (
+                    <input
+                      key={i}
+                      type="url"
+                      className="w-full px-4 py-2.5 rounded-lg bg-background/40 border border-primary/30 focus:border-primary-glow focus:outline-none focus:ring-2 focus:ring-primary-glow/40 text-sm transition-all"
+                      value={form.author_socials[i] ?? ""}
+                      placeholder={i === 0 ? "https://instagram.com/..." : i === 1 ? "https://x.com/..." : "https://youtube.com/..."}
+                      onChange={(e) => {
+                        const next = [...form.author_socials];
+                        next[i] = e.target.value;
+                        updateField("author_socials", next.slice(0, 3));
+                      }}
+                      maxLength={2000}
+                    />
+                  ))}
+                </div>
+                <p className="mt-1 text-[11px] text-muted-foreground">
+                  O ícone (Instagram, X, YouTube, Twitch, TikTok, Bluesky, Facebook, Discord, GitHub…) é detectado automaticamente pelo link. Deixe vazio para ocultar.
+                </p>
+              </div>
+
               <div>
                 <label className={labelClass}>Data</label>
                 <input type="date" className={inputClass("date")} value={form.date} onChange={(e) => updateField("date", e.target.value)} />
