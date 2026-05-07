@@ -87,8 +87,11 @@ export type Database = {
           link: string
           pinned: boolean
           position: number
+          review_game_name: string
           review_grade: string
           review_note: string
+          review_summary: string
+          review_tech_info: Json
           slug: string | null
           subtitle: string
           tag: string
@@ -106,8 +109,11 @@ export type Database = {
           link?: string
           pinned?: boolean
           position?: number
+          review_game_name?: string
           review_grade?: string
           review_note?: string
+          review_summary?: string
+          review_tech_info?: Json
           slug?: string | null
           subtitle?: string
           tag?: string
@@ -125,8 +131,11 @@ export type Database = {
           link?: string
           pinned?: boolean
           position?: number
+          review_game_name?: string
           review_grade?: string
           review_note?: string
+          review_summary?: string
+          review_tech_info?: Json
           slug?: string | null
           subtitle?: string
           tag?: string
