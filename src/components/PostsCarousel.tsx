@@ -11,9 +11,8 @@ interface Props {
 
 const PostCardMini = ({ post }: { post: Post }) => (
   <a
-    href={post.link || "#"}
-    target="_blank"
-    rel="noopener noreferrer"
+    href={post.slug ? `/post/${post.slug}` : post.link || "#"}
+    {...(post.slug ? {} : { target: "_blank", rel: "noopener noreferrer" })}
     className="group block rounded-2xl overflow-hidden bg-card border border-border hover:border-primary-glow transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_10px_40px_-10px_hsl(var(--primary)/0.6)] h-full"
   >
     <div className="relative aspect-[16/10] overflow-hidden">
