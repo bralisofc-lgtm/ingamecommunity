@@ -182,13 +182,27 @@ const MarkdownRenderer = ({ content }: { content: string }) => {
             );
           case "img":
             return (
-              <figure key={idx} className="my-8 flex justify-center">
+              <figure key={idx} className="my-8 -mx-4 sm:mx-0 sm:flex sm:justify-center">
                 <img
                   src={b.src}
                   alt={b.alt}
                   loading="lazy"
-                  className="w-full max-w-3xl rounded-2xl border border-primary/20 shadow-[0_20px_60px_-20px_hsl(var(--primary)/0.6)]"
+                  className="w-full sm:max-w-3xl sm:rounded-2xl rounded-lg border border-primary/20 shadow-[0_20px_60px_-20px_hsl(var(--primary)/0.6)]"
                 />
+              </figure>
+            );
+          case "video":
+            return (
+              <figure key={idx} className="my-8 -mx-4 sm:mx-0 sm:max-w-3xl sm:mx-auto animate-fade-in">
+                <div className="video-embed-wrap sm:rounded-2xl rounded-lg">
+                  <iframe
+                    src={b.src}
+                    title="Vídeo"
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                </div>
               </figure>
             );
           case "quote":
