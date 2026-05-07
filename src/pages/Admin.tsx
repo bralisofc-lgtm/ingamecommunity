@@ -116,6 +116,10 @@ const Admin = () => {
       link: result.data.link ?? "",
       pinned: result.data.pinned,
       position: result.data.position,
+      slug: result.data.slug ?? "",
+      subtitle: result.data.subtitle ?? "",
+      content: result.data.content ?? "",
+      featured: result.data.featured,
     };
     try {
       if (editingId) {
