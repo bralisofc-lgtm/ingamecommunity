@@ -175,7 +175,7 @@ const PostsCarousel = ({ posts, excludeIds = [] }: Props) => {
                     "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
                 }}
               >
-                <div className="flex gap-6 w-max animate-marquee">
+                <div className={`flex gap-6 w-max ${activeGroup === "review-noticias" ? "animate-marquee-slow" : "animate-marquee"}`}>
                   {marqueeItems.map((post, i) => (
                     <div
                       key={`${post.id}-${i}`}
