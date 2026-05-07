@@ -41,7 +41,7 @@ function inline(raw: string): string {
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
-  // links
+  // links com texto
   s = s.replace(
     /\[([^\]]+)\]\(([^)\s]+)\)/g,
     '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-primary-glow underline-offset-4 hover:underline">$1</a>'
