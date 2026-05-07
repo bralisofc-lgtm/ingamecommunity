@@ -134,7 +134,7 @@ const PostsCarousel = ({ posts, excludeIds = [] }: Props) => {
         </Reveal>
 
         {/* Categorias da aba ativa — sem "Todas" */}
-        <Reveal className="flex justify-center flex-wrap gap-2 mb-10">
+        <Reveal className="flex justify-center flex-wrap gap-2 mb-5 md:mb-10">
           {groupTags.map((tag) => {
             const active = activeTag === tag;
             return (
