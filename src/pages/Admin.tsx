@@ -68,6 +68,7 @@ const emptyForm: FormState = {
   review_summary: "",
   review_game_name: "",
   review_tech_info: {},
+  author_socials: [],
 };
 
 const Admin = () => {
