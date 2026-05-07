@@ -87,6 +87,8 @@ const Admin = () => {
       subtitle: p.subtitle || "",
       content: p.content || "",
       featured: !!p.featured,
+      review_grade: p.review_grade || "",
+      review_note: p.review_note || "",
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
