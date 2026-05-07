@@ -3,8 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import SiteLayout from "@/components/SiteLayout";
 import MarkdownRenderer from "@/components/post/MarkdownRenderer";
 import ReadMore from "@/components/post/ReadMore";
-import ReviewBadge from "@/components/post/ReviewBadge";
-import { usePosts } from "@/hooks/usePosts";
+import ReviewVerdict from "@/components/post/ReviewVerdict";
+import { usePosts, type Post } from "@/hooks/usePosts";
 
 const formatDate = (iso: string) => {
   if (!iso) return "";
@@ -19,6 +19,42 @@ const formatDate = (iso: string) => {
   }
 };
 
+/**
+ * Recomendação dinâmica e variada:
+ * 1 mesma tag · 1 destaque · 1 review · 1 emocional/aleatório
+ * com fallbacks para garantir 4 sempre que possível.
+ */
+function buildRecommendations(all: Post[], current: Post): Post[] {
+  const others = all.filter((p) => p.id !== current.id);
+  const picked = new Set<string>();
+  const result: Post[] = [];
+  const take = (p?: Post) => {
+    if (p && !picked.has(p.id)) {
+      picked.add(p.id);
+      result.push(p);
+    }
+  };
+
+  const sameTag = others.filter((p) => p.tag === current.tag);
+  const featured = others.filter((p) => p.featured);
+  const reviews = others.filter((p) => p.tag === "Review");
+  const news = others.filter((p) => p.tag === "Notícias");
+  const community = others.filter((p) => p.tag === "Comunidade");
+  const recents = [...others].sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+
+  take(sameTag[0]);
+  take(featured.find((p) => p.tag !== current.tag));
+  take(reviews.find((p) => p.tag !== current.tag) ?? reviews[0]);
+  take(news[0] ?? community[0]);
+
+  // Preencher até 4 com mais recentes ainda não escolhidos
+  for (const p of recents) {
+    if (result.length >= 4) break;
+    take(p);
+  }
+  return result.slice(0, 4);
+}
+
 const PostPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const { posts } = usePosts();
@@ -28,12 +64,7 @@ const PostPage = () => {
     [posts, slug]
   );
 
-  const related = useMemo(() => {
-    if (!post) return [];
-    const sameTag = posts.filter((p) => p.id !== post.id && p.tag === post.tag);
-    const fill = posts.filter((p) => p.id !== post.id && p.tag !== post.tag);
-    return [...sameTag, ...fill].slice(0, 4);
-  }, [posts, post]);
+  const related = useMemo(() => (post ? buildRecommendations(posts, post) : []), [posts, post]);
 
   if (!posts.length) {
     return (
@@ -74,7 +105,6 @@ const PostPage = () => {
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-primary-deep via-background to-primary/40" />
         )}
-        {/* Overlays */}
         <div className="absolute inset-0 bg-black/55" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-transparent to-background" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,hsl(var(--background))_95%)]" />
@@ -96,40 +126,36 @@ const PostPage = () => {
                 </p>
               )}
             </div>
-            <div className="mt-6 flex items-center justify-center gap-3 text-xs md:text-sm text-white/70 uppercase tracking-widest">
-              <span className="font-bold text-primary-glow">{post.author || "In Game"}</span>
-              {post.date && (
-                <>
-                  <span className="w-1 h-1 rounded-full bg-primary-glow" />
-                  <span>{formatDate(post.date)}</span>
-                </>
-              )}
-            </div>
           </div>
         </div>
       </section>
 
-      {/* Corpo do artigo */}
-      <article className="relative px-3 sm:px-4 pb-20 -mt-10 md:-mt-16">
+      {/* Corpo do artigo — editorial premium */}
+      <article className="relative px-3 sm:px-4 pb-10 -mt-10 md:-mt-16">
         <div className="container mx-auto max-w-3xl">
-          <div className="indie-card p-4 sm:p-6 md:p-12 animate-fade-up">
+          <div className="indie-card p-4 sm:p-8 md:p-14 animate-fade-up">
             {post.description && (
-              <p className="text-lg md:text-xl text-foreground/80 italic leading-relaxed mb-8 pb-8 border-b border-primary/15">
+              <p className="text-xl md:text-2xl text-foreground/85 italic leading-relaxed mb-10 pb-8 border-b border-primary/15">
                 {post.description}
               </p>
-            )}
-
-            {post.tag === "Review" && post.review_grade && (
-              <ReviewBadge grade={post.review_grade} note={post.review_note} />
             )}
 
             {post.content ? (
               <MarkdownRenderer content={post.content} />
             ) : (
               <p className="text-muted-foreground italic">
-                Esta postagem ainda não tem conteúdo escrito. Edite no painel admin para
-                adicionar texto, imagens e citações.
+                Esta postagem ainda não tem conteúdo escrito.
               </p>
+            )}
+
+            {post.tag === "Review" && (post.review_grade || post.review_summary || post.review_game_name || (post.review_tech_info && Object.keys(post.review_tech_info).length > 0)) && (
+              <ReviewVerdict
+                grade={post.review_grade}
+                note={post.review_note}
+                summary={post.review_summary}
+                gameName={post.review_game_name}
+                techInfo={post.review_tech_info}
+              />
             )}
 
             {post.link && (
@@ -145,19 +171,38 @@ const PostPage = () => {
               </div>
             )}
 
-            <ReadMore posts={related} />
-          </div>
-
-          <div className="mt-10 text-center">
-            <Link
-              to="/"
-              className="inline-flex items-center gap-2 text-primary-glow font-semibold text-xs uppercase tracking-wider hover:gap-3 transition-all"
-            >
-              ← Voltar ao início
-            </Link>
+            {/* Autoria/data — fechamento editorial discreto */}
+            <footer className="mt-12 pt-6 border-t border-primary/10 flex items-center justify-center gap-2 text-[11px] md:text-xs text-muted-foreground/80 uppercase tracking-[0.2em]">
+              {post.date && <span>{formatDate(post.date)}</span>}
+              {post.date && post.author && <span className="opacity-50">•</span>}
+              {post.author && (
+                <span>
+                  por <span className="text-primary-glow/90 font-semibold normal-case tracking-normal">{post.author}</span>
+                </span>
+              )}
+            </footer>
           </div>
         </div>
       </article>
+
+      {/* SEÇÃO INDEPENDENTE — Leia mais */}
+      {related.length > 0 && (
+        <section className="relative mt-6 md:mt-10 py-16 md:py-24 border-t border-primary/15 bg-[hsl(270_45%_5%)]">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(var(--primary-glow)/0.1),transparent_60%)] pointer-events-none" />
+          <div className="container mx-auto max-w-5xl px-4 relative">
+            <ReadMore posts={related} />
+          </div>
+        </section>
+      )}
+
+      <div className="text-center pb-16">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 text-primary-glow font-semibold text-xs uppercase tracking-wider hover:gap-3 transition-all"
+        >
+          ← Voltar ao início
+        </Link>
+      </div>
     </SiteLayout>
   );
 };
