@@ -3,6 +3,7 @@ import { Pin } from "lucide-react";
 import type { Post } from "@/hooks/usePosts";
 import { TAB_GROUPS, type TabGroupId } from "@/lib/tags";
 import Reveal from "@/components/Reveal";
+import MobilePostsCarousel from "@/components/MobilePostsCarousel";
 
 interface Props {
   posts: Post[];
@@ -89,7 +90,7 @@ const PostsCarousel = ({ posts, excludeIds = [] }: Props) => {
   const marqueeItems = useMemo(() => [...sortedGroup, ...sortedGroup], [sortedGroup]);
 
   return (
-    <section id="postagens" className="relative py-20 md:py-24 px-4">
+    <section id="postagens" className="relative py-12 md:py-24 px-4">
       <div className="container mx-auto">
         {/* Topo limpo */}
         <Reveal className="text-center max-w-2xl mx-auto mb-10">
@@ -133,7 +134,7 @@ const PostsCarousel = ({ posts, excludeIds = [] }: Props) => {
         </Reveal>
 
         {/* Categorias da aba ativa — sem "Todas" */}
-        <Reveal className="flex justify-center flex-wrap gap-2 mb-10">
+        <Reveal className="flex justify-center flex-wrap gap-2 mb-5 md:mb-10">
           {groupTags.map((tag) => {
             const active = activeTag === tag;
             return (
@@ -158,34 +159,41 @@ const PostsCarousel = ({ posts, excludeIds = [] }: Props) => {
           <div className="indie-card p-10 text-center text-muted-foreground">
             Nenhuma postagem nesta categoria ainda.
           </div>
-        ) : isMarquee ? (
-          // Carrossel automático infinito
-          <div
-            className="relative overflow-hidden"
-            style={{
-              maskImage:
-                "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
-              WebkitMaskImage:
-                "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
-            }}
-          >
-            <div className="flex gap-6 w-max animate-marquee">
-              {marqueeItems.map((post, i) => (
-                <div
-                  key={`${post.id}-${i}`}
-                  className="w-[280px] sm:w-[320px] md:w-[360px] shrink-0"
-                >
-                  <PostCardMini post={post} />
-                </div>
-              ))}
-            </div>
-          </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredPosts.map((post) => (
-              <PostCardMini key={post.id} post={post} />
-            ))}
-          </div>
+          <>
+            {/* MOBILE — carrossel premium estilo Steam/Netflix */}
+            <MobilePostsCarousel posts={isMarquee ? sortedGroup : filteredPosts} />
+
+            {/* DESKTOP/TABLET */}
+            {isMarquee ? (
+              <div
+                className="relative overflow-hidden hidden md:block"
+                style={{
+                  maskImage:
+                    "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
+                  WebkitMaskImage:
+                    "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
+                }}
+              >
+                <div className="flex gap-6 w-max animate-marquee">
+                  {marqueeItems.map((post, i) => (
+                    <div
+                      key={`${post.id}-${i}`}
+                      className="w-[280px] sm:w-[320px] md:w-[360px] shrink-0"
+                    >
+                      <PostCardMini post={post} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredPosts.map((post) => (
+                  <PostCardMini key={post.id} post={post} />
+                ))}
+              </div>
+            )}
+          </>
         )}
       </div>
     </section>
