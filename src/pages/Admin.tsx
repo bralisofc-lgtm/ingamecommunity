@@ -22,6 +22,10 @@ const postSchema = z.object({
   link: z.string().trim().max(2000).url({ message: "Link inválido." }).optional().or(z.literal("")),
   pinned: z.boolean(),
   position: z.number().int(),
+  slug: z.string().trim().max(160).optional().or(z.literal("")),
+  subtitle: z.string().trim().max(200).optional().or(z.literal("")),
+  content: z.string().max(50000).optional().or(z.literal("")),
+  featured: z.boolean(),
 });
 
 type FormState = Omit<Post, "id">;
@@ -37,6 +41,10 @@ const emptyForm: FormState = {
   link: "",
   pinned: false,
   position: 0,
+  slug: "",
+  subtitle: "",
+  content: "",
+  featured: false,
 };
 
 const Admin = () => {
