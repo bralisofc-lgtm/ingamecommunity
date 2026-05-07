@@ -31,6 +31,7 @@ const postSchema = z.object({
   review_summary: z.string().trim().max(800).optional().or(z.literal("")),
   review_game_name: z.string().trim().max(160).optional().or(z.literal("")),
   review_tech_info: z.record(z.string(), z.string()).optional(),
+  author_socials: z.array(z.string().trim().max(2000)).max(3).optional(),
 });
 
 type FormState = Omit<Post, "id">;
@@ -67,6 +68,7 @@ const emptyForm: FormState = {
   review_summary: "",
   review_game_name: "",
   review_tech_info: {},
+  author_socials: [],
 };
 
 const Admin = () => {
@@ -110,6 +112,7 @@ const Admin = () => {
       review_summary: p.review_summary || "",
       review_game_name: p.review_game_name || "",
       review_tech_info: p.review_tech_info || {},
+      author_socials: Array.isArray(p.author_socials) ? p.author_socials : [],
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -152,6 +155,7 @@ const Admin = () => {
       review_summary: result.data.review_summary ?? "",
       review_game_name: result.data.review_game_name ?? "",
       review_tech_info: (result.data.review_tech_info ?? {}) as Record<string, string>,
+      author_socials: (result.data.author_socials ?? []).map((s) => s.trim()).filter(Boolean).slice(0, 3),
     };
     try {
       if (editingId) {
@@ -278,6 +282,30 @@ const Admin = () => {
                 <label className={labelClass}>Autor *</label>
                 <input className={inputClass("author")} value={form.author} onChange={(e) => updateField("author", e.target.value)} placeholder="Nome do autor" maxLength={80} />
                 {errors.author && <p className={errorClass}>{errors.author}</p>}
+              </div>
+
+              <div className="md:col-span-2">
+                <label className={labelClass}>Redes sociais do autor (até 3)</label>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  {[0, 1, 2].map((i) => (
+                    <input
+                      key={i}
+                      type="url"
+                      className="w-full px-4 py-2.5 rounded-lg bg-background/40 border border-primary/30 focus:border-primary-glow focus:outline-none focus:ring-2 focus:ring-primary-glow/40 text-sm transition-all"
+                      value={form.author_socials[i] ?? ""}
+                      placeholder={i === 0 ? "https://instagram.com/..." : i === 1 ? "https://x.com/..." : "https://youtube.com/..."}
+                      onChange={(e) => {
+                        const next = [...form.author_socials];
+                        next[i] = e.target.value;
+                        updateField("author_socials", next.slice(0, 3));
+                      }}
+                      maxLength={2000}
+                    />
+                  ))}
+                </div>
+                <p className="mt-1 text-[11px] text-muted-foreground">
+                  O ícone (Instagram, X, YouTube, Twitch, TikTok, Bluesky, Facebook, Discord, GitHub…) é detectado automaticamente pelo link. Deixe vazio para ocultar.
+                </p>
               </div>
 
               <div>

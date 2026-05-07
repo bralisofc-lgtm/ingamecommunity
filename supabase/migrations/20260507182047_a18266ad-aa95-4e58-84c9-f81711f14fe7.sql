@@ -1,0 +1,1 @@
+ALTER TABLE public.posts ADD COLUMN IF NOT EXISTS author_socials text[] NOT NULL DEFAULT '{}'::text[];

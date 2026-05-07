@@ -4,6 +4,7 @@ import SiteLayout from "@/components/SiteLayout";
 import MarkdownRenderer from "@/components/post/MarkdownRenderer";
 import ReadMore from "@/components/post/ReadMore";
 import ReviewVerdict from "@/components/post/ReviewVerdict";
+import AuthorSocials from "@/components/post/AuthorSocials";
 import { usePosts, type Post } from "@/hooks/usePosts";
 
 const formatDate = (iso: string) => {
@@ -148,6 +149,40 @@ const PostPage = () => {
       {/* Corpo do artigo — editorial premium */}
       <article className="relative px-4 sm:px-4 pb-10 mt-6 md:-mt-16">
         <div className="container mx-auto max-w-3xl">
+          {/* AUTORIA — TOPO DESKTOP/TABLET (oculto no mobile) */}
+          <div className="hidden md:block mb-8">
+            <div className="flex items-center gap-4 px-1">
+              <div className="flex flex-col">
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-glow">Publicado por</span>
+                <span className="mt-1 text-base font-bold text-foreground">{post.author || "In Game"}</span>
+              </div>
+              <div className="h-8 w-px bg-primary/25" />
+              {post.date && (
+                <div className="flex flex-col">
+                  <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-glow/80">Data</span>
+                  <span className="mt-1 text-sm text-foreground/85">{formatDate(post.date)}</span>
+                </div>
+              )}
+              {post.author_socials?.length > 0 && (
+                <>
+                  <div className="h-8 w-px bg-primary/25" />
+                  <AuthorSocials links={post.author_socials} />
+                </>
+              )}
+              {post.link && (
+                <a
+                  href={post.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ml-auto btn-glow inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-primary-foreground font-bold uppercase tracking-wider text-[11px]"
+                >
+                  Link relacionado <span>→</span>
+                </a>
+              )}
+            </div>
+            <div className="mt-6 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+          </div>
+
           {/* Mobile: sem card/borda — leitura editorial pura. Desktop: card premium */}
           <div className="md:indie-card md:p-14 animate-fade-up">
             {post.description && (
@@ -163,67 +198,36 @@ const PostPage = () => {
                 Esta postagem ainda não tem conteúdo escrito.
               </p>
             )}
-
           </div>
 
-          {/* Rodapé editorial — FORA do card: meta à esquerda, link à direita, redes embaixo */}
-          <div className="mt-6 md:mt-8 px-1">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] md:text-xs text-muted-foreground/80 uppercase tracking-[0.2em]">
-                {post.date && <span>{formatDate(post.date)}</span>}
-                {post.date && post.author && <span className="opacity-50">•</span>}
-                {post.author && (
-                  <span>
-                    por <span className="text-primary-glow/90 font-semibold">{post.author}</span>
-                  </span>
+          {/* AUTORIA — RODAPÉ MOBILE (apenas no celular). + Link relacionado mobile */}
+          <div className="md:hidden mt-8 px-1 space-y-5">
+            {post.link && (
+              <a
+                href={post.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-glow inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-primary-foreground font-bold uppercase tracking-wider text-[11px]"
+              >
+                Link relacionado <span>→</span>
+              </a>
+            )}
+            <div className="rounded-2xl border border-primary/20 bg-card/40 p-5">
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex flex-col min-w-0">
+                  <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-glow">Publicado por</span>
+                  <span className="mt-1 text-base font-bold text-foreground truncate">{post.author || "In Game"}</span>
+                  {post.date && (
+                    <span className="mt-1 text-[11px] uppercase tracking-[0.2em] text-muted-foreground/80">{formatDate(post.date)}</span>
+                  )}
+                </div>
+                {post.author_socials?.length > 0 && (
+                  <AuthorSocials links={post.author_socials} size="sm" />
                 )}
               </div>
-
-              {post.link && (
-                <a
-                  href={post.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-glow inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-primary-foreground font-bold uppercase tracking-wider text-[11px] sm:self-auto self-start"
-                >
-                  Link relacionado <span>→</span>
-                </a>
-              )}
-            </div>
-
-            {/* Redes sociais */}
-            <div className="mt-5 flex items-center gap-3">
-              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-glow/80">
-                Compartilhar
-              </span>
-              <div className="flex items-center gap-2">
-                <a
-                  href={`https://www.instagram.com/`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Instagram"
-                  className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-primary/15 border border-primary/40 text-primary-glow hover:bg-primary hover:text-primary-foreground hover:border-primary-glow hover:shadow-[0_0_18px_hsl(var(--primary-glow)/0.6)] transition-all"
-                >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
-                    <rect x="3" y="3" width="18" height="18" rx="5" />
-                    <circle cx="12" cy="12" r="4" />
-                    <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" />
-                  </svg>
-                </a>
-                <a
-                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(shareUrl)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Compartilhar no X"
-                  className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-primary/15 border border-primary/40 text-primary-glow hover:bg-primary hover:text-primary-foreground hover:border-primary-glow hover:shadow-[0_0_18px_hsl(var(--primary-glow)/0.6)] transition-all"
-                >
-                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
-                    <path d="M18.244 2H21.5l-7.5 8.57L23 22h-6.953l-5.44-6.66L4.4 22H1.142l8.04-9.19L1 2h7.118l4.92 6.094L18.244 2zm-1.22 18h1.83L7.06 4H5.13l11.894 16z" />
-                  </svg>
-                </a>
-              </div>
             </div>
           </div>
+
 
           {/* Nota Final — bloco SEPARADO, fora do artigo */}
           {post.tag === "Review" && (post.review_grade || post.review_summary || post.review_game_name || (post.review_tech_info && Object.keys(post.review_tech_info).length > 0)) && (
