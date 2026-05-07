@@ -335,29 +335,77 @@ const Admin = () => {
 
               {form.tag === "Review" && (
                 <>
-                  <div>
-                    <label className={labelClass}>Classificação (Review)</label>
-                    <select
-                      className={inputClass("review_grade")}
-                      value={form.review_grade}
-                      onChange={(e) => updateField("review_grade", e.target.value)}
-                    >
-                      <option value="">— sem classificação —</option>
-                      {["S+","S","S-","A+","A","A-","B+","B","B-","C+","C","C-","D+","D","D-"].map(g => (
-                        <option key={g} value={g}>{g}</option>
-                      ))}
-                    </select>
-                    <p className="mt-1 text-[11px] text-muted-foreground">Aparece apenas em posts da categoria Review.</p>
-                  </div>
-                  <div className="md:col-span-2">
-                    <label className={labelClass}>Texto explicativo da nota</label>
-                    <textarea
-                      className={`${inputClass("review_note")} min-h-[90px] resize-y`}
-                      value={form.review_note}
-                      onChange={(e) => updateField("review_note", e.target.value)}
-                      maxLength={500}
-                      placeholder="Ex: Uma experiência excelente, com pequenos pontos que impedem de alcançar o topo absoluto."
-                    />
+                  <div className="md:col-span-2 mt-2 p-5 rounded-2xl border border-primary/30 bg-primary/5 space-y-5">
+                    <div className="flex items-center gap-3">
+                      <span className="inline-block w-2 h-2 rounded-full bg-primary-glow shadow-[0_0_10px_hsl(var(--primary-glow))]" />
+                      <h3 className="text-sm font-black uppercase tracking-[0.25em] text-primary-glow">Bloco de veredicto da Review</h3>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                      <div>
+                        <label className={labelClass}>Classificação</label>
+                        <select
+                          className={inputClass("review_grade")}
+                          value={form.review_grade}
+                          onChange={(e) => updateField("review_grade", e.target.value)}
+                        >
+                          <option value="">— sem classificação —</option>
+                          {["S+","S","S-","A+","A","A-","B+","B","B-","C+","C","C-","D+","D","D-"].map(g => (
+                            <option key={g} value={g}>{g}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label className={labelClass}>Nome do jogo / expansão</label>
+                        <input
+                          className={inputClass("review_game_name")}
+                          value={form.review_game_name}
+                          onChange={(e) => updateField("review_game_name", e.target.value)}
+                          placeholder="Ex: Diablo IV — Lord of Hatred"
+                          maxLength={160}
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className={labelClass}>Conclusão / opinião final</label>
+                      <textarea
+                        className={`${inputClass("review_summary")} min-h-[100px] resize-y`}
+                        value={form.review_summary}
+                        onChange={(e) => updateField("review_summary", e.target.value)}
+                        maxLength={800}
+                        placeholder="Uma breve conclusão sobre o jogo, expansão ou experiência analisada."
+                      />
+                    </div>
+
+                    <div>
+                      <label className={labelClass}>Texto curto ao lado da nota (veredicto)</label>
+                      <textarea
+                        className={`${inputClass("review_note")} min-h-[80px] resize-y`}
+                        value={form.review_note}
+                        onChange={(e) => updateField("review_note", e.target.value)}
+                        maxLength={500}
+                        placeholder="Frase curta de impacto exibida ao lado da nota."
+                      />
+                    </div>
+
+                    <div>
+                      <p className={labelClass}>Informações técnicas (deixe vazio para ocultar)</p>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {TECH_FIELDS.map((f) => (
+                          <div key={f.key}>
+                            <label className="block text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">{f.label}</label>
+                            <input
+                              className={`${inputBase} border-border focus:border-primary focus:ring-primary/30`}
+                              value={form.review_tech_info?.[f.key] || ""}
+                              onChange={(e) => updateField("review_tech_info", { ...(form.review_tech_info || {}), [f.key]: e.target.value })}
+                              placeholder={f.label}
+                              maxLength={120}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </>
               )}
