@@ -99,6 +99,7 @@ async function fetchPosts(): Promise<Post[]> {
     review_summary: (p as any).review_summary ?? "",
     review_game_name: (p as any).review_game_name ?? "",
     review_tech_info: ((p as any).review_tech_info ?? {}) as Record<string, string>,
+    author_socials: Array.isArray((p as any).author_socials) ? ((p as any).author_socials as string[]).filter(Boolean) : [],
   }));
 }
 
