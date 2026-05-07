@@ -279,9 +279,36 @@ const Admin = () => {
               </div>
 
               <div className="md:col-span-2">
+                <label className={labelClass}>Subtítulo (opcional)</label>
+                <input className={inputClass("subtitle")} value={form.subtitle} onChange={(e) => updateField("subtitle", e.target.value)} placeholder="Ex: Análise completa após 40 horas" maxLength={200} />
+              </div>
+
+              <div className="md:col-span-2">
+                <label className={labelClass}>Slug (URL)</label>
+                <input className={inputClass("slug")} value={form.slug} onChange={(e) => updateField("slug", e.target.value)} placeholder="deixe vazio para gerar automaticamente" maxLength={160} />
+                <p className="mt-1 text-[11px] text-muted-foreground">URL final: /post/{form.slug || "(gerado-do-titulo)"}</p>
+              </div>
+
+              <div className="md:col-span-2">
+                <label className={labelClass}>Conteúdo do artigo (Markdown)</label>
+                <textarea
+                  className={`${inputClass("content")} min-h-[280px] resize-y font-mono text-sm leading-relaxed`}
+                  value={form.content}
+                  onChange={(e) => updateField("content", e.target.value)}
+                  maxLength={50000}
+                  placeholder={`# Título\n\nParágrafo normal com **negrito** e *itálico*.\n\n![](https://link-da-imagem.jpg)\n\n" Esta é uma citação destacada "\n\n- item de lista\n- outro item`}
+                />
+                <p className="mt-1 text-[11px] text-muted-foreground">Use <code>![](url)</code> para imagens e <code>" texto "</code> para citações.</p>
+              </div>
+
+              <div className="md:col-span-2 flex flex-wrap gap-6">
                 <label className="inline-flex items-center gap-2 cursor-pointer">
                   <input type="checkbox" checked={form.pinned} onChange={(e) => updateField("pinned", e.target.checked)} className="w-4 h-4 accent-primary" />
                   <span className="text-sm font-bold uppercase tracking-widest text-primary-glow">Fixar postagem</span>
+                </label>
+                <label className="inline-flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" checked={form.featured} onChange={(e) => updateField("featured", e.target.checked)} className="w-4 h-4 accent-primary" />
+                  <span className="text-sm font-bold uppercase tracking-widest text-primary-glow">Destaque</span>
                 </label>
               </div>
             </div>
