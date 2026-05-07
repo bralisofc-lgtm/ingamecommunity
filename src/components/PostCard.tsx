@@ -55,9 +55,8 @@ const PostCard = ({ post, index = 0, isRecent = false, animate = true }: PostCar
           </p>
 
           <a
-            href={post.link || "#"}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={post.slug ? `/post/${post.slug}` : post.link || "#"}
+            {...(post.slug ? {} : { target: "_blank", rel: "noopener noreferrer" })}
             className="btn-glow inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full text-primary-foreground font-bold uppercase tracking-wider text-xs self-start"
           >
             Ler postagem

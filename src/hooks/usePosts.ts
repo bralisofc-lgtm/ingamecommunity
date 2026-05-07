@@ -12,9 +12,14 @@ export interface Post {
   author: string;
   pinned: boolean;
   position: number;
+  slug: string;
+  subtitle: string;
+  content: string;
+  featured: boolean;
 }
 
-const defaultPosts: Omit<Post, "id">[] = [
+const defaultPostBase = { slug: "", subtitle: "", content: "", featured: false };
+const defaultPosts: Omit<Post, "id">[] = ([
   {
     title: "Hollow Knight: Silksong finalmente chegou",
     tag: "Review",
@@ -54,7 +59,7 @@ const defaultPosts: Omit<Post, "id">[] = [
     pinned: false,
     position: 0,
   },
-];
+] as Omit<Post, "id" | keyof typeof defaultPostBase>[]).map((p) => ({ ...p, ...defaultPostBase }));
 
 async function fetchPosts(): Promise<Post[]> {
   const { data, error } = await supabase
@@ -79,6 +84,10 @@ async function fetchPosts(): Promise<Post[]> {
     author: p.author ?? "In Game",
     pinned: !!p.pinned,
     position: p.position ?? 0,
+    slug: p.slug ?? "",
+    subtitle: p.subtitle ?? "",
+    content: p.content ?? "",
+    featured: !!p.featured,
   }));
 }
 

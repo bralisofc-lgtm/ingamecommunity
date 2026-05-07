@@ -22,6 +22,10 @@ const postSchema = z.object({
   link: z.string().trim().max(2000).url({ message: "Link inválido." }).optional().or(z.literal("")),
   pinned: z.boolean(),
   position: z.number().int(),
+  slug: z.string().trim().max(160).optional().or(z.literal("")),
+  subtitle: z.string().trim().max(200).optional().or(z.literal("")),
+  content: z.string().max(50000).optional().or(z.literal("")),
+  featured: z.boolean(),
 });
 
 type FormState = Omit<Post, "id">;
@@ -37,6 +41,10 @@ const emptyForm: FormState = {
   link: "",
   pinned: false,
   position: 0,
+  slug: "",
+  subtitle: "",
+  content: "",
+  featured: false,
 };
 
 const Admin = () => {
@@ -71,6 +79,10 @@ const Admin = () => {
       link: p.link,
       pinned: p.pinned,
       position: p.position,
+      slug: p.slug || "",
+      subtitle: p.subtitle || "",
+      content: p.content || "",
+      featured: !!p.featured,
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -104,6 +116,10 @@ const Admin = () => {
       link: result.data.link ?? "",
       pinned: result.data.pinned,
       position: result.data.position,
+      slug: result.data.slug ?? "",
+      subtitle: result.data.subtitle ?? "",
+      content: result.data.content ?? "",
+      featured: result.data.featured,
     };
     try {
       if (editingId) {
@@ -263,9 +279,36 @@ const Admin = () => {
               </div>
 
               <div className="md:col-span-2">
+                <label className={labelClass}>Subtítulo (opcional)</label>
+                <input className={inputClass("subtitle")} value={form.subtitle} onChange={(e) => updateField("subtitle", e.target.value)} placeholder="Ex: Análise completa após 40 horas" maxLength={200} />
+              </div>
+
+              <div className="md:col-span-2">
+                <label className={labelClass}>Slug (URL)</label>
+                <input className={inputClass("slug")} value={form.slug} onChange={(e) => updateField("slug", e.target.value)} placeholder="deixe vazio para gerar automaticamente" maxLength={160} />
+                <p className="mt-1 text-[11px] text-muted-foreground">URL final: /post/{form.slug || "(gerado-do-titulo)"}</p>
+              </div>
+
+              <div className="md:col-span-2">
+                <label className={labelClass}>Conteúdo do artigo (Markdown)</label>
+                <textarea
+                  className={`${inputClass("content")} min-h-[280px] resize-y font-mono text-sm leading-relaxed`}
+                  value={form.content}
+                  onChange={(e) => updateField("content", e.target.value)}
+                  maxLength={50000}
+                  placeholder={`# Título\n\nParágrafo normal com **negrito** e *itálico*.\n\n![](https://link-da-imagem.jpg)\n\n" Esta é uma citação destacada "\n\n- item de lista\n- outro item`}
+                />
+                <p className="mt-1 text-[11px] text-muted-foreground">Use <code>![](url)</code> para imagens e <code>" texto "</code> para citações.</p>
+              </div>
+
+              <div className="md:col-span-2 flex flex-wrap gap-6">
                 <label className="inline-flex items-center gap-2 cursor-pointer">
                   <input type="checkbox" checked={form.pinned} onChange={(e) => updateField("pinned", e.target.checked)} className="w-4 h-4 accent-primary" />
                   <span className="text-sm font-bold uppercase tracking-widest text-primary-glow">Fixar postagem</span>
+                </label>
+                <label className="inline-flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" checked={form.featured} onChange={(e) => updateField("featured", e.target.checked)} className="w-4 h-4 accent-primary" />
+                  <span className="text-sm font-bold uppercase tracking-widest text-primary-glow">Destaque</span>
                 </label>
               </div>
             </div>

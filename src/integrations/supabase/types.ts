@@ -77,40 +77,52 @@ export type Database = {
       posts: {
         Row: {
           author: string
+          content: string
           created_at: string
           date: string
           description: string
+          featured: boolean
           id: string
           image: string
           link: string
           pinned: boolean
           position: number
+          slug: string | null
+          subtitle: string
           tag: string
           title: string
         }
         Insert: {
           author?: string
+          content?: string
           created_at?: string
           date?: string
           description?: string
+          featured?: boolean
           id?: string
           image?: string
           link?: string
           pinned?: boolean
           position?: number
+          slug?: string | null
+          subtitle?: string
           tag?: string
           title: string
         }
         Update: {
           author?: string
+          content?: string
           created_at?: string
           date?: string
           description?: string
+          featured?: boolean
           id?: string
           image?: string
           link?: string
           pinned?: boolean
           position?: number
+          slug?: string | null
+          subtitle?: string
           tag?: string
           title?: string
         }
@@ -176,6 +188,8 @@ export type Database = {
         }
         Returns: boolean
       }
+      slugify: { Args: { value: string }; Returns: string }
+      unaccent_safe: { Args: { value: string }; Returns: string }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
