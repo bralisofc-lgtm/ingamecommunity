@@ -21,9 +21,10 @@ export interface Post {
   review_summary: string;
   review_game_name: string;
   review_tech_info: Record<string, string>;
+  author_socials: string[];
 }
 
-const defaultPostBase = { slug: "", subtitle: "", content: "", featured: false, review_grade: "", review_note: "", review_summary: "", review_game_name: "", review_tech_info: {} as Record<string, string> };
+const defaultPostBase = { slug: "", subtitle: "", content: "", featured: false, review_grade: "", review_note: "", review_summary: "", review_game_name: "", review_tech_info: {} as Record<string, string>, author_socials: [] as string[] };
 const defaultPosts: Omit<Post, "id">[] = ([
   {
     title: "Hollow Knight: Silksong finalmente chegou",
