@@ -26,6 +26,8 @@ const postSchema = z.object({
   subtitle: z.string().trim().max(200).optional().or(z.literal("")),
   content: z.string().max(50000).optional().or(z.literal("")),
   featured: z.boolean(),
+  review_grade: z.string().trim().max(3).optional().or(z.literal("")),
+  review_note: z.string().trim().max(500).optional().or(z.literal("")),
 });
 
 type FormState = Omit<Post, "id">;
@@ -45,6 +47,8 @@ const emptyForm: FormState = {
   subtitle: "",
   content: "",
   featured: false,
+  review_grade: "",
+  review_note: "",
 };
 
 const Admin = () => {
