@@ -9,28 +9,55 @@ interface Props {
   children: ReactNode;
   title?: string;
   description?: string;
+  image?: string;
+  canonical?: string;
 }
 
 const YGP_URL = "https://yourgamerprofile.com/community/in-game";
 
-const SiteLayout = ({ children, title, description }: Props) => {
+const upsertMeta = (selector: string, attr: "name" | "property", key: string, value: string) => {
+  let el = document.head.querySelector<HTMLMetaElement>(selector);
+  if (!el) {
+    el = document.createElement("meta");
+    el.setAttribute(attr, key);
+    document.head.appendChild(el);
+  }
+  el.setAttribute("content", value);
+};
+
+const SiteLayout = ({ children, title, description, image, canonical }: Props) => {
   const { pathname } = useLocation();
   const isHome = pathname === "/";
   const [navbarVisible, setNavbarVisible] = useState(!isHome);
 
   useEffect(() => {
-    if (title) document.title = title;
+    if (title) {
+      document.title = title;
+      upsertMeta('meta[property="og:title"]', "property", "og:title", title);
+      upsertMeta('meta[name="twitter:title"]', "name", "twitter:title", title);
+    }
     if (description) {
-      let meta = document.querySelector('meta[name="description"]');
-      if (!meta) {
-        meta = document.createElement("meta");
-        meta.setAttribute("name", "description");
-        document.head.appendChild(meta);
+      upsertMeta('meta[name="description"]', "name", "description", description);
+      upsertMeta('meta[property="og:description"]', "property", "og:description", description);
+      upsertMeta('meta[name="twitter:description"]', "name", "twitter:description", description);
+    }
+    if (image) {
+      upsertMeta('meta[property="og:image"]', "property", "og:image", image);
+      upsertMeta('meta[name="twitter:image"]', "name", "twitter:image", image);
+      upsertMeta('meta[name="twitter:card"]', "name", "twitter:card", "summary_large_image");
+    }
+    if (canonical) {
+      upsertMeta('meta[property="og:url"]', "property", "og:url", canonical);
+      let link = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+      if (!link) {
+        link = document.createElement("link");
+        link.setAttribute("rel", "canonical");
+        document.head.appendChild(link);
       }
-      meta.setAttribute("content", description);
+      link.setAttribute("href", canonical);
     }
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
-  }, [title, description]);
+  }, [title, description, image, canonical]);
 
   useEffect(() => {
     if (!isHome) {
