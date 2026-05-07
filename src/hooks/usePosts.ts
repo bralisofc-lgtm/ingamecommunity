@@ -59,7 +59,7 @@ const defaultPosts: Omit<Post, "id">[] = ([
     pinned: false,
     position: 0,
   },
-];
+] as Omit<Post, "id" | keyof typeof defaultPostBase>[]).map((p) => ({ ...p, ...defaultPostBase }));
 
 async function fetchPosts(): Promise<Post[]> {
   const { data, error } = await supabase
