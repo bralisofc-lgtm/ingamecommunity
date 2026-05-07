@@ -379,7 +379,7 @@ const Admin = () => {
                     </div>
 
                     <div>
-                      <label className={labelClass}>Texto curto ao lado da nota (veredicto)</label>
+                      <label className={labelClass}>Texto curto ao lado da nota</label>
                       <textarea
                         className={`${inputClass("review_note")} min-h-[80px] resize-y`}
                         value={form.review_note}
