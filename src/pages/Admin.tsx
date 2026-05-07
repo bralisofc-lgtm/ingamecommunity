@@ -26,6 +26,8 @@ const postSchema = z.object({
   subtitle: z.string().trim().max(200).optional().or(z.literal("")),
   content: z.string().max(50000).optional().or(z.literal("")),
   featured: z.boolean(),
+  review_grade: z.string().trim().max(3).optional().or(z.literal("")),
+  review_note: z.string().trim().max(500).optional().or(z.literal("")),
 });
 
 type FormState = Omit<Post, "id">;
@@ -45,6 +47,8 @@ const emptyForm: FormState = {
   subtitle: "",
   content: "",
   featured: false,
+  review_grade: "",
+  review_note: "",
 };
 
 const Admin = () => {
@@ -83,6 +87,8 @@ const Admin = () => {
       subtitle: p.subtitle || "",
       content: p.content || "",
       featured: !!p.featured,
+      review_grade: p.review_grade || "",
+      review_note: p.review_note || "",
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -120,6 +126,8 @@ const Admin = () => {
       subtitle: result.data.subtitle ?? "",
       content: result.data.content ?? "",
       featured: result.data.featured,
+      review_grade: (result.data.review_grade ?? "").toUpperCase(),
+      review_note: result.data.review_note ?? "",
     };
     try {
       if (editingId) {
@@ -300,6 +308,35 @@ const Admin = () => {
                 />
                 <p className="mt-1 text-[11px] text-muted-foreground">Use <code>![](url)</code> para imagens e <code>" texto "</code> para citações.</p>
               </div>
+
+              {form.tag === "Review" && (
+                <>
+                  <div>
+                    <label className={labelClass}>Classificação (Review)</label>
+                    <select
+                      className={inputClass("review_grade")}
+                      value={form.review_grade}
+                      onChange={(e) => updateField("review_grade", e.target.value)}
+                    >
+                      <option value="">— sem classificação —</option>
+                      {["S+","S","S-","A+","A","A-","B+","B","B-","C+","C","C-","D+","D","D-"].map(g => (
+                        <option key={g} value={g}>{g}</option>
+                      ))}
+                    </select>
+                    <p className="mt-1 text-[11px] text-muted-foreground">Aparece apenas em posts da categoria Review.</p>
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className={labelClass}>Texto explicativo da nota</label>
+                    <textarea
+                      className={`${inputClass("review_note")} min-h-[90px] resize-y`}
+                      value={form.review_note}
+                      onChange={(e) => updateField("review_note", e.target.value)}
+                      maxLength={500}
+                      placeholder="Ex: Uma experiência excelente, com pequenos pontos que impedem de alcançar o topo absoluto."
+                    />
+                  </div>
+                </>
+              )}
 
               <div className="md:col-span-2 flex flex-wrap gap-6">
                 <label className="inline-flex items-center gap-2 cursor-pointer">

@@ -87,6 +87,8 @@ export type Database = {
           link: string
           pinned: boolean
           position: number
+          review_grade: string
+          review_note: string
           slug: string | null
           subtitle: string
           tag: string
@@ -104,6 +106,8 @@ export type Database = {
           link?: string
           pinned?: boolean
           position?: number
+          review_grade?: string
+          review_note?: string
           slug?: string | null
           subtitle?: string
           tag?: string
@@ -121,6 +125,8 @@ export type Database = {
           link?: string
           pinned?: boolean
           position?: number
+          review_grade?: string
+          review_note?: string
           slug?: string | null
           subtitle?: string
           tag?: string

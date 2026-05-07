@@ -16,8 +16,24 @@ type Block =
   | { type: "h"; level: 1 | 2 | 3; text: string }
   | { type: "p"; text: string }
   | { type: "img"; src: string; alt: string }
+  | { type: "video"; src: string }
   | { type: "quote"; text: string }
   | { type: "ul"; items: string[] };
+
+function toEmbedUrl(raw: string): string | null {
+  const url = raw.trim();
+  // YouTube
+  const yt = url.match(
+    /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{6,})/
+  );
+  if (yt) return `https://www.youtube.com/embed/${yt[1]}`;
+  // Vimeo
+  const vm = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  if (vm) return `https://player.vimeo.com/video/${vm[1]}`;
+  // Generic embed (already an embed URL)
+  if (/^https?:\/\/.+\/embed\//.test(url)) return url;
+  return null;
+}
 
 function inline(raw: string): string {
   // ordem importa
@@ -51,6 +67,25 @@ function parse(md: string): Block[] {
     if (!trimmed) {
       i++;
       continue;
+    }
+
+    // video: @[video](url) or @[youtube](url) or bare youtube/vimeo URL on its own line
+    const vid = trimmed.match(/^@\[(?:video|youtube|vimeo)\]\(([^)\s]+)\)$/i);
+    if (vid) {
+      const embed = toEmbedUrl(vid[1]);
+      if (embed) {
+        blocks.push({ type: "video", src: embed });
+        i++;
+        continue;
+      }
+    }
+    if (/^https?:\/\/\S+$/.test(trimmed)) {
+      const embed = toEmbedUrl(trimmed);
+      if (embed) {
+        blocks.push({ type: "video", src: embed });
+        i++;
+        continue;
+      }
     }
 
     // image: ![alt](url)
@@ -96,6 +131,8 @@ function parse(md: string): Block[] {
       lines[i].trim() &&
       !/^(#{1,3})\s/.test(lines[i].trim()) &&
       !/^!\[/.test(lines[i].trim()) &&
+      !/^@\[/.test(lines[i].trim()) &&
+      !/^https?:\/\/\S+$/.test(lines[i].trim()) &&
       !/^[-*]\s+/.test(lines[i].trim()) &&
       !isQuoteLine(lines[i].trim())
     ) {
@@ -145,13 +182,27 @@ const MarkdownRenderer = ({ content }: { content: string }) => {
             );
           case "img":
             return (
-              <figure key={idx} className="my-8 flex justify-center">
+              <figure key={idx} className="my-8 -mx-4 sm:mx-0 sm:flex sm:justify-center">
                 <img
                   src={b.src}
                   alt={b.alt}
                   loading="lazy"
-                  className="w-full max-w-3xl rounded-2xl border border-primary/20 shadow-[0_20px_60px_-20px_hsl(var(--primary)/0.6)]"
+                  className="w-full sm:max-w-3xl sm:rounded-2xl rounded-lg border border-primary/20 shadow-[0_20px_60px_-20px_hsl(var(--primary)/0.6)]"
                 />
+              </figure>
+            );
+          case "video":
+            return (
+              <figure key={idx} className="my-8 -mx-4 sm:mx-0 sm:max-w-3xl sm:mx-auto animate-fade-in">
+                <div className="video-embed-wrap sm:rounded-2xl rounded-lg">
+                  <iframe
+                    src={b.src}
+                    title="Vídeo"
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                </div>
               </figure>
             );
           case "quote":

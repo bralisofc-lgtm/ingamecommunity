@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import SiteLayout from "@/components/SiteLayout";
 import MarkdownRenderer from "@/components/post/MarkdownRenderer";
 import ReadMore from "@/components/post/ReadMore";
+import ReviewBadge from "@/components/post/ReviewBadge";
 import { usePosts } from "@/hooks/usePosts";
 
 const formatDate = (iso: string) => {
@@ -109,13 +110,17 @@ const PostPage = () => {
       </section>
 
       {/* Corpo do artigo */}
-      <article className="relative px-4 pb-20 -mt-10 md:-mt-16">
+      <article className="relative px-3 sm:px-4 pb-20 -mt-10 md:-mt-16">
         <div className="container mx-auto max-w-3xl">
-          <div className="indie-card p-6 md:p-12 animate-fade-up">
+          <div className="indie-card p-4 sm:p-6 md:p-12 animate-fade-up">
             {post.description && (
               <p className="text-lg md:text-xl text-foreground/80 italic leading-relaxed mb-8 pb-8 border-b border-primary/15">
                 {post.description}
               </p>
+            )}
+
+            {post.tag === "Review" && post.review_grade && (
+              <ReviewBadge grade={post.review_grade} note={post.review_note} />
             )}
 
             {post.content ? (
