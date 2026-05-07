@@ -31,6 +31,7 @@ const postSchema = z.object({
   review_summary: z.string().trim().max(800).optional().or(z.literal("")),
   review_game_name: z.string().trim().max(160).optional().or(z.literal("")),
   review_tech_info: z.record(z.string(), z.string()).optional(),
+  author_socials: z.array(z.string().trim().max(2000)).max(3).optional(),
 });
 
 type FormState = Omit<Post, "id">;
