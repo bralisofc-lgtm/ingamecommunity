@@ -89,10 +89,14 @@ const PostPage = () => {
     );
   }
 
+  const shareUrl = `https://ingamecommunity.site/${post.slug}`;
+
   return (
     <SiteLayout
       title={`${post.title} — In Game`}
       description={post.description || post.subtitle || `Postagem de ${post.author}`}
+      image={post.image}
+      canonical={shareUrl}
     >
       {/* Hero cinematográfico */}
       <section className="relative w-full h-[58vh] md:h-[70vh] min-h-[380px] md:min-h-[460px] overflow-hidden">
