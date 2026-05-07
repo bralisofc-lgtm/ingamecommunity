@@ -3,6 +3,7 @@ import { Pin } from "lucide-react";
 import type { Post } from "@/hooks/usePosts";
 import { TAB_GROUPS, type TabGroupId } from "@/lib/tags";
 import Reveal from "@/components/Reveal";
+import MobilePostsCarousel from "@/components/MobilePostsCarousel";
 
 interface Props {
   posts: Post[];
