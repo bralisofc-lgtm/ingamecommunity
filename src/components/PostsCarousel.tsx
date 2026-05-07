@@ -159,34 +159,41 @@ const PostsCarousel = ({ posts, excludeIds = [] }: Props) => {
           <div className="indie-card p-10 text-center text-muted-foreground">
             Nenhuma postagem nesta categoria ainda.
           </div>
-        ) : isMarquee ? (
-          // Carrossel automático infinito
-          <div
-            className="relative overflow-hidden"
-            style={{
-              maskImage:
-                "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
-              WebkitMaskImage:
-                "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
-            }}
-          >
-            <div className="flex gap-6 w-max animate-marquee">
-              {marqueeItems.map((post, i) => (
-                <div
-                  key={`${post.id}-${i}`}
-                  className="w-[280px] sm:w-[320px] md:w-[360px] shrink-0"
-                >
-                  <PostCardMini post={post} />
-                </div>
-              ))}
-            </div>
-          </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredPosts.map((post) => (
-              <PostCardMini key={post.id} post={post} />
-            ))}
-          </div>
+          <>
+            {/* MOBILE — carrossel premium estilo Steam/Netflix */}
+            <MobilePostsCarousel posts={isMarquee ? sortedGroup : filteredPosts} />
+
+            {/* DESKTOP/TABLET */}
+            {isMarquee ? (
+              <div
+                className="relative overflow-hidden hidden md:block"
+                style={{
+                  maskImage:
+                    "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
+                  WebkitMaskImage:
+                    "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
+                }}
+              >
+                <div className="flex gap-6 w-max animate-marquee">
+                  {marqueeItems.map((post, i) => (
+                    <div
+                      key={`${post.id}-${i}`}
+                      className="w-[280px] sm:w-[320px] md:w-[360px] shrink-0"
+                    >
+                      <PostCardMini post={post} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredPosts.map((post) => (
+                  <PostCardMini key={post.id} post={post} />
+                ))}
+              </div>
+            )}
+          </>
         )}
       </div>
     </section>
