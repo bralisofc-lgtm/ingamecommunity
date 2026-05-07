@@ -338,7 +338,7 @@ const Admin = () => {
                   <div className="md:col-span-2 mt-2 p-5 rounded-2xl border border-primary/30 bg-primary/5 space-y-5">
                     <div className="flex items-center gap-3">
                       <span className="inline-block w-2 h-2 rounded-full bg-primary-glow shadow-[0_0_10px_hsl(var(--primary-glow))]" />
-                      <h3 className="text-sm font-black uppercase tracking-[0.25em] text-primary-glow">Bloco de veredicto da Review</h3>
+                      <h3 className="text-sm font-black uppercase tracking-[0.25em] text-primary-glow">Bloco de Nota Final da Review</h3>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -379,7 +379,7 @@ const Admin = () => {
                     </div>
 
                     <div>
-                      <label className={labelClass}>Texto curto ao lado da nota (veredicto)</label>
+                      <label className={labelClass}>Texto curto ao lado da nota</label>
                       <textarea
                         className={`${inputClass("review_note")} min-h-[80px] resize-y`}
                         value={form.review_note}
