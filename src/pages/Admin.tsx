@@ -155,6 +155,7 @@ const Admin = () => {
       review_summary: result.data.review_summary ?? "",
       review_game_name: result.data.review_game_name ?? "",
       review_tech_info: (result.data.review_tech_info ?? {}) as Record<string, string>,
+      author_socials: (result.data.author_socials ?? []).map((s) => s.trim()).filter(Boolean).slice(0, 3),
     };
     try {
       if (editingId) {
