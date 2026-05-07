@@ -44,7 +44,7 @@ const ReviewBadge = ({ grade, note }: Props) => {
     <aside
       // SEM animações de entrada / hover no container
       className={`relative my-10 rounded-2xl border ${borderColor} bg-[hsl(270_45%_7%)] overflow-hidden`}
-      aria-label={`Classificação da review: ${g}`}
+      aria-label={`Nota final: ${g}`}
     >
       <div className="flex flex-col md:flex-row items-stretch">
         {/* Selo da nota */}
