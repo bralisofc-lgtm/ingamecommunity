@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import SiteLayout from "@/components/SiteLayout";
 import MarkdownRenderer from "@/components/post/MarkdownRenderer";
 import ReadMore from "@/components/post/ReadMore";
+import ReviewBadge from "@/components/post/ReviewBadge";
 import { usePosts } from "@/hooks/usePosts";
 
 const formatDate = (iso: string) => {
