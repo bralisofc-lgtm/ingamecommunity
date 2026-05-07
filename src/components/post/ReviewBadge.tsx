@@ -75,10 +75,10 @@ const ReviewBadge = ({ grade, note }: Props) => {
         {/* Texto explicativo */}
         <div className="flex-1 px-6 md:px-8 py-6 md:py-8 flex flex-col justify-center">
           <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-glow mb-2">
-            Veredicto
+            Nota Final
           </p>
           <p className="text-base md:text-lg text-white/90 leading-relaxed">
-            {note?.trim() || "Confira o veredicto completo desta análise."}
+            {note?.trim() || "Confira a nota completa desta análise."}
           </p>
         </div>
       </div>
