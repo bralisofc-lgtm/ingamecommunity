@@ -112,6 +112,7 @@ const Admin = () => {
       review_summary: p.review_summary || "",
       review_game_name: p.review_game_name || "",
       review_tech_info: p.review_tech_info || {},
+      author_socials: Array.isArray(p.author_socials) ? p.author_socials : [],
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
