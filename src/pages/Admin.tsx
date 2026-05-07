@@ -107,6 +107,9 @@ const Admin = () => {
       featured: !!p.featured,
       review_grade: p.review_grade || "",
       review_note: p.review_note || "",
+      review_summary: p.review_summary || "",
+      review_game_name: p.review_game_name || "",
+      review_tech_info: p.review_tech_info || {},
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
