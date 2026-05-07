@@ -4,6 +4,7 @@ import SiteLayout from "@/components/SiteLayout";
 import MarkdownRenderer from "@/components/post/MarkdownRenderer";
 import ReadMore from "@/components/post/ReadMore";
 import ReviewVerdict from "@/components/post/ReviewVerdict";
+import AuthorSocials from "@/components/post/AuthorSocials";
 import { usePosts, type Post } from "@/hooks/usePosts";
 
 const formatDate = (iso: string) => {
