@@ -185,7 +185,7 @@ const PostPage = () => {
             </footer>
           </div>
 
-          {/* Veredicto Final — bloco SEPARADO, fora do artigo */}
+          {/* Nota Final — bloco SEPARADO, fora do artigo */}
           {post.tag === "Review" && (post.review_grade || post.review_summary || post.review_game_name || (post.review_tech_info && Object.keys(post.review_tech_info).length > 0)) && (
             <ReviewVerdict
               grade={post.review_grade}
