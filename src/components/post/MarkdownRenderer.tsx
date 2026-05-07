@@ -149,7 +149,7 @@ const MarkdownRenderer = ({ content }: { content: string }) => {
   const blocks = useMemo(() => parse(content || ""), [content]);
 
   return (
-    <div className="space-y-6 text-foreground/90 text-[17px] leading-[1.8]">
+    <div className="space-y-7 text-foreground/90 text-[18px] md:text-[19px] leading-[1.85] md:leading-[1.9] [&_strong]:text-white [&_strong]:font-bold [&_a]:decoration-primary-glow/60 [&_a]:underline [&_a]:underline-offset-[6px] [&_a]:decoration-1">
       {blocks.map((b, idx) => {
         switch (b.type) {
           case "h":
