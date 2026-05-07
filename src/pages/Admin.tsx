@@ -28,10 +28,25 @@ const postSchema = z.object({
   featured: z.boolean(),
   review_grade: z.string().trim().max(3).optional().or(z.literal("")),
   review_note: z.string().trim().max(500).optional().or(z.literal("")),
+  review_summary: z.string().trim().max(800).optional().or(z.literal("")),
+  review_game_name: z.string().trim().max(160).optional().or(z.literal("")),
+  review_tech_info: z.record(z.string(), z.string()).optional(),
 });
 
 type FormState = Omit<Post, "id">;
 type FieldErrors = Partial<Record<keyof FormState, string>>;
+
+const TECH_FIELDS: { key: string; label: string }[] = [
+  { key: "publisher", label: "Publisher" },
+  { key: "developer", label: "Desenvolvedora" },
+  { key: "platforms", label: "Plataformas" },
+  { key: "release_date", label: "Data de lançamento" },
+  { key: "play_time", label: "Tempo jogado/review" },
+  { key: "category", label: "Categoria" },
+  { key: "status", label: "Status" },
+  { key: "engine", label: "Engine" },
+  { key: "mode", label: "Multi/Singleplayer" },
+];
 
 const emptyForm: FormState = {
   title: "",
@@ -49,6 +64,9 @@ const emptyForm: FormState = {
   featured: false,
   review_grade: "",
   review_note: "",
+  review_summary: "",
+  review_game_name: "",
+  review_tech_info: {},
 };
 
 const Admin = () => {
