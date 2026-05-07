@@ -272,7 +272,8 @@
   to { transform: translateX(-50%); }
 }
 .animate-marquee { animation: marquee-x 40s linear infinite; }
-.animate-marquee:hover { animation-play-state: paused; }
+.animate-marquee-slow { animation: marquee-x 80s linear infinite; }
+.animate-marquee:hover, .animate-marquee-slow:hover { animation-play-state: paused; }
 
 @keyframes logo-float {
   0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 35px hsl(var(--primary-glow) / 0.35)); }

@@ -41,7 +41,7 @@ function inline(raw: string): string {
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
-  // links
+  // links com texto
   s = s.replace(
     /\[([^\]]+)\]\(([^)\s]+)\)/g,
     '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-primary-glow underline-offset-4 hover:underline">$1</a>'
@@ -69,10 +69,19 @@ function parse(md: string): Block[] {
       continue;
     }
 
-    // video: @[video](url) or @[youtube](url) or bare youtube/vimeo URL on its own line
+    // video: @[video](url) or @[youtube](url) or [](url) or bare URL
     const vid = trimmed.match(/^@\[(?:video|youtube|vimeo)\]\(([^)\s]+)\)$/i);
     if (vid) {
       const embed = toEmbedUrl(vid[1]);
+      if (embed) {
+        blocks.push({ type: "video", src: embed });
+        i++;
+        continue;
+      }
+    }
+    const emptyLink = trimmed.match(/^\[\s*\]\(([^)\s]+)\)$/);
+    if (emptyLink) {
+      const embed = toEmbedUrl(emptyLink[1]);
       if (embed) {
         blocks.push({ type: "video", src: embed });
         i++;
@@ -132,6 +141,7 @@ function parse(md: string): Block[] {
       !/^(#{1,3})\s/.test(lines[i].trim()) &&
       !/^!\[/.test(lines[i].trim()) &&
       !/^@\[/.test(lines[i].trim()) &&
+      !/^\[\s*\]\(/.test(lines[i].trim()) &&
       !/^https?:\/\/\S+$/.test(lines[i].trim()) &&
       !/^[-*]\s+/.test(lines[i].trim()) &&
       !isQuoteLine(lines[i].trim())
@@ -187,14 +197,14 @@ const MarkdownRenderer = ({ content }: { content: string }) => {
                   src={b.src}
                   alt={b.alt}
                   loading="lazy"
-                  className="w-full sm:max-w-3xl sm:rounded-2xl rounded-lg border border-primary/20 shadow-[0_20px_60px_-20px_hsl(var(--primary)/0.6)]"
+                  className="w-full sm:max-w-3xl sm:rounded-2xl border border-primary/20 shadow-[0_20px_60px_-20px_hsl(var(--primary)/0.6)]"
                 />
               </figure>
             );
           case "video":
             return (
               <figure key={idx} className="my-8 -mx-4 sm:mx-0 sm:max-w-3xl sm:mx-auto animate-fade-in">
-                <div className="video-embed-wrap sm:rounded-2xl rounded-lg">
+                <div className="video-embed-wrap sm:rounded-2xl">
                   <iframe
                     src={b.src}
                     title="Vídeo"

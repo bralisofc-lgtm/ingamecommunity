@@ -95,7 +95,7 @@ const PostPage = () => {
       description={post.description || post.subtitle || `Postagem de ${post.author}`}
     >
       {/* Hero cinematográfico */}
-      <section className="relative w-full h-[70vh] min-h-[460px] overflow-hidden">
+      <section className="relative w-full h-[58vh] md:h-[70vh] min-h-[380px] md:min-h-[460px] overflow-hidden">
         {post.image ? (
           <img
             src={post.image}
@@ -109,19 +109,30 @@ const PostPage = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-transparent to-background" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,hsl(var(--background))_95%)]" />
 
-        <div className="relative z-10 h-full flex items-center justify-center px-4">
+        <div className="relative z-10 h-full flex items-end md:items-center justify-center px-4 pb-8 md:pb-0">
           <div className="max-w-4xl w-full text-center animate-fade-up">
             {post.tag && (
-              <span className="inline-block mb-5 px-4 py-1.5 text-[10px] md:text-xs font-black uppercase tracking-[0.25em] rounded-full bg-primary/90 text-primary-foreground border border-primary-glow shadow-[0_0_24px_hsl(var(--primary-glow)/0.7)]">
+              <span className="inline-block mb-4 px-3.5 py-1 text-[10px] md:text-xs font-black uppercase tracking-[0.25em] rounded-full bg-primary/90 text-primary-foreground border border-primary-glow shadow-[0_0_24px_hsl(var(--primary-glow)/0.7)]">
                 {post.tag}
               </span>
             )}
-            <div className="inline-block px-6 md:px-10 py-5 md:py-7 rounded-3xl bg-black/55 backdrop-blur-md border border-white/10 shadow-[0_20px_60px_-20px_hsl(var(--primary)/0.6)]">
-              <h1 className="text-3xl md:text-5xl lg:text-6xl font-black leading-tight text-white drop-shadow-[0_2px_12px_hsl(270_90%_5%/0.9)]">
+            {/* Mobile: título limpo sem caixa. Desktop: caixa premium */}
+            <div className="md:hidden">
+              <h1 className="text-[26px] sm:text-3xl font-black leading-[1.15] text-white drop-shadow-[0_2px_12px_hsl(270_90%_5%/0.95)] px-2">
                 {post.title}
               </h1>
               {post.subtitle && (
-                <p className="mt-4 text-base md:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
+                <p className="mt-3 text-sm text-white/80 leading-relaxed px-3">
+                  {post.subtitle}
+                </p>
+              )}
+            </div>
+            <div className="hidden md:inline-block px-10 py-7 rounded-3xl bg-black/55 backdrop-blur-md border border-white/10 shadow-[0_20px_60px_-20px_hsl(var(--primary)/0.6)]">
+              <h1 className="text-5xl lg:text-6xl font-black leading-tight text-white drop-shadow-[0_2px_12px_hsl(270_90%_5%/0.9)]">
+                {post.title}
+              </h1>
+              {post.subtitle && (
+                <p className="mt-4 text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
                   {post.subtitle}
                 </p>
               )}
@@ -131,11 +142,12 @@ const PostPage = () => {
       </section>
 
       {/* Corpo do artigo — editorial premium */}
-      <article className="relative px-3 sm:px-4 pb-10 -mt-10 md:-mt-16">
+      <article className="relative px-4 sm:px-4 pb-10 mt-6 md:-mt-16">
         <div className="container mx-auto max-w-3xl">
-          <div className="indie-card p-4 sm:p-8 md:p-14 animate-fade-up">
+          {/* Mobile: sem card/borda — leitura editorial pura. Desktop: card premium */}
+          <div className="md:indie-card md:p-14 animate-fade-up">
             {post.description && (
-              <p className="text-xl md:text-2xl text-foreground/85 italic leading-relaxed mb-10 pb-8 border-b border-primary/15">
+              <p className="text-lg md:text-2xl text-foreground/85 italic leading-relaxed mb-8 md:mb-10 pb-6 md:pb-8 border-b border-primary/15">
                 {post.description}
               </p>
             )}
@@ -146,16 +158,6 @@ const PostPage = () => {
               <p className="text-muted-foreground italic">
                 Esta postagem ainda não tem conteúdo escrito.
               </p>
-            )}
-
-            {post.tag === "Review" && (post.review_grade || post.review_summary || post.review_game_name || (post.review_tech_info && Object.keys(post.review_tech_info).length > 0)) && (
-              <ReviewVerdict
-                grade={post.review_grade}
-                note={post.review_note}
-                summary={post.review_summary}
-                gameName={post.review_game_name}
-                techInfo={post.review_tech_info}
-              />
             )}
 
             {post.link && (
@@ -182,6 +184,17 @@ const PostPage = () => {
               )}
             </footer>
           </div>
+
+          {/* Veredicto Final — bloco SEPARADO, fora do artigo */}
+          {post.tag === "Review" && (post.review_grade || post.review_summary || post.review_game_name || (post.review_tech_info && Object.keys(post.review_tech_info).length > 0)) && (
+            <ReviewVerdict
+              grade={post.review_grade}
+              note={post.review_note}
+              summary={post.review_summary}
+              gameName={post.review_game_name}
+              techInfo={post.review_tech_info}
+            />
+          )}
         </div>
       </article>
 
