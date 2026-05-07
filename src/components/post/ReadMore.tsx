@@ -12,20 +12,18 @@ const ReadMore = ({ posts }: Props) => {
   if (posts.length === 0) return null;
 
   return (
-    <section className="relative mt-20 pt-14 border-t border-primary/20">
-      <div className="flex items-center gap-4 mb-8">
-        <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-primary/15 border border-primary/40 text-primary-glow">
-          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </span>
-        <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary-glow">Continue lendo</p>
-          <h2 className="text-2xl md:text-3xl font-black">
-            Leia <span className="text-gradient">mais</span>
-          </h2>
-        </div>
-        <div className="flex-1 h-px bg-gradient-to-r from-primary/50 via-primary/20 to-transparent" />
+    <section className="relative">
+      <div className="text-center mb-10 md:mb-14">
+        <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.4em] text-primary-glow mb-3">
+          Hub de descoberta
+        </p>
+        <h2 className="text-3xl md:text-5xl font-black tracking-tight">
+          Continue <span className="text-gradient">explorando</span>
+        </h2>
+        <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-xl mx-auto">
+          Uma seleção variada de conteúdos para você navegar pelo universo In Game.
+        </p>
+        <div className="mt-6 mx-auto h-px w-24 bg-gradient-to-r from-transparent via-primary-glow to-transparent" />
       </div>
 
       {/* MOBILE: lista editorial minimalista, com emoji e SEM imagem */}
