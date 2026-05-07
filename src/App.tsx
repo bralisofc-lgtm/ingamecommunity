@@ -38,6 +38,8 @@ const App = () => (
               </RequireAdmin>
             }
           />
+          {/* Compartilhamento curto: ingamecommunity.site/nome-do-post */}
+          <Route path="/:slug" element={<PostPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

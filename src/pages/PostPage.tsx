@@ -89,10 +89,14 @@ const PostPage = () => {
     );
   }
 
+  const shareUrl = `https://ingamecommunity.site/${post.slug}`;
+
   return (
     <SiteLayout
       title={`${post.title} — In Game`}
       description={post.description || post.subtitle || `Postagem de ${post.author}`}
+      image={post.image}
+      canonical={shareUrl}
     >
       {/* Hero cinematográfico */}
       <section className="relative w-full h-[58vh] md:h-[70vh] min-h-[380px] md:min-h-[460px] overflow-hidden">
@@ -207,7 +211,7 @@ const PostPage = () => {
                   </svg>
                 </a>
                 <a
-                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(typeof window !== "undefined" ? window.location.href : "")}`}
+                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(shareUrl)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Compartilhar no X"
