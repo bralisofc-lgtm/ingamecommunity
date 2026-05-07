@@ -12,6 +12,10 @@ export interface Post {
   author: string;
   pinned: boolean;
   position: number;
+  slug: string;
+  subtitle: string;
+  content: string;
+  featured: boolean;
 }
 
 const defaultPosts: Omit<Post, "id">[] = [
