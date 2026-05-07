@@ -95,6 +95,9 @@ async function fetchPosts(): Promise<Post[]> {
     featured: !!p.featured,
     review_grade: p.review_grade ?? "",
     review_note: p.review_note ?? "",
+    review_summary: (p as any).review_summary ?? "",
+    review_game_name: (p as any).review_game_name ?? "",
+    review_tech_info: ((p as any).review_tech_info ?? {}) as Record<string, string>,
   }));
 }
 
