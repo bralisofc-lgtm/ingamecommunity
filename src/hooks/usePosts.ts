@@ -18,9 +18,12 @@ export interface Post {
   featured: boolean;
   review_grade: string;
   review_note: string;
+  review_summary: string;
+  review_game_name: string;
+  review_tech_info: Record<string, string>;
 }
 
-const defaultPostBase = { slug: "", subtitle: "", content: "", featured: false, review_grade: "", review_note: "" };
+const defaultPostBase = { slug: "", subtitle: "", content: "", featured: false, review_grade: "", review_note: "", review_summary: "", review_game_name: "", review_tech_info: {} as Record<string, string> };
 const defaultPosts: Omit<Post, "id">[] = ([
   {
     title: "Hollow Knight: Silksong finalmente chegou",
