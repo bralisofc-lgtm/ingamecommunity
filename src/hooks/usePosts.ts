@@ -83,6 +83,10 @@ async function fetchPosts(): Promise<Post[]> {
     author: p.author ?? "In Game",
     pinned: !!p.pinned,
     position: p.position ?? 0,
+    slug: p.slug ?? "",
+    subtitle: p.subtitle ?? "",
+    content: p.content ?? "",
+    featured: !!p.featured,
   }));
 }
 
