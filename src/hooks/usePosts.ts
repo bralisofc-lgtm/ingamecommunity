@@ -16,9 +16,11 @@ export interface Post {
   subtitle: string;
   content: string;
   featured: boolean;
+  review_grade: string;
+  review_note: string;
 }
 
-const defaultPostBase = { slug: "", subtitle: "", content: "", featured: false };
+const defaultPostBase = { slug: "", subtitle: "", content: "", featured: false, review_grade: "", review_note: "" };
 const defaultPosts: Omit<Post, "id">[] = ([
   {
     title: "Hollow Knight: Silksong finalmente chegou",
