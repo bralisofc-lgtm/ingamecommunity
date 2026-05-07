@@ -141,6 +141,7 @@ function parse(md: string): Block[] {
       !/^(#{1,3})\s/.test(lines[i].trim()) &&
       !/^!\[/.test(lines[i].trim()) &&
       !/^@\[/.test(lines[i].trim()) &&
+      !/^\[\s*\]\(/.test(lines[i].trim()) &&
       !/^https?:\/\/\S+$/.test(lines[i].trim()) &&
       !/^[-*]\s+/.test(lines[i].trim()) &&
       !isQuoteLine(lines[i].trim())
