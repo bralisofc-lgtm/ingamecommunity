@@ -68,9 +68,8 @@ const RecentHighlights = ({ posts }: Props) => {
                 </span>
 
                 <a
-                  href={p.link || "#"}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={p.slug ? `/post/${p.slug}` : p.link || "#"}
+                  {...(p.slug ? {} : { target: "_blank", rel: "noopener noreferrer" })}
                   className="group relative block rounded-2xl overflow-hidden border border-white/15 bg-black/30 backdrop-blur-sm shadow-[0_10px_40px_-10px_hsl(270_90%_10%/0.7)] hover:border-white/40 hover:-translate-y-1 transition-all duration-500 h-full"
                 >
                   <div className="relative aspect-[16/10] overflow-hidden">
