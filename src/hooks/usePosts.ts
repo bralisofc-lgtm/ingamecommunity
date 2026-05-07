@@ -90,6 +90,8 @@ async function fetchPosts(): Promise<Post[]> {
     subtitle: p.subtitle ?? "",
     content: p.content ?? "",
     featured: !!p.featured,
+    review_grade: p.review_grade ?? "",
+    review_note: p.review_note ?? "",
   }));
 }
 
