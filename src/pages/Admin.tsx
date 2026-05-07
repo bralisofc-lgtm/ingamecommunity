@@ -126,6 +126,8 @@ const Admin = () => {
       subtitle: result.data.subtitle ?? "",
       content: result.data.content ?? "",
       featured: result.data.featured,
+      review_grade: (result.data.review_grade ?? "").toUpperCase(),
+      review_note: result.data.review_note ?? "",
     };
     try {
       if (editingId) {
