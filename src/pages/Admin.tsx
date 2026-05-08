@@ -338,10 +338,6 @@ const Admin = () => {
                 {errors.link && <p className={errorClass}>{errors.link}</p>}
               </div>
 
-              <div className="md:col-span-2">
-                <label className={labelClass}>Subtítulo (opcional)</label>
-                <input className={inputClass("subtitle")} value={form.subtitle} onChange={(e) => updateField("subtitle", e.target.value)} placeholder="Ex: Análise completa após 40 horas" maxLength={200} />
-              </div>
 
               <div className="md:col-span-2">
                 <label className={labelClass}>Slug (URL)</label>
