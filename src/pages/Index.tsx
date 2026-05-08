@@ -64,7 +64,7 @@ const Index = () => {
 
         {/* Content */}
         <div className="relative z-10 w-full container mx-auto px-6 md:px-10 flex justify-center">
-          <div className="w-full max-w-3xl mx-auto text-center flex flex-col items-center animate-fade-up">
+          <div className="w-full max-w-3xl mx-auto text-center flex flex-col items-center">
             {/* Logo art — integrada como parte da paisagem */}
             <h1 className="relative mb-3 md:mb-5 flex justify-center w-full max-w-[820px] aspect-[909/469]">
               <span className="sr-only">In Game</span>
@@ -82,7 +82,7 @@ const Index = () => {
             </h1>
 
             {/* Botões integrados como tótens da paisagem */}
-            <div className="flex flex-wrap gap-4 justify-center animate-buttons-rise">
+            <div className="flex flex-wrap gap-4 justify-center">
               <a
                 href="https://yourgamerprofile.com/community/in-game"
                 target="_blank"

@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import type { Post } from "@/hooks/usePosts";
-import { pickPostEmoji } from "@/lib/postEmoji";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface Props {
@@ -26,37 +25,26 @@ const ReadMore = ({ posts }: Props) => {
         <div className="mt-6 mx-auto h-px w-24 bg-gradient-to-r from-transparent via-primary-glow to-transparent" />
       </div>
 
-      {/* MOBILE: lista editorial minimalista, com emoji e SEM imagem */}
+      {/* MOBILE: lista editorial minimalista, apenas título e descrição */}
       {isMobile ? (
         <ul className="divide-y divide-primary/10 rounded-2xl border border-primary/15 bg-card/40 overflow-hidden">
-          {posts.map((p) => {
-            const emoji = pickPostEmoji({ title: p.title, tag: p.tag, description: p.description });
-            return (
-              <li key={p.id}>
-                <Link
-                  to={`/post/${p.slug}`}
-                  className="flex items-start gap-3 px-4 py-4 active:bg-primary/10 transition-colors"
-                >
-                  <span
-                    aria-hidden
-                    className="text-2xl leading-none mt-0.5 select-none drop-shadow-[0_0_10px_hsl(var(--primary-glow)/0.45)]"
-                  >
-                    {emoji}
-                  </span>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-[15px] font-bold leading-snug text-foreground line-clamp-2">
-                      {p.title}
-                    </h3>
-                    {p.description && (
-                      <p className="mt-1 text-[13px] text-muted-foreground leading-relaxed line-clamp-2">
-                        {p.description}
-                      </p>
-                    )}
-                  </div>
-                </Link>
-              </li>
-            );
-          })}
+          {posts.map((p) => (
+            <li key={p.id}>
+              <Link
+                to={`/post/${p.slug}`}
+                className="block px-4 py-4 active:bg-primary/10 transition-colors"
+              >
+                <h3 className="text-[15px] font-bold leading-snug text-foreground line-clamp-2">
+                  {p.title}
+                </h3>
+                {p.description && (
+                  <p className="mt-1 text-[13px] text-muted-foreground leading-relaxed line-clamp-2">
+                    {p.description}
+                  </p>
+                )}
+              </Link>
+            </li>
+          ))}
         </ul>
       ) : (
         // DESKTOP / TABLET: cards grandes premium com parallax leve no hover

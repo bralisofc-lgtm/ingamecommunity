@@ -27,33 +27,13 @@ const formatDate = (iso: string) => {
  */
 function buildRecommendations(all: Post[], current: Post): Post[] {
   const others = all.filter((p) => p.id !== current.id);
-  const picked = new Set<string>();
-  const result: Post[] = [];
-  const take = (p?: Post) => {
-    if (p && !picked.has(p.id)) {
-      picked.add(p.id);
-      result.push(p);
-    }
-  };
-
-  const sameTag = others.filter((p) => p.tag === current.tag);
-  const featured = others.filter((p) => p.featured);
-  const reviews = others.filter((p) => p.tag === "Review");
-  const news = others.filter((p) => p.tag === "Notícias");
-  const community = others.filter((p) => p.tag === "Comunidade");
-  const recents = [...others].sort((a, b) => (b.date || "").localeCompare(a.date || ""));
-
-  take(sameTag[0]);
-  take(featured.find((p) => p.tag !== current.tag));
-  take(reviews.find((p) => p.tag !== current.tag) ?? reviews[0]);
-  take(news[0] ?? community[0]);
-
-  // Preencher até 4 com mais recentes ainda não escolhidos
-  for (const p of recents) {
-    if (result.length >= 4) break;
-    take(p);
+  // Embaralhar (Fisher-Yates) para recomendações verdadeiramente aleatórias
+  const shuffled = [...others];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
-  return result.slice(0, 4);
+  return shuffled.slice(0, 4);
 }
 
 const PostPage = () => {
@@ -95,7 +75,7 @@ const PostPage = () => {
   return (
     <SiteLayout
       title={`${post.title} — In Game`}
-      description={post.description || post.subtitle || `Postagem de ${post.author}`}
+      description={post.description || `Postagem de ${post.author}`}
       image={post.image}
       canonical={shareUrl}
     >
@@ -126,21 +106,11 @@ const PostPage = () => {
               <h1 className="text-[26px] sm:text-3xl font-black leading-[1.15] text-white drop-shadow-[0_2px_12px_hsl(270_90%_5%/0.95)] px-2">
                 {post.title}
               </h1>
-              {post.subtitle && (
-                <p className="mt-3 text-sm text-white/80 leading-relaxed px-3">
-                  {post.subtitle}
-                </p>
-              )}
             </div>
             <div className="hidden md:inline-block px-10 py-7 rounded-3xl bg-black/55 backdrop-blur-md border border-white/10 shadow-[0_20px_60px_-20px_hsl(var(--primary)/0.6)]">
               <h1 className="text-5xl lg:text-6xl font-black leading-tight text-white drop-shadow-[0_2px_12px_hsl(270_90%_5%/0.9)]">
                 {post.title}
               </h1>
-              {post.subtitle && (
-                <p className="mt-4 text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
-                  {post.subtitle}
-                </p>
-              )}
             </div>
           </div>
         </div>
@@ -150,7 +120,7 @@ const PostPage = () => {
       <article className="relative px-4 sm:px-4 pb-10 mt-6 md:-mt-16">
         <div className="container mx-auto max-w-3xl">
           {/* AUTORIA — TOPO DESKTOP/TABLET (oculto no mobile) */}
-          <div className="hidden md:block mb-8">
+          <div className="hidden md:block mb-8 relative z-20">
             <div className="flex items-center gap-4 px-1">
               <div className="flex flex-col">
                 <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-glow">Publicado por</span>
@@ -166,7 +136,9 @@ const PostPage = () => {
               {post.author_socials?.length > 0 && (
                 <>
                   <div className="h-8 w-px bg-primary/25" />
-                  <AuthorSocials links={post.author_socials} />
+                  <div className="relative z-30">
+                    <AuthorSocials links={post.author_socials} />
+                  </div>
                 </>
               )}
               {post.link && (
@@ -242,23 +214,29 @@ const PostPage = () => {
         </div>
       </article>
 
-      {/* SEÇÃO INDEPENDENTE — Leia mais */}
+      {/* SEÇÃO INDEPENDENTE — Leia mais (fundo preto premium) */}
       {related.length > 0 && (
-        <section className="relative mt-6 md:mt-10 py-16 md:py-24 border-t border-primary/15 bg-[hsl(270_45%_5%)]">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(var(--primary-glow)/0.1),transparent_60%)] pointer-events-none" />
+        <section className="relative mt-6 md:mt-10 py-16 md:py-24 border-t border-primary/15 bg-black">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(var(--primary-glow)/0.08),transparent_70%)] pointer-events-none" />
           <div className="container mx-auto max-w-5xl px-4 relative">
             <ReadMore posts={related} />
           </div>
         </section>
       )}
 
-      <div className="text-center pb-16">
+      {/* Voltar ao início — fundo totalmente preto, com seta circular */}
+      <div className="bg-black text-center py-16">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 text-primary-glow font-semibold text-xs uppercase tracking-wider hover:gap-3 transition-all"
+          aria-label="Voltar ao início"
+          className="group inline-flex items-center justify-center w-14 h-14 rounded-full border-2 border-primary-glow/60 bg-primary/10 text-primary-glow hover:bg-primary hover:text-primary-foreground hover:border-primary-glow hover:shadow-[0_0_30px_hsl(var(--primary-glow)/0.7)] hover:-translate-y-1 transition-all duration-300"
         >
-          ← Voltar ao início
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 transition-transform group-hover:-translate-y-0.5">
+            <path d="M12 19V5" />
+            <path d="m5 12 7-7 7 7" />
+          </svg>
         </Link>
+        <p className="mt-3 text-[10px] uppercase tracking-[0.3em] font-black text-primary-glow/80">Voltar ao início</p>
       </div>
     </SiteLayout>
   );
