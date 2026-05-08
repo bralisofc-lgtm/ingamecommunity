@@ -106,21 +106,11 @@ const PostPage = () => {
               <h1 className="text-[26px] sm:text-3xl font-black leading-[1.15] text-white drop-shadow-[0_2px_12px_hsl(270_90%_5%/0.95)] px-2">
                 {post.title}
               </h1>
-              {post.subtitle && (
-                <p className="mt-3 text-sm text-white/80 leading-relaxed px-3">
-                  {post.subtitle}
-                </p>
-              )}
             </div>
             <div className="hidden md:inline-block px-10 py-7 rounded-3xl bg-black/55 backdrop-blur-md border border-white/10 shadow-[0_20px_60px_-20px_hsl(var(--primary)/0.6)]">
               <h1 className="text-5xl lg:text-6xl font-black leading-tight text-white drop-shadow-[0_2px_12px_hsl(270_90%_5%/0.9)]">
                 {post.title}
               </h1>
-              {post.subtitle && (
-                <p className="mt-4 text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
-                  {post.subtitle}
-                </p>
-              )}
             </div>
           </div>
         </div>
