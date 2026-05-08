@@ -214,23 +214,29 @@ const PostPage = () => {
         </div>
       </article>
 
-      {/* SEÇÃO INDEPENDENTE — Leia mais */}
+      {/* SEÇÃO INDEPENDENTE — Leia mais (fundo preto premium) */}
       {related.length > 0 && (
-        <section className="relative mt-6 md:mt-10 py-16 md:py-24 border-t border-primary/15 bg-[hsl(270_45%_5%)]">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(var(--primary-glow)/0.1),transparent_60%)] pointer-events-none" />
+        <section className="relative mt-6 md:mt-10 py-16 md:py-24 border-t border-primary/15 bg-black">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(var(--primary-glow)/0.08),transparent_70%)] pointer-events-none" />
           <div className="container mx-auto max-w-5xl px-4 relative">
             <ReadMore posts={related} />
           </div>
         </section>
       )}
 
-      <div className="text-center pb-16">
+      {/* Voltar ao início — fundo totalmente preto, com seta circular */}
+      <div className="bg-black text-center py-16">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 text-primary-glow font-semibold text-xs uppercase tracking-wider hover:gap-3 transition-all"
+          aria-label="Voltar ao início"
+          className="group inline-flex items-center justify-center w-14 h-14 rounded-full border-2 border-primary-glow/60 bg-primary/10 text-primary-glow hover:bg-primary hover:text-primary-foreground hover:border-primary-glow hover:shadow-[0_0_30px_hsl(var(--primary-glow)/0.7)] hover:-translate-y-1 transition-all duration-300"
         >
-          ← Voltar ao início
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 transition-transform group-hover:-translate-y-0.5">
+            <path d="M12 19V5" />
+            <path d="m5 12 7-7 7 7" />
+          </svg>
         </Link>
+        <p className="mt-3 text-[10px] uppercase tracking-[0.3em] font-black text-primary-glow/80">Voltar ao início</p>
       </div>
     </SiteLayout>
   );
