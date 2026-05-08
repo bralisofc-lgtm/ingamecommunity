@@ -130,7 +130,7 @@ const PostPage = () => {
       <article className="relative px-4 sm:px-4 pb-10 mt-6 md:-mt-16">
         <div className="container mx-auto max-w-3xl">
           {/* AUTORIA — TOPO DESKTOP/TABLET (oculto no mobile) */}
-          <div className="hidden md:block mb-8">
+          <div className="hidden md:block mb-8 relative z-20">
             <div className="flex items-center gap-4 px-1">
               <div className="flex flex-col">
                 <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-glow">Publicado por</span>
@@ -146,7 +146,9 @@ const PostPage = () => {
               {post.author_socials?.length > 0 && (
                 <>
                   <div className="h-8 w-px bg-primary/25" />
-                  <AuthorSocials links={post.author_socials} />
+                  <div className="relative z-30">
+                    <AuthorSocials links={post.author_socials} />
+                  </div>
                 </>
               )}
               {post.link && (
