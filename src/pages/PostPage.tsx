@@ -75,7 +75,7 @@ const PostPage = () => {
   return (
     <SiteLayout
       title={`${post.title} — In Game`}
-      description={post.description || post.subtitle || `Postagem de ${post.author}`}
+      description={post.description || `Postagem de ${post.author}`}
       image={post.image}
       canonical={shareUrl}
     >
