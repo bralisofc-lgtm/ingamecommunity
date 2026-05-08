@@ -117,27 +117,30 @@ const PostPage = () => {
       </section>
 
       {/* Corpo do artigo — editorial premium */}
-      <article className="relative px-4 sm:px-4 pb-10 mt-6 md:-mt-16">
+      <article className="relative px-4 sm:px-4 pb-10 mt-8 md:mt-12">
         <div className="container mx-auto max-w-3xl">
           {/* AUTORIA — TOPO DESKTOP/TABLET (oculto no mobile) */}
-          <div className="hidden md:block mb-8 relative z-20">
-            <div className="flex items-center gap-4 px-1">
-              <div className="flex flex-col">
+          <div className="hidden md:block mb-10 relative z-20">
+            <div className="flex items-center gap-5 px-1 flex-wrap">
+              <div className="flex flex-col min-w-0">
                 <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-glow">Publicado por</span>
-                <span className="mt-1 text-base font-bold text-foreground">{post.author || "In Game"}</span>
+                <span className="mt-1 text-base font-bold text-foreground truncate">{post.author || "In Game"}</span>
               </div>
               <div className="h-8 w-px bg-primary/25" />
               {post.date && (
                 <div className="flex flex-col">
                   <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-glow/80">Data</span>
-                  <span className="mt-1 text-sm text-foreground/85">{formatDate(post.date)}</span>
+                  <span className="mt-1 text-sm text-foreground/85 whitespace-nowrap">{formatDate(post.date)}</span>
                 </div>
               )}
               {post.author_socials?.length > 0 && (
                 <>
                   <div className="h-8 w-px bg-primary/25" />
-                  <div className="relative z-30">
-                    <AuthorSocials links={post.author_socials} />
+                  <div className="relative z-30 flex flex-col">
+                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-glow/80">Redes</span>
+                    <div className="mt-1">
+                      <AuthorSocials links={post.author_socials} size="sm" />
+                    </div>
                   </div>
                 </>
               )}
