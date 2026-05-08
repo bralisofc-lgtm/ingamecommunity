@@ -27,33 +27,13 @@ const formatDate = (iso: string) => {
  */
 function buildRecommendations(all: Post[], current: Post): Post[] {
   const others = all.filter((p) => p.id !== current.id);
-  const picked = new Set<string>();
-  const result: Post[] = [];
-  const take = (p?: Post) => {
-    if (p && !picked.has(p.id)) {
-      picked.add(p.id);
-      result.push(p);
-    }
-  };
-
-  const sameTag = others.filter((p) => p.tag === current.tag);
-  const featured = others.filter((p) => p.featured);
-  const reviews = others.filter((p) => p.tag === "Review");
-  const news = others.filter((p) => p.tag === "Notícias");
-  const community = others.filter((p) => p.tag === "Comunidade");
-  const recents = [...others].sort((a, b) => (b.date || "").localeCompare(a.date || ""));
-
-  take(sameTag[0]);
-  take(featured.find((p) => p.tag !== current.tag));
-  take(reviews.find((p) => p.tag !== current.tag) ?? reviews[0]);
-  take(news[0] ?? community[0]);
-
-  // Preencher até 4 com mais recentes ainda não escolhidos
-  for (const p of recents) {
-    if (result.length >= 4) break;
-    take(p);
+  // Embaralhar (Fisher-Yates) para recomendações verdadeiramente aleatórias
+  const shuffled = [...others];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
-  return result.slice(0, 4);
+  return shuffled.slice(0, 4);
 }
 
 const PostPage = () => {
