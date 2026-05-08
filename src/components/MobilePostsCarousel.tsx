@@ -14,61 +14,62 @@ const MobilePostCard = ({ post, active }: { post: Post; active: boolean }) => {
     <a
       href={href}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      className={`relative block aspect-[4/5] w-full rounded-3xl overflow-hidden border bg-card transition-all duration-500 ease-out ${
+      className={`relative block aspect-[3/4] w-full rounded-[28px] overflow-hidden bg-card transition-all duration-700 ease-out will-change-transform ${
         active
-          ? "border-primary-glow/80 shadow-[0_18px_50px_-12px_hsl(var(--primary-glow)/0.65),0_0_0_1px_hsl(var(--primary-glow)/0.35)] scale-[1.02] opacity-100"
-          : "border-border/60 opacity-60 scale-[0.96]"
+          ? "ring-2 ring-primary-glow/80 shadow-[0_30px_60px_-15px_hsl(var(--primary-glow)/0.7),0_0_0_1px_hsl(var(--primary-glow)/0.4)] scale-100 opacity-100"
+          : "ring-1 ring-white/5 opacity-45 scale-[0.92]"
       }`}
     >
-      {/* Imagem 55% topo */}
       {post.image ? (
         <img
           src={post.image}
           alt={post.title}
           loading="lazy"
-          className="absolute inset-0 w-full h-full object-cover"
+          className={`absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out ${
+            active ? "scale-105" : "scale-100"
+          }`}
         />
       ) : (
         <div className="absolute inset-0 bg-gradient-to-br from-primary to-primary-glow" />
       )}
 
-      {/* Overlay só na metade inferior */}
-      <div className="absolute inset-x-0 bottom-0 h-[62%] bg-gradient-to-t from-black/95 via-black/70 to-transparent" />
+      {/* Vinheta cinematográfica */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,transparent_30%,rgba(0,0,0,0.55)_100%)]" />
+      <div className="absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-black/95 via-black/65 to-transparent" />
 
-      {/* Tag minimal no topo */}
+      {/* Tag */}
       {post.tag && (
-        <span className="absolute top-3 left-3 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider rounded-full bg-black/55 text-white/90 border border-white/15 backdrop-blur-md">
+        <span className="absolute top-3.5 left-3.5 px-3 py-1 text-[10px] font-black uppercase tracking-[0.2em] rounded-full bg-primary/85 text-primary-foreground border border-primary-glow/60 backdrop-blur-md shadow-[0_4px_18px_hsl(var(--primary)/0.5)]">
           {post.tag}
         </span>
       )}
       {post.pinned && (
-        <span className="absolute top-3 right-3 inline-flex items-center gap-1 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider rounded-full bg-primary/80 text-primary-foreground backdrop-blur-md">
+        <span className="absolute top-3.5 right-3.5 inline-flex items-center gap-1 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider rounded-full bg-black/60 text-primary-glow border border-primary-glow/50 backdrop-blur-md">
           <Pin className="w-3 h-3" /> Fixo
         </span>
       )}
 
-      {/* Conteúdo editorial sobreposto */}
-      <div className="absolute inset-x-0 bottom-0 p-4 pb-5">
-        <h3 className="text-[19px] leading-tight font-bold text-white line-clamp-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+      {/* Conteúdo editorial */}
+      <div className="absolute inset-x-0 bottom-0 p-5 pb-6">
+        <p className="text-[10px] uppercase tracking-[0.3em] text-primary-glow font-black mb-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+          Por {post.author || "In Game"}
+        </p>
+        <h3 className="text-[20px] leading-[1.15] font-black text-white line-clamp-3 drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]">
           {post.title}
         </h3>
         {post.description && (
-          <p className="mt-1.5 text-[13px] leading-snug text-white/75 line-clamp-2">
+          <p className="mt-2 text-[12.5px] leading-snug text-white/80 line-clamp-2">
             {post.description}
           </p>
         )}
-        <p className="mt-2 text-[10px] uppercase tracking-[0.2em] text-primary-glow/90 font-bold">
-          Por {post.author || "In Game"}
-        </p>
-      </div>
-
-      {/* Glow edge quando ativo */}
-      {active && (
         <span
-          aria-hidden
-          className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-primary-glow/40"
-        />
-      )}
+          className={`mt-3.5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.18em] bg-primary-glow/15 text-primary-glow border border-primary-glow/40 transition-all duration-500 ${
+            active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+          }`}
+        >
+          Ler agora <span aria-hidden>→</span>
+        </span>
+      </div>
     </a>
   );
 };
@@ -76,6 +77,7 @@ const MobilePostCard = ({ post, active }: { post: Post; active: boolean }) => {
 const MobilePostsCarousel = ({ posts }: Props) => {
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
+  const userInteracted = useRef(false);
 
   useEffect(() => {
     const el = trackRef.current;
@@ -101,8 +103,13 @@ const MobilePostsCarousel = ({ posts }: Props) => {
     };
     onScroll();
     el.addEventListener("scroll", onScroll, { passive: true });
+    const markInteract = () => (userInteracted.current = true);
+    el.addEventListener("touchstart", markInteract, { passive: true });
+    el.addEventListener("pointerdown", markInteract, { passive: true });
     return () => {
       el.removeEventListener("scroll", onScroll);
+      el.removeEventListener("touchstart", markInteract);
+      el.removeEventListener("pointerdown", markInteract);
       cancelAnimationFrame(raf);
     };
   }, [posts.length]);
@@ -116,13 +123,24 @@ const MobilePostsCarousel = ({ posts }: Props) => {
     el.scrollTo({ left, behavior: "smooth" });
   };
 
+  // Autoplay suave: avança a cada 5s enquanto o usuário não interagir
+  useEffect(() => {
+    if (posts.length <= 1) return;
+    const id = window.setInterval(() => {
+      if (userInteracted.current) return;
+      const next = (active + 1) % posts.length;
+      goTo(next);
+    }, 5000);
+    return () => clearInterval(id);
+  }, [active, posts.length]);
+
   if (posts.length === 0) return null;
 
   return (
     <div className="md:hidden -mx-4">
       <div
         ref={trackRef}
-        className="flex gap-3 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-2 px-[7.5%]"
+        className="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-3 px-[8%]"
         style={{
           scrollbarWidth: "none",
           WebkitOverflowScrolling: "touch",
@@ -133,7 +151,7 @@ const MobilePostsCarousel = ({ posts }: Props) => {
         {posts.map((p, i) => (
           <div
             key={p.id}
-            className="snap-center shrink-0 w-[85%]"
+            className="snap-center shrink-0 w-[84%]"
             style={{ scrollSnapAlign: "center" }}
           >
             <MobilePostCard post={p} active={i === active} />
@@ -141,8 +159,8 @@ const MobilePostsCarousel = ({ posts }: Props) => {
         ))}
       </div>
 
-      {/* Indicador */}
-      <div className="mt-4 flex justify-center items-center gap-1.5 px-4">
+      {/* Indicador refinado */}
+      <div className="mt-5 flex justify-center items-center gap-1.5 px-4">
         {posts.map((_, i) => {
           const isActive = i === active;
           return (
@@ -150,11 +168,14 @@ const MobilePostsCarousel = ({ posts }: Props) => {
               key={i}
               type="button"
               aria-label={`Ir para card ${i + 1}`}
-              onClick={() => goTo(i)}
+              onClick={() => {
+                userInteracted.current = true;
+                goTo(i);
+              }}
               className={`h-1.5 rounded-full transition-all duration-500 ${
                 isActive
-                  ? "w-6 bg-primary-glow shadow-[0_0_12px_hsl(var(--primary-glow)/0.8)]"
-                  : "w-1.5 bg-white/25 hover:bg-white/50"
+                  ? "w-7 bg-primary-glow shadow-[0_0_14px_hsl(var(--primary-glow)/0.9)]"
+                  : "w-1.5 bg-white/20 hover:bg-white/45"
               }`}
             />
           );
