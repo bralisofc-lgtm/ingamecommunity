@@ -82,7 +82,7 @@ const Index = () => {
             </h1>
 
             {/* Botões integrados como tótens da paisagem */}
-            <div className="flex flex-wrap gap-4 justify-center animate-buttons-rise">
+            <div className="flex flex-wrap gap-4 justify-center">
               <a
                 href="https://yourgamerprofile.com/community/in-game"
                 target="_blank"
