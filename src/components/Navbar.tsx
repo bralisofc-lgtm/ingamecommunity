@@ -22,13 +22,18 @@ const Navbar = () => {
 
   const isHome = pathname === "/";
 
+  const [nearLogo, setNearLogo] = useState(true);
+
   useEffect(() => {
     if (!isHome) {
       setScrolled(true);
+      setNearLogo(false);
       return;
     }
     const onScroll = () => {
       setScrolled(window.scrollY > window.innerHeight - 80);
+      // Esconde a busca enquanto a logo do hero ainda estiver visível
+      setNearLogo(window.scrollY < window.innerHeight * 0.55);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
