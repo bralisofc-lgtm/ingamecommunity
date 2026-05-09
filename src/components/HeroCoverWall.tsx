@@ -50,7 +50,7 @@ import webfishing from "@/assets/covers/webfishing.jpg";
 import balatro from "@/assets/covers/balatro.jpg";
 import animalWell from "@/assets/covers/animal-well.jpg";
 
-// 54 capas distribuídas em 4 colunas — direções alternadas
+// Capas distribuídas em 4 colunas — direções alternadas (sem duplicatas)
 const ALL = [
   hollowKnight, slayTheSpire, hades, undertale,
   stardew, celeste, obraDinn, cuphead,
@@ -64,8 +64,7 @@ const ALL = [
   hifiRush, signalis, unpacking, chainedEchoes,
   balatro, dredge, seaOfStars, blasphemous,
   blasphemous2, animalWell, lethalCompany, coralIsland,
-  webfishing, tunic, hades, celeste,
-  hollowKnight, stardew,
+  webfishing,
 ];
 
 // Distribui em 4 colunas intercalando para misturar estilos
