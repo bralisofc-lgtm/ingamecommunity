@@ -14,10 +14,10 @@ const MobilePostCard = ({ post, active }: { post: Post; active: boolean }) => {
     <a
       href={href}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      className={`relative block aspect-[3/4] w-full rounded-[28px] overflow-hidden bg-card transition-all duration-700 ease-out will-change-transform ${
+      className={`relative block aspect-[3/4] w-full rounded-[28px] overflow-hidden bg-card transition-[box-shadow,opacity] duration-500 ease-out ${
         active
-          ? "ring-2 ring-primary-glow/80 shadow-[0_30px_60px_-15px_hsl(var(--primary-glow)/0.7),0_0_0_1px_hsl(var(--primary-glow)/0.4)] scale-100 opacity-100"
-          : "ring-1 ring-white/5 opacity-45 scale-[0.92]"
+          ? "ring-2 ring-primary-glow/80 shadow-[0_30px_60px_-15px_hsl(var(--primary-glow)/0.7),0_0_0_1px_hsl(var(--primary-glow)/0.4)] opacity-100"
+          : "ring-1 ring-white/5 opacity-45"
       }`}
     >
       {post.image ? (
@@ -25,9 +25,7 @@ const MobilePostCard = ({ post, active }: { post: Post; active: boolean }) => {
           src={post.image}
           alt={post.title}
           loading="lazy"
-          className={`absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out ${
-            active ? "scale-105" : "scale-100"
-          }`}
+          className="absolute inset-0 w-full h-full object-cover"
         />
       ) : (
         <div className="absolute inset-0 bg-gradient-to-br from-primary to-primary-glow" />
