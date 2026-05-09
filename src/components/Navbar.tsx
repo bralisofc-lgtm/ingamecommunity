@@ -190,7 +190,9 @@ const Navbar = () => {
             <button
               onClick={() => setSearchOpen(true)}
               aria-label="Pesquisar"
-              className="p-2 rounded-full border border-border/60 text-foreground/90 hover:text-primary-glow hover:border-primary-glow transition-all duration-300 hover:scale-110 hover:shadow-[0_0_18px_hsl(var(--primary-glow)/0.5)]"
+              className={`p-2 rounded-full border border-border/60 text-foreground/90 hover:text-primary-glow hover:border-primary-glow transition-all duration-300 hover:scale-110 hover:shadow-[0_0_18px_hsl(var(--primary-glow)/0.5)] ${
+                nearLogo ? "opacity-0 pointer-events-none scale-90" : "opacity-100 scale-100"
+              }`}
             >
               <Search className="w-4 h-4" />
             </button>
