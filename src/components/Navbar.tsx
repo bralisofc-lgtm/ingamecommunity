@@ -53,6 +53,11 @@ const Navbar = () => {
     setSearchOpen(false);
   }, [pathname]);
 
+  // Fecha a busca automaticamente ao voltar para a área da logo
+  useEffect(() => {
+    if (nearLogo) setSearchOpen(false);
+  }, [nearLogo]);
+
   const transparent = isHome && !scrolled && !searchOpen;
 
   const results = useMemo(() => {
