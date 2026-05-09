@@ -52,7 +52,7 @@ const Index = () => {
       description="In Game é uma comunidade feita por quem ama jogos indies. Descubra novos títulos, participe de sorteios e compartilhe experiências."
     >
       {/* 1. HERO — paisagem indie com logo integrada */}
-      <section className="relative min-h-[100svh] w-full overflow-hidden flex items-start justify-center pt-[clamp(3rem,7vh,5rem)] pb-24 bg-[hsl(270_80%_5%)]">
+      <section className="relative min-h-[78svh] md:min-h-[100svh] w-full overflow-hidden flex items-start justify-center pt-[clamp(1.5rem,5vh,5rem)] pb-16 md:pb-24 bg-[hsl(270_80%_5%)]">
         {/* Parede animada de capas indies (4 colunas alternando direção) */}
         <HeroCoverWall />
 
