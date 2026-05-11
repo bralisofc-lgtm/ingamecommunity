@@ -81,6 +81,7 @@ const PostPage = () => {
       image={post.image}
       canonical={shareUrl}
     >
+      <PostLoadingBar trigger={post.slug} />
       {/* Hero cinematográfico */}
       <section className="relative w-full h-[58vh] md:h-[70vh] min-h-[380px] md:min-h-[460px] overflow-hidden">
         {post.image ? (
