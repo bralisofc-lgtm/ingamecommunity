@@ -51,8 +51,9 @@ const PostPage = () => {
   if (!posts.length) {
     return (
       <SiteLayout title="Carregando…" description="">
-        <PostLoadingBar trigger={slug} />
-        <div className="pt-32 pb-24" />
+        <div className="pt-40 pb-24 flex justify-center px-4">
+          <PostLoadingBar trigger={slug} inline />
+        </div>
       </SiteLayout>
     );
   }
