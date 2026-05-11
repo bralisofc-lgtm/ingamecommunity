@@ -14,11 +14,7 @@ const MobilePostCard = ({ post, active }: { post: Post; active: boolean }) => {
     <a
       href={href}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      className={`relative block aspect-[3/4] w-full rounded-[28px] overflow-hidden bg-card transition-[box-shadow,opacity] duration-500 ease-out ${
-        active
-          ? "ring-2 ring-primary-glow/80 shadow-[0_30px_60px_-15px_hsl(var(--primary-glow)/0.7),0_0_0_1px_hsl(var(--primary-glow)/0.4)] opacity-100"
-          : "ring-1 ring-white/5 opacity-45"
-      }`}
+      className="relative block aspect-[3/4] w-full rounded-[28px] overflow-hidden bg-card ring-1 ring-white/10 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.7)]"
     >
       {post.image ? (
         <img
@@ -60,11 +56,7 @@ const MobilePostCard = ({ post, active }: { post: Post; active: boolean }) => {
             {post.description}
           </p>
         )}
-        <span
-          className={`mt-3.5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.18em] bg-primary-glow/15 text-primary-glow border border-primary-glow/40 transition-all duration-500 ${
-            active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
-          }`}
-        >
+        <span className="mt-3.5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.18em] bg-primary-glow/15 text-primary-glow border border-primary-glow/40">
           Ler agora <span aria-hidden>→</span>
         </span>
       </div>
