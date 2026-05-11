@@ -5,6 +5,7 @@ import MarkdownRenderer from "@/components/post/MarkdownRenderer";
 import ReadMore from "@/components/post/ReadMore";
 import ReviewVerdict from "@/components/post/ReviewVerdict";
 import AuthorSocials from "@/components/post/AuthorSocials";
+import PostLoadingBar from "@/components/post/PostLoadingBar";
 import { usePosts, type Post } from "@/hooks/usePosts";
 
 const formatDate = (iso: string) => {
@@ -50,6 +51,7 @@ const PostPage = () => {
   if (!posts.length) {
     return (
       <SiteLayout title="Carregando…" description="">
+        <PostLoadingBar trigger={slug} />
         <div className="pt-32 pb-24 text-center text-muted-foreground">Carregando postagem…</div>
       </SiteLayout>
     );
@@ -79,6 +81,7 @@ const PostPage = () => {
       image={post.image}
       canonical={shareUrl}
     >
+      <PostLoadingBar trigger={post.slug} />
       {/* Hero cinematográfico */}
       <section className="relative w-full h-[58vh] md:h-[70vh] min-h-[380px] md:min-h-[460px] overflow-hidden">
         {post.image ? (
