@@ -44,7 +44,7 @@ function inline(raw: string): string {
   // links com texto
   s = s.replace(
     /\[([^\]]+)\]\(([^)\s]+)\)/g,
-    '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-primary-glow font-semibold underline decoration-primary-glow/60 underline-offset-[5px] hover:decoration-primary-glow hover:text-primary transition-colors">$1</a>'
+    '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-primary-glow font-semibold no-underline hover:text-primary transition-colors">$1</a>'
   );
   // bold
   s = s.replace(/\*\*([^*]+)\*\*/g, '<strong class="text-foreground font-bold">$1</strong>');
