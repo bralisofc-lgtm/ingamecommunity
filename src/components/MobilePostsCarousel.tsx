@@ -14,11 +14,7 @@ const MobilePostCard = ({ post, active }: { post: Post; active: boolean }) => {
     <a
       href={href}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      className={`relative block aspect-[3/4] w-full rounded-[28px] overflow-hidden bg-card transition-[box-shadow,opacity] duration-500 ease-out ${
-        active
-          ? "ring-2 ring-primary-glow/80 shadow-[0_30px_60px_-15px_hsl(var(--primary-glow)/0.7),0_0_0_1px_hsl(var(--primary-glow)/0.4)] opacity-100"
-          : "ring-1 ring-white/5 opacity-45"
-      }`}
+      className="relative block aspect-[3/4] w-full rounded-[28px] overflow-hidden bg-card ring-1 ring-white/10 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.7)]"
     >
       {post.image ? (
         <img
