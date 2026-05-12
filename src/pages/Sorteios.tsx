@@ -1,6 +1,5 @@
 import { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 import ingameLogo from "@/assets/ingame-logo.png";
 import { useSorteios } from "@/hooks/useSorteios";
 import { useDimensionTransition } from "@/components/DimensionTransition";
