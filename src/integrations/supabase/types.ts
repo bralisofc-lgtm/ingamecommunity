@@ -173,6 +173,57 @@ export type Database = {
         }
         Relationships: []
       }
+      sorteios: {
+        Row: {
+          active: boolean
+          banner_image: string
+          created_at: string
+          description: string
+          event_date: string | null
+          featured_next: boolean
+          game_logo: string
+          id: string
+          participants_count: number
+          participate_link: string
+          position: number
+          title: string
+          updated_at: string
+          youtube_trailer: string
+        }
+        Insert: {
+          active?: boolean
+          banner_image?: string
+          created_at?: string
+          description?: string
+          event_date?: string | null
+          featured_next?: boolean
+          game_logo?: string
+          id?: string
+          participants_count?: number
+          participate_link?: string
+          position?: number
+          title: string
+          updated_at?: string
+          youtube_trailer?: string
+        }
+        Update: {
+          active?: boolean
+          banner_image?: string
+          created_at?: string
+          description?: string
+          event_date?: string | null
+          featured_next?: boolean
+          game_logo?: string
+          id?: string
+          participants_count?: number
+          participate_link?: string
+          position?: number
+          title?: string
+          updated_at?: string
+          youtube_trailer?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
