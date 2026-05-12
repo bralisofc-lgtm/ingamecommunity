@@ -103,12 +103,35 @@ async function fetchPosts(): Promise<Post[]> {
   }));
 }
 
+const CACHE_KEY = "ingame:posts:v1";
+
+function readCache(): Post[] {
+  try {
+    const raw = sessionStorage.getItem(CACHE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? (parsed as Post[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeCache(posts: Post[]) {
+  try {
+    sessionStorage.setItem(CACHE_KEY, JSON.stringify(posts));
+  } catch {
+    // ignore quota errors
+  }
+}
+
 export const usePosts = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
+  // Hidrata sincronamente a partir do cache da sessão para pintar instantaneamente.
+  const [posts, setPosts] = useState<Post[]>(() => readCache());
 
   const refresh = useCallback(async () => {
     const data = await fetchPosts();
     setPosts(data);
+    writeCache(data);
   }, []);
 
   useEffect(() => {
