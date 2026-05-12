@@ -43,7 +43,7 @@ const miniFeatures = [
 ];
 
 const Index = () => {
-  const { posts } = usePosts();
+  const { posts, isRefreshing } = usePosts();
 
 
   return (
@@ -51,6 +51,12 @@ const Index = () => {
       title="In Game — Comunidade de jogos indies"
       description="In Game é uma comunidade feita por quem ama jogos indies. Descubra novos títulos, participe de sorteios e compartilhe experiências."
     >
+      {/* Fina barra de refresh em background — não substitui o conteúdo do cache */}
+      {isRefreshing && posts.length > 0 && (
+        <div className="fixed top-0 left-0 right-0 h-[2px] z-[55] overflow-hidden pointer-events-none">
+          <div className="h-full w-1/3 bg-gradient-to-r from-transparent via-primary-glow to-transparent animate-[shimmer-slide_1.4s_linear_infinite]" />
+        </div>
+      )}
       {/* 1. HERO — paisagem indie com logo integrada */}
       <section className="relative min-h-[78svh] md:min-h-[100svh] w-full overflow-hidden flex items-start justify-center pt-[clamp(1.5rem,5vh,5rem)] pb-16 md:pb-24 bg-[hsl(270_80%_5%)]">
         {/* Parede animada de capas indies (4 colunas alternando direção) */}
