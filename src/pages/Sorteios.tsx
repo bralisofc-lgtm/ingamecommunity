@@ -38,14 +38,6 @@ const Sorteios = () => {
 
   return (
     <div className="sorteios-theme relative min-h-screen overflow-x-clip">
-      <Helmet>
-        <title>Sorteios — In Game</title>
-        <meta
-          name="description"
-          content="Participe dos sorteios exclusivos da comunidade In Game. Chaves, brindes e oportunidades para nossos membros."
-        />
-      </Helmet>
-
       {/* Ambient particles */}
       <div className="pointer-events-none fixed inset-0 -z-10" aria-hidden>
         {PARTICLES.map((p, i) => (
