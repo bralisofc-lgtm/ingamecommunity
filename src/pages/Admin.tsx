@@ -8,9 +8,10 @@ import { toast } from "@/hooks/use-toast";
 import { POST_TAGS } from "@/lib/tags";
 import FaqAdminPanel from "@/components/admin/FaqAdminPanel";
 import ParceirosAdminPanel from "@/components/admin/ParceirosAdminPanel";
+import SorteiosAdminPanel from "@/components/admin/SorteiosAdminPanel";
 import { Pin, ArrowUp, ArrowDown } from "lucide-react";
 
-type AdminTab = "posts" | "faqs" | "parceiros";
+type AdminTab = "posts" | "faqs" | "parceiros" | "sorteios";
 
 const postSchema = z.object({
   title: z.string().trim().min(3, { message: "Título precisa ter pelo menos 3 caracteres." }).max(120),
