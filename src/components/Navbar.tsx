@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Search, ArrowLeft, X } from "lucide-react";
+import { Search, ArrowLeft, X, Gift } from "lucide-react";
 import { usePosts } from "@/hooks/usePosts";
+import { useDimensionTransition } from "@/components/DimensionTransition";
 
 const tabs = [
   { to: "/", label: "Início" },
