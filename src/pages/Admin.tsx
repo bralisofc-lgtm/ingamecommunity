@@ -242,6 +242,7 @@ const Admin = () => {
           <div className="flex flex-wrap gap-2 mb-10 border-b border-border/50 pb-2">
             {([
               { id: "posts", label: "Postagens" },
+              { id: "sorteios", label: "Sorteios" },
               { id: "faqs", label: "FAQs" },
               { id: "parceiros", label: "Parceiros" },
             ] as { id: AdminTab; label: string }[]).map((t) => (
