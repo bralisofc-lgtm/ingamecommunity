@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Search, ArrowLeft, X, Gift } from "lucide-react";
+import { Search, ArrowLeft, X } from "lucide-react";
 import { usePosts } from "@/hooks/usePosts";
-import { useDimensionTransition } from "@/components/DimensionTransition";
 
 const tabs = [
   { to: "/", label: "Início" },
@@ -20,12 +19,6 @@ const Navbar = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { posts } = usePosts();
-  const { trigger } = useDimensionTransition();
-
-  const goToSorteios = () => {
-    if (pathname === "/sorteios") return;
-    trigger(() => navigate("/sorteios"));
-  };
 
   const isHome = pathname === "/";
 
@@ -86,24 +79,13 @@ const Navbar = () => {
   };
 
   return (
-    <>
-      {/* Isolated Sorteios gift button — top left, always visible */}
-      <button
-        onClick={goToSorteios}
-        aria-label="Sorteios"
-        title="Sorteios"
-        className="nav-gift fixed top-4 left-4 z-[60] animate-fade-in"
-      >
-        <Gift className="w-4 h-4" />
-      </button>
-
-      <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          transparent
-            ? "bg-transparent backdrop-blur-0 border-b border-transparent"
-            : "backdrop-blur-xl bg-background/60 border-b border-border/50"
-        }`}
-      >
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        transparent
+          ? "bg-transparent backdrop-blur-0 border-b border-transparent"
+          : "backdrop-blur-xl bg-background/60 border-b border-border/50"
+      }`}
+    >
       <nav
         className={`container mx-auto px-4 py-3 flex items-center relative transition-opacity duration-500 ${
           isHome && !scrolled && !searchOpen ? "opacity-0 pointer-events-none" : "opacity-100"
@@ -254,7 +236,6 @@ const Navbar = () => {
         </div>
       )}
     </header>
-    </>
   );
 };
 
