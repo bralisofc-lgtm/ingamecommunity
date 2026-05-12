@@ -526,6 +526,7 @@ const Admin = () => {
 
           {tab === "faqs" && <FaqAdminPanel />}
           {tab === "parceiros" && <ParceirosAdminPanel />}
+          {tab === "sorteios" && <SorteiosAdminPanel />}
         </div>
       </section>
     </SiteLayout>
