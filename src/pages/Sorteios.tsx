@@ -21,6 +21,7 @@ const Sorteios = () => {
 
   useEffect(() => {
     document.documentElement.classList.add("sorteios-route");
+    document.title = "Sorteios — In Game";
     return () => document.documentElement.classList.remove("sorteios-route");
   }, []);
 
