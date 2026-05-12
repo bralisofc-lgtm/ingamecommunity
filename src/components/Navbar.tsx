@@ -20,6 +20,12 @@ const Navbar = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { posts } = usePosts();
+  const { trigger } = useDimensionTransition();
+
+  const goToSorteios = () => {
+    if (pathname === "/sorteios") return;
+    trigger(() => navigate("/sorteios"));
+  };
 
   const isHome = pathname === "/";
 
