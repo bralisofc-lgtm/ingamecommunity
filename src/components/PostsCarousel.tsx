@@ -8,6 +8,7 @@ import MobilePostsCarousel from "@/components/MobilePostsCarousel";
 interface Props {
   posts: Post[];
   excludeIds?: string[];
+  loading?: boolean;
 }
 
 const PostCardMini = ({ post }: { post: Post }) => (
