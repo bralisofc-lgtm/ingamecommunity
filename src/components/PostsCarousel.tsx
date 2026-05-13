@@ -56,7 +56,7 @@ const PostCardMini = ({ post }: { post: Post }) => (
   </a>
 );
 
-const PostsCarousel = ({ posts, excludeIds = [] }: Props) => {
+const PostsCarousel = ({ posts, excludeIds = [], loading = false }: Props) => {
   const [activeGroup, setActiveGroup] = useState<TabGroupId>("games-comunidade");
   const [activeTag, setActiveTag] = useState<string | null>(null);
 
