@@ -127,11 +127,17 @@ function writeCache(posts: Post[]) {
 export const usePosts = () => {
   // Hidrata sincronamente a partir do cache da sessão para pintar instantaneamente.
   const [posts, setPosts] = useState<Post[]>(() => readCache());
+  const [loading, setLoading] = useState<boolean>(true);
 
   const refresh = useCallback(async () => {
-    const data = await fetchPosts();
-    setPosts(data);
-    writeCache(data);
+    setLoading(true);
+    try {
+      const data = await fetchPosts();
+      setPosts(data);
+      writeCache(data);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -186,5 +192,5 @@ export const usePosts = () => {
     await refresh();
   }, [refresh]);
 
-  return { posts, create, update, remove, resetToDefaults };
+  return { posts, loading, create, update, remove, resetToDefaults };
 };

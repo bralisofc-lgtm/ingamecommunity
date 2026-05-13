@@ -8,6 +8,7 @@ import MobilePostsCarousel from "@/components/MobilePostsCarousel";
 interface Props {
   posts: Post[];
   excludeIds?: string[];
+  loading?: boolean;
 }
 
 const PostCardMini = ({ post }: { post: Post }) => (
@@ -55,7 +56,7 @@ const PostCardMini = ({ post }: { post: Post }) => (
   </a>
 );
 
-const PostsCarousel = ({ posts, excludeIds = [] }: Props) => {
+const PostsCarousel = ({ posts, excludeIds = [], loading = false }: Props) => {
   const [activeGroup, setActiveGroup] = useState<TabGroupId>("games-comunidade");
   const [activeTag, setActiveTag] = useState<string | null>(null);
 
@@ -156,9 +157,36 @@ const PostsCarousel = ({ posts, excludeIds = [] }: Props) => {
 
         {/* Lista */}
         {sortedGroup.length === 0 ? (
-          <div className="indie-card p-10 text-center text-muted-foreground">
-            Nenhuma postagem nesta categoria ainda.
-          </div>
+          loading && posts.length === 0 ? (
+            <div
+              className="relative overflow-hidden hidden md:block"
+              style={{
+                maskImage: "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
+                WebkitMaskImage: "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
+              }}
+            >
+              <div className="flex gap-6">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <div
+                    key={`sk-d-${i}`}
+                    className="w-[280px] sm:w-[320px] md:w-[360px] shrink-0 rounded-2xl overflow-hidden bg-card border border-border animate-pulse"
+                  >
+                    <div className="aspect-[16/10] bg-muted/40" />
+                    <div className="p-5 space-y-3">
+                      <div className="h-2.5 w-1/3 rounded bg-muted/50" />
+                      <div className="h-4 w-5/6 rounded bg-muted/60" />
+                      <div className="h-3 w-full rounded bg-muted/40" />
+                      <div className="h-3 w-4/6 rounded bg-muted/40" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="indie-card p-10 text-center text-muted-foreground">
+              Nenhuma postagem nesta categoria ainda.
+            </div>
+          )
         ) : (
           <>
             {/* MOBILE — carrossel premium estilo Steam/Netflix */}

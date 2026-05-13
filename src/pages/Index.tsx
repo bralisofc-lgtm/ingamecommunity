@@ -43,7 +43,7 @@ const miniFeatures = [
 ];
 
 const Index = () => {
-  const { posts } = usePosts();
+  const { posts, loading } = usePosts();
 
 
   return (
@@ -156,12 +156,13 @@ const Index = () => {
       </section>
 
       {/* 2. DESTAQUES RECENTES — top 3 posts mais recentes em fundo roxo */}
-      <RecentHighlights posts={posts} />
+      <RecentHighlights posts={posts} loading={loading} />
 
       {/* 3. POSTAGENS RECENTES — carrossel automático + filtros por tag */}
       <PostsCarousel
         posts={posts}
         excludeIds={posts.slice(0, 3).map((p) => p.id)}
+        loading={loading}
       />
 
       <SectionDivider />
