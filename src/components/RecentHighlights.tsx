@@ -4,11 +4,13 @@ import Reveal from "@/components/Reveal";
 
 interface Props {
   posts: Post[];
+  loading?: boolean;
 }
 
-const RecentHighlights = ({ posts }: Props) => {
+const RecentHighlights = ({ posts, loading = false }: Props) => {
   const items = posts.slice(0, 3);
-  if (items.length === 0) return null;
+  const showSkeleton = loading && items.length === 0;
+  if (items.length === 0 && !showSkeleton) return null;
 
   return (
     <section className="relative py-20 md:py-28 px-4 overflow-hidden">
