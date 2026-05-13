@@ -5,7 +5,7 @@ import {
   Save,
   Copy,
   Eye,
-  CloudCheck,
+  CloudUpload,
   ChevronDown,
   Info,
   Settings as SettingsIcon,
