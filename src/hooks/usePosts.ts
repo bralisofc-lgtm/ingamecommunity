@@ -192,5 +192,5 @@ export const usePosts = () => {
     await refresh();
   }, [refresh]);
 
-  return { posts, create, update, remove, resetToDefaults };
+  return { posts, loading, create, update, remove, resetToDefaults };
 };
