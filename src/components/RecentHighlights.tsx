@@ -60,7 +60,23 @@ const RecentHighlights = ({ posts, loading = false }: Props) => {
         </Reveal>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-7 pt-6">
-          {items.map((p, i) => (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-7 pt-6">
+          {showSkeleton
+            ? Array.from({ length: 3 }).map((_, i) => (
+                <div
+                  key={`sk-${i}`}
+                  className="relative rounded-2xl overflow-hidden border border-white/10 bg-black/30 backdrop-blur-sm shadow-[0_10px_40px_-10px_hsl(270_90%_10%/0.7)] animate-pulse"
+                >
+                  <div className="aspect-[16/10] bg-white/5" />
+                  <div className="p-5 space-y-3">
+                    <div className="h-2.5 w-1/3 rounded bg-white/10" />
+                    <div className="h-4 w-5/6 rounded bg-white/15" />
+                    <div className="h-3 w-full rounded bg-white/10" />
+                    <div className="h-3 w-4/6 rounded bg-white/10" />
+                  </div>
+                </div>
+              ))
+            : items.map((p, i) => (
             <Reveal key={p.id} delay={i * 0.1}>
               <div className="relative">
                 {/* Tag "Recente" — fora da borda no canto superior direito */}
