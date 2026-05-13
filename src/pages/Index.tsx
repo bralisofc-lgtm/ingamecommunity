@@ -43,7 +43,7 @@ const miniFeatures = [
 ];
 
 const Index = () => {
-  const { posts } = usePosts();
+  const { posts, loading } = usePosts();
 
 
   return (
