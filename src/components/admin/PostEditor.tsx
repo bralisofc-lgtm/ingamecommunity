@@ -263,7 +263,7 @@ const PostEditor = ({ initial, editingId, onCancel, onSubmit, onDuplicate }: Pro
         <div className="flex items-center gap-2">
           {savedAt && (
             <span className="hidden md:inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] text-white/40">
-              <CloudCheck className="w-3 h-3 text-emerald-400" />
+              <CloudUpload className="w-3 h-3 text-emerald-400" />
               Rascunho salvo
             </span>
           )}
