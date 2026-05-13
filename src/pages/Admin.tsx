@@ -7,8 +7,6 @@ import {
   Search as SearchIcon,
   BarChart3,
   Palette,
-  Settings as SettingsIcon,
-  Star,
   Sparkles,
   RotateCcw,
   LogOut,
