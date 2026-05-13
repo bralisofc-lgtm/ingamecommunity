@@ -60,7 +60,6 @@ const RecentHighlights = ({ posts, loading = false }: Props) => {
         </Reveal>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-7 pt-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-7 pt-6">
           {showSkeleton
             ? Array.from({ length: 3 }).map((_, i) => (
                 <div
