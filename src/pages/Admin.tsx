@@ -1,16 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  LayoutDashboard,
-  Gift,
-  Image as ImageIcon,
-  Search as SearchIcon,
-  BarChart3,
-  Palette,
-  Sparkles,
-  RotateCcw,
-  LogOut,
-} from "lucide-react";
+import { Gift, RotateCcw, LogOut, Sparkles } from "lucide-react";
 import { usePosts, type Post } from "@/hooks/usePosts";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "@/hooks/use-toast";
@@ -20,6 +10,8 @@ import PostEditor from "@/components/admin/PostEditor";
 import Placeholder from "@/components/admin/sections/Placeholder";
 import FaqAdminPanel from "@/components/admin/FaqAdminPanel";
 import ParceirosAdminPanel from "@/components/admin/ParceirosAdminPanel";
+import AdminsPanel from "@/components/admin/sections/AdminsPanel";
+import StatsDashboard from "@/components/admin/sections/StatsDashboard";
 
 type FormState = Omit<Post, "id">;
 
@@ -123,14 +115,6 @@ const Admin = () => {
     }
   };
 
-  const togglePin = async (p: Post) => {
-    try {
-      await update(p.id, { pinned: !p.pinned });
-    } catch {
-      toast({ title: "Erro ao fixar", variant: "destructive" });
-    }
-  };
-
   const move = async (p: Post, dir: -1 | 1) => {
     try {
       await update(p.id, { position: (p.position ?? 0) + dir });
@@ -142,10 +126,8 @@ const Admin = () => {
   return (
     <AdminShell email={user?.email ?? undefined} onSignOut={handleSignOut}>
       {({ section, search }) => {
-        // Editor mode (overlays Posts/Reviews/Destaques)
         const editorActive =
-          editing &&
-          (section === "posts" || section === "reviews" || section === "destaques");
+          editing && (section === "posts" || section === "reviews");
         if (editorActive && editing) {
           return (
             <PostEditor
@@ -167,35 +149,7 @@ const Admin = () => {
 
         switch (section) {
           case "dashboard":
-            return (
-              <div className="admin-section-anim grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="admin-card p-5">
-                  <p className="admin-h-eyebrow mb-2">Postagens</p>
-                  <p className="text-3xl font-bold text-white tracking-tight">
-                    {posts.length}
-                  </p>
-                </div>
-                <div className="admin-card p-5">
-                  <p className="admin-h-eyebrow mb-2">Reviews</p>
-                  <p className="text-3xl font-bold text-white tracking-tight">
-                    {posts.filter((p) => p.tag === "Review").length}
-                  </p>
-                </div>
-                <div className="admin-card p-5">
-                  <p className="admin-h-eyebrow mb-2">Destaques</p>
-                  <p className="text-3xl font-bold text-white tracking-tight">
-                    {posts.filter((p) => p.featured || p.pinned).length}
-                  </p>
-                </div>
-                <div className="md:col-span-3">
-                  <Placeholder
-                    title="Dashboard completo em breve"
-                    description="Gráficos de tráfego, posts mais lidos e métricas em tempo real estarão aqui."
-                    icon={LayoutDashboard}
-                  />
-                </div>
-              </div>
-            );
+            return <StatsDashboard posts={posts} />;
 
           case "posts":
             return (
@@ -208,7 +162,6 @@ const Admin = () => {
                 onEdit={startEdit}
                 onDuplicate={startDuplicate}
                 onDelete={handleDelete}
-                onTogglePin={togglePin}
                 onMove={move}
                 eyebrow="Conteúdo"
                 title="Postagens"
@@ -229,30 +182,10 @@ const Admin = () => {
                 onEdit={startEdit}
                 onDuplicate={startDuplicate}
                 onDelete={handleDelete}
-                onTogglePin={togglePin}
                 onMove={move}
                 filter={(p) => p.tag === "Review"}
                 eyebrow="Conteúdo"
                 title="Reviews"
-              />
-            );
-
-          case "destaques":
-            return (
-              <PostList
-                posts={posts}
-                loading={loading}
-                search={search}
-                onSearch={() => {}}
-                onNew={startNew}
-                onEdit={startEdit}
-                onDuplicate={startDuplicate}
-                onDelete={handleDelete}
-                onTogglePin={togglePin}
-                onMove={move}
-                filter={(p) => p.featured || p.pinned}
-                eyebrow="Conteúdo"
-                title="Destaques"
               />
             );
 
@@ -291,41 +224,8 @@ const Admin = () => {
               </div>
             );
 
-          case "midias":
-            return (
-              <Placeholder
-                title="Biblioteca de Mídias"
-                description="Upload drag-and-drop, biblioteca de imagens e cópia rápida de URL/markdown."
-                icon={ImageIcon}
-              />
-            );
-
-          case "seo":
-            return (
-              <Placeholder
-                title="SEO Avançado"
-                description="Meta título, descrição e Open Graph por post, com preview Google e Twitter."
-                icon={SearchIcon}
-              />
-            );
-
-          case "estatisticas":
-            return (
-              <Placeholder
-                title="Estatísticas"
-                description="Visualizações, leitura média e tendências por categoria."
-                icon={BarChart3}
-              />
-            );
-
-          case "aparencia":
-            return (
-              <Placeholder
-                title="Aparência"
-                description="Editor de cores, tipografia e elementos do site sem precisar mexer no código."
-                icon={Palette}
-              />
-            );
+          case "admins":
+            return <AdminsPanel />;
 
           case "configuracoes":
             return (
