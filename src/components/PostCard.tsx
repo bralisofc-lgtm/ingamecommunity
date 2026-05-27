@@ -1,4 +1,5 @@
 import type { Post } from "@/hooks/usePosts";
+import { supabase } from "@/integrations/supabase/client";
 
 interface PostCardProps {
   post: Post;
@@ -57,6 +58,9 @@ const PostCard = ({ post, index = 0, isRecent = false, animate = true }: PostCar
           <a
             href={post.slug ? `/post/${post.slug}` : post.link || "#"}
             {...(post.slug ? {} : { target: "_blank", rel: "noopener noreferrer" })}
+            onClick={() => {
+              supabase.rpc("increment_post_stat", { _post_id: post.id, _kind: "click" }).then(() => {});
+            }}
             className="btn-glow inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full text-primary-foreground font-bold uppercase tracking-wider text-xs self-start"
           >
             Ler postagem
