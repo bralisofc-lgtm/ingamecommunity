@@ -74,6 +74,27 @@ export type Database = {
         }
         Relationships: []
       }
+      post_stats: {
+        Row: {
+          clicks: number
+          post_id: string
+          updated_at: string
+          views: number
+        }
+        Insert: {
+          clicks?: number
+          post_id: string
+          updated_at?: string
+          views?: number
+        }
+        Update: {
+          clicks?: number
+          post_id?: string
+          updated_at?: string
+          views?: number
+        }
+        Relationships: []
+      }
       posts: {
         Row: {
           author: string
@@ -256,6 +277,10 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      increment_post_stat: {
+        Args: { _kind: string; _post_id: string }
+        Returns: undefined
       }
       slugify: { Args: { value: string }; Returns: string }
       unaccent_safe: { Args: { value: string }; Returns: string }
