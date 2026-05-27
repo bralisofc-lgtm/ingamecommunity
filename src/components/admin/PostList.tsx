@@ -3,12 +3,10 @@ import {
   Pencil,
   Trash2,
   Copy,
-  Pin,
   ArrowUp,
   ArrowDown,
   Plus,
   Search as SearchIcon,
-  Star,
   ExternalLink,
 } from "lucide-react";
 import type { Post } from "@/hooks/usePosts";
@@ -23,7 +21,6 @@ interface Props {
   onEdit: (p: Post) => void;
   onDuplicate: (p: Post) => void;
   onDelete: (p: Post) => void;
-  onTogglePin: (p: Post) => void;
   onMove: (p: Post, dir: -1 | 1) => void;
   filter?: (p: Post) => boolean;
   title: string;
@@ -39,7 +36,6 @@ const PostList = ({
   onEdit,
   onDuplicate,
   onDelete,
-  onTogglePin,
   onMove,
   filter,
   title,
@@ -167,16 +163,6 @@ const PostList = ({
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                 <div className="absolute top-2 left-2 flex flex-wrap gap-1.5">
                   {p.tag && <span className="admin-chip">{p.tag}</span>}
-                  {p.featured && (
-                    <span className="admin-chip">
-                      <Star className="w-2.5 h-2.5" /> Destaque
-                    </span>
-                  )}
-                  {p.pinned && (
-                    <span className="admin-chip">
-                      <Pin className="w-2.5 h-2.5" /> Fixo
-                    </span>
-                  )}
                 </div>
               </div>
 
@@ -211,14 +197,6 @@ const PostList = ({
                   title="Duplicar"
                 >
                   <Copy className="w-3.5 h-3.5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => onTogglePin(p)}
-                  className={`admin-btn admin-btn-ghost ${p.pinned ? "!text-white" : ""}`}
-                  title={p.pinned ? "Desfixar" : "Fixar"}
-                >
-                  <Pin className="w-3.5 h-3.5" />
                 </button>
                 <button
                   type="button"

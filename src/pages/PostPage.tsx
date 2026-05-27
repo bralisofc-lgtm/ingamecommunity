@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import SiteLayout from "@/components/SiteLayout";
 import MarkdownRenderer from "@/components/post/MarkdownRenderer";
@@ -7,6 +7,7 @@ import ReviewVerdict from "@/components/post/ReviewVerdict";
 import AuthorSocials from "@/components/post/AuthorSocials";
 import PostLoadingBar from "@/components/post/PostLoadingBar";
 import { usePosts, type Post } from "@/hooks/usePosts";
+import { supabase } from "@/integrations/supabase/client";
 
 const formatDate = (iso: string) => {
   if (!iso) return "";
@@ -47,6 +48,14 @@ const PostPage = () => {
   );
 
   const related = useMemo(() => (post ? buildRecommendations(posts, post) : []), [posts, post]);
+
+  useEffect(() => {
+    if (!post?.id) return;
+    const key = `ig:viewed:${post.id}`;
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, "1");
+    supabase.rpc("increment_post_stat", { _post_id: post.id, _kind: "view" }).then(() => {});
+  }, [post?.id]);
 
   if (!posts.length) {
     return (
