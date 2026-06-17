@@ -8,6 +8,7 @@ export interface Sorteio {
   title: string;
   banner_image: string;
   event_date: string | null; // ISO datetime
+  end_date: string | null; // ISO datetime for countdown
   participate_link: string;
   active: boolean;
   position: number;
@@ -19,6 +20,7 @@ const mapRow = (r: any): Sorteio => ({
   title: r.title ?? "",
   banner_image: r.banner_image ?? "",
   event_date: r.event_date ?? null,
+  end_date: r.end_date ?? null,
   participate_link: r.participate_link ?? "",
   active: !!r.active,
   position: r.position ?? 0,
