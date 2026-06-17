@@ -191,13 +191,7 @@ const Admin = () => {
             );
 
           case "sorteios":
-            return (
-              <Placeholder
-                title="Painel de Sorteios"
-                description="O gerenciador completo de sorteios chega na próxima fase, integrado a esta nova identidade."
-                icon={Gift}
-              />
-            );
+            return <SorteiosAdminPanel />;
 
           case "faqs":
             return (
