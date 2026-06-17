@@ -92,9 +92,6 @@ const HeroSorteio = ({ s }: { s: Sorteio }) => {
               </span>
             </div>
 
-            <p className="text-xs uppercase tracking-[0.4em] text-primary-glow font-bold mb-3 flex items-center gap-2">
-              <Sparkles className="w-3.5 h-3.5" /> Em destaque
-            </p>
 
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-5 leading-[1.1] drop-shadow-[0_4px_30px_hsl(var(--background))]">
               {s.title || "Sorteio em andamento"}
