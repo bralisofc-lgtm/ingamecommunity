@@ -37,9 +37,10 @@ const SorteiosRealizados = () => {
           {loading && (
             <div className="space-y-8 max-w-6xl mx-auto">
               {[0, 1].map((i) => (
-                <div
+              <div
                   key={i}
-                  className="w-full aspect-[1400/300] rounded-3xl bg-secondary/40 animate-pulse"
+                  className="w-full rounded-3xl bg-secondary/40 animate-pulse"
+                  style={{ aspectRatio: "16 / 5" }}
                 />
               ))}
             </div>
@@ -83,13 +84,13 @@ const SorteiosRealizados = () => {
                         : ""
                     }`}
                   >
-                    <div className="relative w-full aspect-[1400/300] overflow-hidden">
+                    <div className="relative w-full overflow-hidden" style={{ aspectRatio: "auto" }}>
                       {s.banner_image ? (
                         <img
                           src={s.banner_image}
                           alt={s.title || "Sorteio realizado"}
                           loading="lazy"
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                          className="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.03]"
                         />
                       ) : (
                         <div className="w-full h-full bg-gradient-to-br from-primary/30 via-background to-primary/10" />
