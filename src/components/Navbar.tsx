@@ -107,7 +107,21 @@ const Navbar = () => {
         {/* Center: tabs OR search input */}
         <div className="flex-1 flex justify-center">
           {!searchOpen ? (
-            <ul className="hidden md:flex items-center gap-4">
+            <ul className="hidden md:flex items-center gap-3">
+              <li>
+                <Link
+                  to="/sorteios"
+                  aria-label="Sorteios Realizados"
+                  title="Sorteios Realizados"
+                  className={`relative inline-flex items-center justify-center w-10 h-10 rounded-full border transition-all duration-300 hover:-translate-y-0.5 hover:scale-110 ${
+                    pathname === "/sorteios"
+                      ? "bg-primary text-primary-foreground border-primary-glow shadow-[0_0_22px_hsl(var(--primary-glow)/0.8)]"
+                      : "bg-background/40 text-foreground/80 border-border hover:border-primary-glow hover:text-primary-glow hover:shadow-[0_0_18px_hsl(var(--primary-glow)/0.55)]"
+                  }`}
+                >
+                  <Gift className="w-4 h-4" />
+                </Link>
+              </li>
               {tabs.map((t) => {
                 const active = pathname === t.to;
                 return (
