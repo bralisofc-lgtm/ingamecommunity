@@ -200,6 +200,7 @@ export type Database = {
           banner_image: string
           created_at: string
           description: string
+          end_date: string | null
           event_date: string | null
           featured_next: boolean
           game_logo: string
@@ -217,6 +218,7 @@ export type Database = {
           banner_image?: string
           created_at?: string
           description?: string
+          end_date?: string | null
           event_date?: string | null
           featured_next?: boolean
           game_logo?: string
@@ -234,6 +236,7 @@ export type Database = {
           banner_image?: string
           created_at?: string
           description?: string
+          end_date?: string | null
           event_date?: string | null
           featured_next?: boolean
           game_logo?: string
