@@ -71,7 +71,8 @@ export const useSorteios = (opts?: { onlyActive?: boolean }) => {
         participate_link: s.participate_link,
         active: s.active,
         position: s.position,
-      }]);
+        status: s.status,
+      } as any]);
       if (error) throw error;
       await refresh();
     },
