@@ -70,6 +70,7 @@ export const useSorteios = (opts?: { onlyActive?: boolean }) => {
         title: s.title,
         banner_image: s.banner_image,
         event_date: s.event_date,
+        end_date: s.end_date,
         participate_link: s.participate_link,
         active: s.active,
         position: s.position,
