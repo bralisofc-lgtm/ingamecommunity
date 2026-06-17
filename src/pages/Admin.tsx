@@ -10,6 +10,7 @@ import PostEditor from "@/components/admin/PostEditor";
 import Placeholder from "@/components/admin/sections/Placeholder";
 import FaqAdminPanel from "@/components/admin/FaqAdminPanel";
 import ParceirosAdminPanel from "@/components/admin/ParceirosAdminPanel";
+import SorteiosAdminPanel from "@/components/admin/SorteiosAdminPanel";
 import AdminsPanel from "@/components/admin/sections/AdminsPanel";
 import StatsDashboard from "@/components/admin/sections/StatsDashboard";
 
