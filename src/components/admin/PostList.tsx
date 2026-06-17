@@ -181,7 +181,7 @@ const PostList = ({
                 </div>
               </div>
 
-              <div className="flex items-center gap-1 px-3 py-2 border-t border-white/[0.05]">
+              <div className="flex flex-wrap items-center gap-1 px-3 py-2 border-t border-white/[0.05]">
                 <button
                   type="button"
                   onClick={() => onEdit(p)}
