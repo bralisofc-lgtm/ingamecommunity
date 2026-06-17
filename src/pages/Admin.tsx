@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Gift, RotateCcw, LogOut, Sparkles } from "lucide-react";
+import { RotateCcw, LogOut, Sparkles } from "lucide-react";
 import { usePosts, type Post } from "@/hooks/usePosts";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "@/hooks/use-toast";
@@ -10,6 +10,7 @@ import PostEditor from "@/components/admin/PostEditor";
 import Placeholder from "@/components/admin/sections/Placeholder";
 import FaqAdminPanel from "@/components/admin/FaqAdminPanel";
 import ParceirosAdminPanel from "@/components/admin/ParceirosAdminPanel";
+import SorteiosAdminPanel from "@/components/admin/SorteiosAdminPanel";
 import AdminsPanel from "@/components/admin/sections/AdminsPanel";
 import StatsDashboard from "@/components/admin/sections/StatsDashboard";
 
@@ -190,13 +191,7 @@ const Admin = () => {
             );
 
           case "sorteios":
-            return (
-              <Placeholder
-                title="Painel de Sorteios"
-                description="O gerenciador completo de sorteios chega na próxima fase, integrado a esta nova identidade."
-                icon={Gift}
-              />
-            );
+            return <SorteiosAdminPanel />;
 
           case "faqs":
             return (
