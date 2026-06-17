@@ -42,6 +42,15 @@ const toFormDate = (iso: string | null) => {
   return new Date(iso).toISOString().slice(0, 10);
 };
 
+const toFormDateTime = (iso: string | null) => {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return "";
+  // datetime-local format: YYYY-MM-DDTHH:MM (in user's local time)
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+};
+
 const formatDate = (iso: string | null) => {
   if (!iso) return "—";
   const d = new Date(iso);
