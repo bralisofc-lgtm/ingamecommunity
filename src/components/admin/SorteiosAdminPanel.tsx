@@ -8,6 +8,7 @@ const schema = z.object({
   title: z.string().trim().max(120).or(z.literal("")),
   banner_image: z.string().trim().url("URL inválida"),
   event_date: z.string().min(1, "Informe a data do sorteio"),
+  end_date: z.string().optional().or(z.literal("")),
   participate_link: z.string().trim().url("URL inválida").or(z.literal("")),
   active: z.boolean(),
   position: z.number().int().min(0).max(9999),
@@ -18,6 +19,7 @@ type FormState = {
   title: string;
   banner_image: string;
   event_date: string;
+  end_date: string; // datetime-local string
   participate_link: string;
   active: boolean;
   position: number;
@@ -28,6 +30,7 @@ const empty: FormState = {
   title: "",
   banner_image: "",
   event_date: new Date().toISOString().slice(0, 10),
+  end_date: "",
   participate_link: "",
   active: true,
   position: 0,
