@@ -234,6 +234,17 @@ const Navbar = () => {
       {open && !searchOpen && (
         <div className="md:hidden border-t border-border/50 bg-background/90 backdrop-blur-xl animate-fade-up">
           <ul className="flex flex-col p-4 gap-3">
+            <li>
+              <Link
+                to="/sorteios"
+                onClick={() => setOpen(false)}
+                data-active={pathname === "/sorteios"}
+                className="nav-link flex items-center gap-2 py-2 text-sm uppercase tracking-widest font-semibold"
+              >
+                <Gift className="w-4 h-4" />
+                Sorteios Realizados
+              </Link>
+            </li>
             {tabs.map((t) => (
               <li key={t.to}>
                 <Link
