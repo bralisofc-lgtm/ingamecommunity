@@ -278,6 +278,21 @@ const SorteiosAdminPanel = () => {
 
           <div className="md:col-span-6">
             <label className={lbl}>
+              Encerramento do sorteio (timer){" "}
+              <span className="text-white/30 normal-case tracking-normal">
+                — opcional, exibe a contagem regressiva na Hero
+              </span>
+            </label>
+            <input
+              type="datetime-local"
+              className={inputCls("end_date")}
+              value={form.end_date}
+              onChange={(e) => setForm({ ...form, end_date: e.target.value })}
+            />
+          </div>
+
+          <div className="md:col-span-6">
+            <label className={lbl}>
               Link de participação {form.status === "ativo" && "(botão Participar Agora)"}
             </label>
             <input
