@@ -29,6 +29,7 @@ const App = () => (
           <Route path="/post/:slug" element={<PostPage />} />
           <Route path="/faqs" element={<Faqs />} />
           <Route path="/parceiros" element={<Parceiros />} />
+          <Route path="/sorteios" element={<SorteiosRealizados />} />
           <Route path="/auth" element={<Auth />} />
           {/* Painel oculto — protegido por autenticação + role admin */}
           <Route
