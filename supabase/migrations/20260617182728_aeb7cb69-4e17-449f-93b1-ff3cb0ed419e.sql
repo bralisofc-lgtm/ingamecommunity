@@ -1,0 +1,1 @@
+ALTER TABLE public.sorteios ADD COLUMN IF NOT EXISTS status text NOT NULL DEFAULT 'realizado' CHECK (status IN ('ativo','realizado'));
