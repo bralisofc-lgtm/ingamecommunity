@@ -10,6 +10,7 @@ import PostPage from "./pages/PostPage.tsx";
 import Admin from "./pages/Admin.tsx";
 import Faqs from "./pages/Faqs.tsx";
 import Parceiros from "./pages/Parceiros.tsx";
+import SorteiosRealizados from "./pages/SorteiosRealizados.tsx";
 import Auth from "./pages/Auth.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import RequireAdmin from "./components/RequireAdmin.tsx";
