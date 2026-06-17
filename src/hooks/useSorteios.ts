@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
+export type SorteioStatus = "ativo" | "realizado";
+
 export interface Sorteio {
   id: string;
   title: string;
@@ -9,6 +11,7 @@ export interface Sorteio {
   participate_link: string;
   active: boolean;
   position: number;
+  status: SorteioStatus;
 }
 
 const mapRow = (r: any): Sorteio => ({
@@ -19,6 +22,7 @@ const mapRow = (r: any): Sorteio => ({
   participate_link: r.participate_link ?? "",
   active: !!r.active,
   position: r.position ?? 0,
+  status: (r.status === "ativo" ? "ativo" : "realizado"),
 });
 
 export const useSorteios = (opts?: { onlyActive?: boolean }) => {
