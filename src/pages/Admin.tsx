@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Gift, RotateCcw, LogOut, Sparkles } from "lucide-react";
+import { RotateCcw, LogOut, Sparkles } from "lucide-react";
 import { usePosts, type Post } from "@/hooks/usePosts";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "@/hooks/use-toast";
