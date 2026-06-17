@@ -62,7 +62,7 @@ const StatsDashboard = ({ posts }: Props) => {
         <h1 className="admin-h-title">Dashboard</h1>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 md:gap-4">
         <StatCard label="Postagens" value={posts.length} icon={FileText} />
         <StatCard label="Views totais" value={totals.views} icon={Eye} />
         <StatCard label="Cliques totais" value={totals.clicks} icon={MousePointerClick} />
