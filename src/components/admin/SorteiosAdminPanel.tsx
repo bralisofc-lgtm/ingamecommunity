@@ -73,6 +73,7 @@ const SorteiosAdminPanel = () => {
       title: s.title,
       banner_image: s.banner_image,
       event_date: toFormDate(s.event_date) || empty.event_date,
+      end_date: toFormDateTime(s.end_date),
       participate_link: s.participate_link,
       active: s.active,
       position: s.position,
