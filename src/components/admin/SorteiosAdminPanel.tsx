@@ -122,10 +122,12 @@ const SorteiosAdminPanel = () => {
       return;
     }
     const eventIso = new Date(`${r.data.event_date}T12:00:00Z`).toISOString();
+    const endIso = r.data.end_date ? new Date(r.data.end_date).toISOString() : null;
     const payload = {
       title: r.data.title || "",
       banner_image: r.data.banner_image,
       event_date: eventIso,
+      end_date: endIso,
       participate_link: r.data.participate_link || "",
       active: r.data.active,
       position: r.data.position,
