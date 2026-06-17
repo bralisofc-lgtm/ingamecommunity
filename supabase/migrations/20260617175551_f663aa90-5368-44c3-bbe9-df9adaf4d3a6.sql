@@ -1,0 +1,1 @@
+DROP POLICY IF EXISTS "Public read sorteios bucket" ON storage.objects;
