@@ -62,7 +62,7 @@ const StatsDashboard = ({ posts }: Props) => {
         <h1 className="admin-h-title">Dashboard</h1>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 md:gap-4">
         <StatCard label="Postagens" value={posts.length} icon={FileText} />
         <StatCard label="Views totais" value={totals.views} icon={Eye} />
         <StatCard label="Cliques totais" value={totals.clicks} icon={MousePointerClick} />
@@ -153,12 +153,12 @@ const StatCard = ({
   value: number | string;
   icon: React.ComponentType<{ className?: string }>;
 }) => (
-  <div className="admin-card p-5 relative overflow-hidden">
-    <div className="flex items-start justify-between mb-3">
-      <p className="admin-h-eyebrow">{label}</p>
-      <Icon className="w-4 h-4 text-white/30" />
+  <div className="admin-card p-3.5 md:p-5 relative overflow-hidden">
+    <div className="flex items-start justify-between mb-2 md:mb-3 gap-2">
+      <p className="admin-h-eyebrow text-[9px] md:text-[10px] leading-tight">{label}</p>
+      <Icon className="w-3.5 h-3.5 md:w-4 md:h-4 text-white/30 shrink-0" />
     </div>
-    <p className="text-3xl font-bold text-white tracking-tight tabular-nums">
+    <p className="text-xl md:text-3xl font-bold text-white tracking-tight tabular-nums">
       {typeof value === "number" ? value.toLocaleString("pt-BR") : value}
     </p>
   </div>

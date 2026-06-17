@@ -63,25 +63,26 @@ const PostList = ({
   return (
     <div className="admin-section-anim space-y-6">
       {/* Header */}
-      <div className="flex items-end justify-between flex-wrap gap-4">
+      <div className="flex items-end justify-between flex-wrap gap-3 md:gap-4">
         <div>
           <p className="admin-h-eyebrow mb-1.5">{eyebrow}</p>
           <h1 className="admin-h-title">{title}</h1>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/[0.06] focus-within:border-white/30 transition-colors">
-            <SearchIcon className="w-3.5 h-3.5 text-white/40" />
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/[0.06] focus-within:border-white/30 transition-colors flex-1 sm:flex-initial">
+            <SearchIcon className="w-3.5 h-3.5 text-white/40 shrink-0" />
             <input
               type="text"
               value={search}
               onChange={(e) => onSearch(e.target.value)}
               placeholder="Filtrar…"
-              className="bg-transparent outline-none text-sm text-white placeholder:text-white/30 w-[180px]"
+              className="bg-transparent outline-none text-sm text-white placeholder:text-white/30 w-full sm:w-[180px]"
             />
           </div>
-          <button type="button" onClick={onNew} className="admin-btn admin-btn-primary">
+          <button type="button" onClick={onNew} className="admin-btn admin-btn-primary shrink-0">
             <Plus className="w-3.5 h-3.5" />
-            Nova postagem
+            <span className="hidden sm:inline">Nova postagem</span>
+            <span className="sm:hidden">Nova</span>
           </button>
         </div>
       </div>
@@ -180,7 +181,7 @@ const PostList = ({
                 </div>
               </div>
 
-              <div className="flex items-center gap-1 px-3 py-2 border-t border-white/[0.05]">
+              <div className="flex flex-wrap items-center gap-1 px-3 py-2 border-t border-white/[0.05]">
                 <button
                   type="button"
                   onClick={() => onEdit(p)}

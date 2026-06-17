@@ -9,6 +9,7 @@ import {
   Settings,
   ChevronsLeft,
   ChevronsRight,
+  X,
 } from "lucide-react";
 
 export type AdminSection =
@@ -54,9 +55,18 @@ interface Props {
   onChange: (s: AdminSection) => void;
   collapsed: boolean;
   onToggleCollapsed: () => void;
+  mobileOpen: boolean;
+  onCloseMobile: () => void;
 }
 
-const AdminSidebar = ({ active, onChange, collapsed, onToggleCollapsed }: Props) => {
+const AdminSidebar = ({
+  active,
+  onChange,
+  collapsed,
+  onToggleCollapsed,
+  mobileOpen,
+  onCloseMobile,
+}: Props) => {
   const groups: { name: string; items: NavItem[] }[] = [];
   for (const item of NAV) {
     const g = item.group ?? "";
@@ -66,74 +76,102 @@ const AdminSidebar = ({ active, onChange, collapsed, onToggleCollapsed }: Props)
   }
 
   return (
-    <aside
-      className={`relative z-10 shrink-0 h-screen sticky top-0 admin-glass border-r border-white/[0.06] flex flex-col transition-[width] duration-300 ease-out ${
-        collapsed ? "w-[68px]" : "w-[244px]"
-      }`}
-    >
-      <div className="relative flex items-center px-3 py-4 border-b border-white/[0.05] h-[65px]">
-        {!collapsed && (
-          <div>
-            <p className="text-[10px] uppercase tracking-[0.32em] text-white/40 font-semibold">
-              In Game
-            </p>
-            <p className="text-sm font-bold tracking-tight text-white truncate">Admin Studio</p>
-          </div>
-        )}
-      </div>
+    <>
+      {/* Mobile backdrop */}
+      <div
+        className={`lg:hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${
+          mobileOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+        onClick={onCloseMobile}
+        aria-hidden
+      />
 
-      <nav className="flex-1 overflow-y-auto px-2 py-4 space-y-5">
-        {groups.map((g) => (
-          <div key={g.name}>
-            {!collapsed && g.name && (
-              <p className="px-2 mb-1.5 text-[9px] uppercase tracking-[0.3em] text-white/30 font-bold">
-                {g.name}
+      <aside
+        className={`admin-glass border-r border-white/[0.06] flex flex-col
+          fixed lg:sticky top-0 left-0 z-50 h-screen lg:h-screen
+          transition-transform duration-300 ease-out lg:translate-x-0
+          ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
+          ${collapsed ? "lg:w-[68px]" : "lg:w-[244px]"}
+          w-[260px] shrink-0`}
+        style={{ transitionProperty: "transform, width" }}
+      >
+        <div className="relative flex items-center justify-between px-3 py-4 border-b border-white/[0.05] h-[65px]">
+          {!collapsed && (
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.32em] text-white/40 font-semibold">
+                In Game
               </p>
-            )}
-            <ul className="space-y-0.5">
-              {g.items.map((item) => {
-                const Icon = item.icon;
-                const isActive = active === item.id;
-                return (
-                  <li key={item.id}>
-                    <button
-                      type="button"
-                      onClick={() => onChange(item.id)}
-                      className={`admin-nav-item w-full ${isActive ? "is-active" : ""} ${
-                        collapsed ? "justify-center !px-0" : ""
-                      }`}
-                      title={collapsed ? SECTION_LABELS[item.id] : undefined}
-                      aria-label={SECTION_LABELS[item.id]}
-                    >
-                      <Icon className="w-[18px] h-[18px] shrink-0" />
-                      {!collapsed && <span className="truncate">{SECTION_LABELS[item.id]}</span>}
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        ))}
-      </nav>
-
-      <div className="border-t border-white/[0.05] p-2">
-        <button
-          type="button"
-          onClick={onToggleCollapsed}
-          className={`admin-btn admin-btn-ghost w-full ${collapsed ? "!px-0 justify-center" : ""}`}
-          aria-label={collapsed ? "Expandir menu" : "Recolher menu"}
-        >
-          {collapsed ? (
-            <ChevronsRight className="w-4 h-4" />
-          ) : (
-            <>
-              <ChevronsLeft className="w-4 h-4" />
-              <span className="text-[11px]">Recolher</span>
-            </>
+              <p className="text-sm font-bold tracking-tight text-white truncate">Admin Studio</p>
+            </div>
           )}
-        </button>
-      </div>
-    </aside>
+          <button
+            type="button"
+            onClick={onCloseMobile}
+            className="lg:hidden admin-btn admin-btn-ghost !p-2"
+            aria-label="Fechar menu"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+
+        <nav className="flex-1 overflow-y-auto px-2 py-4 space-y-5">
+          {groups.map((g) => (
+            <div key={g.name}>
+              {!collapsed && g.name && (
+                <p className="px-2 mb-1.5 text-[9px] uppercase tracking-[0.3em] text-white/30 font-bold">
+                  {g.name}
+                </p>
+              )}
+              <ul className="space-y-0.5">
+                {g.items.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = active === item.id;
+                  return (
+                    <li key={item.id}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          onChange(item.id);
+                          onCloseMobile();
+                        }}
+                        className={`admin-nav-item w-full ${isActive ? "is-active" : ""} ${
+                          collapsed ? "lg:justify-center lg:!px-0" : ""
+                        }`}
+                        title={collapsed ? SECTION_LABELS[item.id] : undefined}
+                        aria-label={SECTION_LABELS[item.id]}
+                      >
+                        <Icon className="w-[18px] h-[18px] shrink-0" />
+                        <span className={`truncate ${collapsed ? "lg:hidden" : ""}`}>
+                          {SECTION_LABELS[item.id]}
+                        </span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ))}
+        </nav>
+
+        <div className="border-t border-white/[0.05] p-2 hidden lg:block">
+          <button
+            type="button"
+            onClick={onToggleCollapsed}
+            className={`admin-btn admin-btn-ghost w-full ${collapsed ? "!px-0 justify-center" : ""}`}
+            aria-label={collapsed ? "Expandir menu" : "Recolher menu"}
+          >
+            {collapsed ? (
+              <ChevronsRight className="w-4 h-4" />
+            ) : (
+              <>
+                <ChevronsLeft className="w-4 h-4" />
+                <span className="text-[11px]">Recolher</span>
+              </>
+            )}
+          </button>
+        </div>
+      </aside>
+    </>
   );
 };
 
