@@ -242,24 +242,24 @@ const SorteiosRealizados = () => {
                 >
                   <Wrapper
                     {...wrapperProps}
-                    className={`group block relative overflow-hidden rounded-3xl border border-border/60 bg-background/60 backdrop-blur-sm shadow-[0_8px_40px_-12px_hsl(var(--primary)/0.25)] ${
+                    className={`group block relative overflow-hidden rounded-[1.5rem] border border-border/60 bg-background/60 backdrop-blur-sm shadow-[0_0_40px_-12px_hsl(var(--primary-glow)/0.25)] hover:shadow-[0_0_60px_-8px_hsl(var(--primary-glow)/0.45)] ${
                       hasLink
-                        ? "cursor-pointer hover:border-primary-glow hover:shadow-[0_18px_60px_-12px_hsl(var(--primary-glow)/0.55)] hover:-translate-y-1 transition-all duration-500"
+                        ? "cursor-pointer hover:border-primary-glow/50 hover:-translate-y-1 transition-all duration-500"
                         : ""
                     }`}
                   >
-                    <div className="relative w-full overflow-hidden aspect-[1400/300]">
+                    <div className="relative w-full overflow-hidden h-[150px] md:h-[180px]">
                       {s.banner_image ? (
                         <img
                           src={s.banner_image}
                           alt={s.title || "Sorteio realizado"}
                           loading="lazy"
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                          className="w-full h-full object-cover scale-[1.02] transition-transform duration-700 group-hover:scale-[1.12]"
                         />
                       ) : (
                         <div className="w-full h-full bg-gradient-to-br from-primary/30 via-background to-primary/10" />
                       )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/20 to-transparent opacity-90" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent opacity-95" />
                       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-tr from-primary/15 via-transparent to-primary-glow/15" />
                       {hasLink && (
                         <div className="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-background/80 backdrop-blur-md border border-primary-glow/40 text-[10px] uppercase tracking-widest font-bold text-primary-glow opacity-0 group-hover:opacity-100 transition-opacity duration-300">
