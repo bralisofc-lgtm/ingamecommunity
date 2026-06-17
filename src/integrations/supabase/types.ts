@@ -207,6 +207,7 @@ export type Database = {
           participants_count: number
           participate_link: string
           position: number
+          status: string
           title: string
           updated_at: string
           youtube_trailer: string
@@ -223,6 +224,7 @@ export type Database = {
           participants_count?: number
           participate_link?: string
           position?: number
+          status?: string
           title: string
           updated_at?: string
           youtube_trailer?: string
@@ -239,6 +241,7 @@ export type Database = {
           participants_count?: number
           participate_link?: string
           position?: number
+          status?: string
           title?: string
           updated_at?: string
           youtube_trailer?: string

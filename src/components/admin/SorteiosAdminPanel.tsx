@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { z } from "zod";
 import { ArrowDown, ArrowUp, Calendar, Eye, EyeOff } from "lucide-react";
-import { useSorteios, type Sorteio } from "@/hooks/useSorteios";
+import { useSorteios, type Sorteio, type SorteioStatus } from "@/hooks/useSorteios";
 import { toast } from "@/hooks/use-toast";
 
 const schema = z.object({
@@ -11,15 +11,17 @@ const schema = z.object({
   participate_link: z.string().trim().url("URL inválida").or(z.literal("")),
   active: z.boolean(),
   position: z.number().int().min(0).max(9999),
+  status: z.enum(["ativo", "realizado"]),
 });
 
 type FormState = {
   title: string;
   banner_image: string;
-  event_date: string; // YYYY-MM-DD
+  event_date: string;
   participate_link: string;
   active: boolean;
   position: number;
+  status: SorteioStatus;
 };
 
 const empty: FormState = {
@@ -29,6 +31,7 @@ const empty: FormState = {
   participate_link: "",
   active: true,
   position: 0,
+  status: "ativo",
 };
 
 const toFormDate = (iso: string | null) => {
@@ -61,6 +64,7 @@ const SorteiosAdminPanel = () => {
       participate_link: s.participate_link,
       active: s.active,
       position: s.position,
+      status: s.status,
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -104,7 +108,6 @@ const SorteiosAdminPanel = () => {
       toast({ title: "Verifique os campos", variant: "destructive" });
       return;
     }
-    // Save event_date as ISO timestamp at midday UTC to avoid timezone drift
     const eventIso = new Date(`${r.data.event_date}T12:00:00Z`).toISOString();
     const payload = {
       title: r.data.title || "",
@@ -113,6 +116,7 @@ const SorteiosAdminPanel = () => {
       participate_link: r.data.participate_link || "",
       active: r.data.active,
       position: r.data.position,
+      status: r.data.status,
     };
     try {
       if (editingId) {
@@ -169,14 +173,14 @@ const SorteiosAdminPanel = () => {
     <div className="admin-section-anim space-y-5">
       <div>
         <p className="admin-h-eyebrow mb-1.5">Conteúdo</p>
-        <h1 className="admin-h-title">Sorteios Realizados</h1>
+        <h1 className="admin-h-title">Sorteios</h1>
         <p className="text-sm text-white/50 mt-1">
-          Gerencie o histórico de sorteios exibido na página pública.
+          Defina o sorteio em destaque (ativo) e gerencie o histórico (realizados).
         </p>
       </div>
 
       <form onSubmit={onSubmit} className="admin-card p-5 md:p-6 space-y-5">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between flex-wrap gap-3">
           <h2 className="text-base font-semibold text-white">
             {editingId ? "Editar sorteio" : "Novo sorteio"}
           </h2>
@@ -196,12 +200,12 @@ const SorteiosAdminPanel = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
           <div className="md:col-span-4">
-            <label className={lbl}>Título interno (opcional)</label>
+            <label className={lbl}>Título / Nome do jogo</label>
             <input
               className={inputCls("title")}
               value={form.title}
               onChange={(e) => setForm({ ...form, title: e.target.value })}
-              placeholder="Ex: Sorteio de Mixtape"
+              placeholder="Ex: Sorteio Cyberpunk 2077"
               maxLength={120}
             />
           </div>
@@ -217,7 +221,35 @@ const SorteiosAdminPanel = () => {
           </div>
 
           <div className="md:col-span-3">
-            <label className={lbl}>Data do sorteio realizado *</label>
+            <label className={lbl}>Status do sorteio *</label>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => setForm({ ...form, status: "ativo" })}
+                className={`flex-1 px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider border transition ${
+                  form.status === "ativo"
+                    ? "bg-emerald-500/20 border-emerald-400/60 text-emerald-200 shadow-[0_0_18px_hsl(var(--primary-glow)/0.35)]"
+                    : "bg-white/[0.03] border-white/10 text-white/50 hover:border-white/25"
+                }`}
+              >
+                Ativo (Hero)
+              </button>
+              <button
+                type="button"
+                onClick={() => setForm({ ...form, status: "realizado" })}
+                className={`flex-1 px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider border transition ${
+                  form.status === "realizado"
+                    ? "bg-red-500/20 border-red-400/60 text-red-200"
+                    : "bg-white/[0.03] border-white/10 text-white/50 hover:border-white/25"
+                }`}
+              >
+                Realizado
+              </button>
+            </div>
+          </div>
+
+          <div className="md:col-span-3">
+            <label className={lbl}>Data do sorteio *</label>
             <input
               type="date"
               className={inputCls("event_date")}
@@ -229,8 +261,10 @@ const SorteiosAdminPanel = () => {
             )}
           </div>
 
-          <div className="md:col-span-3">
-            <label className={lbl}>Link de redirecionamento</label>
+          <div className="md:col-span-6">
+            <label className={lbl}>
+              Link de participação {form.status === "ativo" && "(botão Participar Agora)"}
+            </label>
             <input
               className={inputCls("participate_link")}
               value={form.participate_link}
@@ -332,15 +366,20 @@ const SorteiosAdminPanel = () => {
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
+                  <div className="flex items-center gap-2 mb-1 flex-wrap">
                     <span className="px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded-full bg-white/10 text-white/70">
                       #{s.position}
                     </span>
-                    {s.active ? (
+                    {s.status === "ativo" ? (
                       <span className="px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
                         Ativo
                       </span>
                     ) : (
+                      <span className="px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded-full bg-red-500/15 text-red-300 border border-red-500/40">
+                        Realizado
+                      </span>
+                    )}
+                    {!s.active && (
                       <span className="px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded-full bg-white/5 text-white/40 border border-white/10">
                         Oculto
                       </span>
@@ -376,7 +415,7 @@ const SorteiosAdminPanel = () => {
                     type="button"
                     onClick={() => toggleActive(s)}
                     className="admin-btn admin-btn-ghost !px-2"
-                    title={s.active ? "Ocultar" : "Ativar"}
+                    title={s.active ? "Ocultar" : "Mostrar"}
                   >
                     {s.active ? (
                       <EyeOff className="w-3.5 h-3.5" />
