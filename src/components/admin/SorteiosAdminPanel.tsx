@@ -8,6 +8,7 @@ const schema = z.object({
   title: z.string().trim().max(120).or(z.literal("")),
   banner_image: z.string().trim().url("URL inválida"),
   event_date: z.string().min(1, "Informe a data do sorteio"),
+  end_date: z.string().optional().or(z.literal("")),
   participate_link: z.string().trim().url("URL inválida").or(z.literal("")),
   active: z.boolean(),
   position: z.number().int().min(0).max(9999),
@@ -18,6 +19,7 @@ type FormState = {
   title: string;
   banner_image: string;
   event_date: string;
+  end_date: string; // datetime-local string
   participate_link: string;
   active: boolean;
   position: number;
@@ -28,6 +30,7 @@ const empty: FormState = {
   title: "",
   banner_image: "",
   event_date: new Date().toISOString().slice(0, 10),
+  end_date: "",
   participate_link: "",
   active: true,
   position: 0,
@@ -37,6 +40,15 @@ const empty: FormState = {
 const toFormDate = (iso: string | null) => {
   if (!iso) return "";
   return new Date(iso).toISOString().slice(0, 10);
+};
+
+const toFormDateTime = (iso: string | null) => {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return "";
+  // datetime-local format: YYYY-MM-DDTHH:MM (in user's local time)
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
 };
 
 const formatDate = (iso: string | null) => {
@@ -61,6 +73,7 @@ const SorteiosAdminPanel = () => {
       title: s.title,
       banner_image: s.banner_image,
       event_date: toFormDate(s.event_date) || empty.event_date,
+      end_date: toFormDateTime(s.end_date),
       participate_link: s.participate_link,
       active: s.active,
       position: s.position,
@@ -109,10 +122,12 @@ const SorteiosAdminPanel = () => {
       return;
     }
     const eventIso = new Date(`${r.data.event_date}T12:00:00Z`).toISOString();
+    const endIso = r.data.end_date ? new Date(r.data.end_date).toISOString() : null;
     const payload = {
       title: r.data.title || "",
       banner_image: r.data.banner_image,
       event_date: eventIso,
+      end_date: endIso,
       participate_link: r.data.participate_link || "",
       active: r.data.active,
       position: r.data.position,
@@ -259,6 +274,21 @@ const SorteiosAdminPanel = () => {
             {errors.event_date && (
               <p className="mt-1 text-[11px] text-red-400">{errors.event_date}</p>
             )}
+          </div>
+
+          <div className="md:col-span-6">
+            <label className={lbl}>
+              Encerramento do sorteio (timer){" "}
+              <span className="text-white/30 normal-case tracking-normal">
+                — opcional, exibe a contagem regressiva na Hero
+              </span>
+            </label>
+            <input
+              type="datetime-local"
+              className={inputCls("end_date")}
+              value={form.end_date}
+              onChange={(e) => setForm({ ...form, end_date: e.target.value })}
+            />
           </div>
 
           <div className="md:col-span-6">

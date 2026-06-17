@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Calendar, ExternalLink, Gift, Sparkles } from "lucide-react";
 import SiteLayout from "@/components/SiteLayout";
 import { useSorteios, type Sorteio } from "@/hooks/useSorteios";
@@ -10,6 +10,43 @@ const formatDate = (iso: string | null) => {
   return d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" });
 };
 
+const pad2 = (n: number) => String(Math.max(0, n)).padStart(2, "0");
+
+const useCountdown = (target: string | null) => {
+  const targetTs = useMemo(() => (target ? new Date(target).getTime() : null), [target]);
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    if (!targetTs) return;
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, [targetTs]);
+
+  if (!targetTs) return null;
+  const diff = Math.max(0, targetTs - now);
+  const days = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
+  const minutes = Math.floor((diff % 3600000) / 60000);
+  const seconds = Math.floor((diff % 60000) / 1000);
+  return { diff, days, hours, minutes, seconds, ended: diff === 0 };
+};
+
+const TimerCell = ({ value, label }: { value: number; label: string }) => (
+  <div className="flex flex-col items-center">
+    <div className="relative min-w-[68px] md:min-w-[88px] px-3 md:px-4 py-3 md:py-4 rounded-2xl bg-white/[0.06] backdrop-blur-xl border border-white/15 shadow-[0_0_30px_-8px_hsl(var(--primary-glow)/0.55)] overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-transparent to-primary/10 pointer-events-none" />
+      <div
+        key={value}
+        className="relative text-3xl md:text-5xl font-extrabold tracking-tight tabular-nums text-white animate-fade-in"
+      >
+        {pad2(value)}
+      </div>
+    </div>
+    <span className="mt-2 text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-white/60">
+      {label}
+    </span>
+  </div>
+);
+
 const HeroSorteio = ({ s }: { s: Sorteio }) => {
   const [loaded, setLoaded] = useState(false);
   useEffect(() => {
@@ -17,9 +54,10 @@ const HeroSorteio = ({ s }: { s: Sorteio }) => {
     return () => clearTimeout(t);
   }, []);
 
+  const countdown = useCountdown(s.end_date);
+
   return (
     <section className="relative w-screen left-1/2 -translate-x-1/2 h-[100vh] min-h-[640px] overflow-hidden -mt-px">
-      {/* Background image */}
       {s.banner_image && (
         <div
           className={`absolute inset-0 bg-center bg-cover transition-all duration-[1400ms] ease-out ${
@@ -30,15 +68,12 @@ const HeroSorteio = ({ s }: { s: Sorteio }) => {
         />
       )}
 
-      {/* Cinematic overlays */}
       <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/40 to-background" aria-hidden />
       <div className="absolute inset-0 bg-gradient-to-r from-background/85 via-background/20 to-background/60" aria-hidden />
       <div className="absolute inset-0 pointer-events-none [box-shadow:inset_0_0_180px_60px_hsl(var(--background))]" aria-hidden />
-      {/* Ambient glow */}
       <div className="absolute -top-40 -right-40 w-[60vw] h-[60vw] rounded-full bg-primary-glow/15 blur-3xl pointer-events-none" aria-hidden />
       <div className="absolute -bottom-40 -left-40 w-[50vw] h-[50vw] rounded-full bg-primary/10 blur-3xl pointer-events-none" aria-hidden />
 
-      {/* Content */}
       <div className="relative z-10 h-full flex items-center">
         <div className="container mx-auto px-4 md:px-8">
           <div
@@ -46,13 +81,14 @@ const HeroSorteio = ({ s }: { s: Sorteio }) => {
               loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-400/40 backdrop-blur-md mb-5">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+            {/* Premium Sorteio do Mês badge */}
+            <div className="relative inline-flex items-center gap-2 px-4 py-2 rounded-full mb-5 overflow-hidden border border-purple-300/40 bg-gradient-to-r from-purple-700/60 via-purple-500/50 to-fuchsia-600/60 backdrop-blur-md shadow-[0_0_28px_-4px_hsl(280_90%_65%/0.55)]">
+              <span className="pointer-events-none absolute inset-0 overflow-hidden rounded-full">
+                <span className="absolute top-0 -left-1/2 h-full w-1/2 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-[shine_3.5s_ease-in-out_infinite] skew-x-12" />
               </span>
-              <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-emerald-200">
-                Sorteio ativo
+              <Gift className="w-4 h-4 text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.8)] relative z-10" />
+              <span className="relative z-10 text-[11px] md:text-xs font-extrabold uppercase tracking-[0.32em] text-white">
+                Sorteio do Mês
               </span>
             </div>
 
@@ -60,12 +96,12 @@ const HeroSorteio = ({ s }: { s: Sorteio }) => {
               <Sparkles className="w-3.5 h-3.5" /> Em destaque
             </p>
 
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-5 leading-[1.05] drop-shadow-[0_4px_30px_hsl(var(--background))]">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-5 leading-[1.1] drop-shadow-[0_4px_30px_hsl(var(--background))]">
               {s.title || "Sorteio em andamento"}
             </h1>
 
             {s.event_date && (
-              <div className="flex items-center gap-2 text-sm md:text-base text-foreground/80 mb-8">
+              <div className="flex items-center gap-2 text-sm md:text-base text-foreground/80 mb-6">
                 <Calendar className="w-4 h-4 text-primary-glow" />
                 <span>
                   Sorteio em{" "}
@@ -73,6 +109,25 @@ const HeroSorteio = ({ s }: { s: Sorteio }) => {
                     {formatDate(s.event_date)}
                   </span>
                 </span>
+              </div>
+            )}
+
+            {countdown && !countdown.ended && (
+              <div className="mb-8 animate-fade-in">
+                <p className="text-[10px] md:text-xs uppercase tracking-[0.32em] text-white/60 font-bold mb-3">
+                  O sorteio termina em
+                </p>
+                <div className="flex items-start gap-2 md:gap-4">
+                  <TimerCell value={countdown.days} label="Dias" />
+                  <TimerCell value={countdown.hours} label="Horas" />
+                  <TimerCell value={countdown.minutes} label="Minutos" />
+                  <TimerCell value={countdown.seconds} label="Seg" />
+                </div>
+              </div>
+            )}
+            {countdown?.ended && (
+              <div className="mb-8 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-500/20 border border-red-400/50 backdrop-blur-md text-[10px] font-bold uppercase tracking-[0.3em] text-red-200">
+                Sorteio encerrado
               </div>
             )}
 
@@ -93,7 +148,6 @@ const HeroSorteio = ({ s }: { s: Sorteio }) => {
         </div>
       </div>
 
-      {/* Scroll hint */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-xs uppercase tracking-[0.3em] text-foreground/50 animate-pulse">
         <span>Sorteios anteriores</span>
         <span className="w-px h-8 bg-gradient-to-b from-foreground/50 to-transparent" />
@@ -210,9 +264,6 @@ const SorteiosRealizados = () => {
                       )}
                       <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/20 to-transparent opacity-90" />
                       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-tr from-primary/15 via-transparent to-primary-glow/15" />
-                      <div className="absolute top-4 left-4 px-2.5 py-1 rounded-full bg-red-500/20 border border-red-400/50 backdrop-blur-md text-[10px] font-bold uppercase tracking-[0.2em] text-red-200">
-                        Realizado
-                      </div>
                       {hasLink && (
                         <div className="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-background/80 backdrop-blur-md border border-primary-glow/40 text-[10px] uppercase tracking-widest font-bold text-primary-glow opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                           <ExternalLink className="w-3 h-3" />

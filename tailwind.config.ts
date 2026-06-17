@@ -80,10 +80,20 @@ export default {
             height: "0",
           },
         },
+        "shine": {
+          "0%": { transform: "translateX(-150%) skewX(-12deg)" },
+          "60%, 100%": { transform: "translateX(350%) skewX(-12deg)" },
+        },
+        "fade-in": {
+          "0%": { opacity: "0", transform: "translateY(8px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "shine": "shine 3.5s ease-in-out infinite",
+        "fade-in": "fade-in 0.3s ease-out",
       },
     },
   },
