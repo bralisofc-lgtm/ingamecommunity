@@ -58,12 +58,23 @@ const HeroSorteio = ({ s }: { s: Sorteio }) => {
 
   return (
     <section className="relative w-screen left-1/2 -translate-x-1/2 h-[100vh] min-h-[640px] overflow-hidden -mt-px">
+      {/* Desktop / Tablet banner */}
       {s.banner_image && (
         <div
-          className={`absolute inset-0 bg-center bg-cover transition-all duration-[1400ms] ease-out ${
+          className={`absolute inset-0 bg-center bg-cover transition-all duration-[1400ms] ease-out hidden md:block ${
             loaded ? "opacity-100 scale-100" : "opacity-0 scale-105"
           }`}
           style={{ backgroundImage: `url(${s.banner_image})` }}
+          aria-hidden
+        />
+      )}
+      {/* Mobile banner */}
+      {(s.banner_image_mobile || s.banner_image) && (
+        <div
+          className={`absolute inset-0 bg-center bg-cover transition-all duration-[1400ms] ease-out md:hidden ${
+            loaded ? "opacity-100 scale-100" : "opacity-0 scale-105"
+          }`}
+          style={{ backgroundImage: `url(${s.banner_image_mobile || s.banner_image})` }}
           aria-hidden
         />
       )}
