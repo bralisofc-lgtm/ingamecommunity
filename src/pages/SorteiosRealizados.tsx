@@ -259,16 +259,28 @@ const SorteiosRealizados = () => {
                         : ""
                     }`}
                   >
-                    <div className="relative w-full overflow-hidden h-[150px] md:h-[180px]">
+                    <div className="relative w-full overflow-hidden aspect-[3/4] md:aspect-[1400/300]">
+                      {/* Desktop/Tablet banner */}
                       {s.banner_image ? (
                         <img
                           src={s.banner_image}
                           alt={s.title || "Sorteio realizado"}
                           loading="lazy"
-                          className="w-full h-full object-cover scale-[1.02] transition-transform duration-700 group-hover:scale-[1.12]"
+                          className="hidden md:block w-full h-full object-cover scale-[1.02] transition-transform duration-700 group-hover:scale-[1.12]"
                         />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-primary/30 via-background to-primary/10" />
+                        <div className="hidden md:block w-full h-full bg-gradient-to-br from-primary/30 via-background to-primary/10" />
+                      )}
+                      {/* Mobile banner */}
+                      {(s.banner_image_mobile || s.banner_image) ? (
+                        <img
+                          src={s.banner_image_mobile || s.banner_image}
+                          alt={s.title || "Sorteio realizado"}
+                          loading="lazy"
+                          className="md:hidden w-full h-full object-cover scale-[1.02] transition-transform duration-700 group-hover:scale-[1.12]"
+                        />
+                      ) : (
+                        <div className="md:hidden w-full h-full bg-gradient-to-br from-primary/30 via-background to-primary/10" />
                       )}
                       <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent opacity-95" />
                       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-tr from-primary/15 via-transparent to-primary-glow/15" />
