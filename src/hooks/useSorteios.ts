@@ -7,6 +7,7 @@ export interface Sorteio {
   id: string;
   title: string;
   banner_image: string;
+  banner_image_mobile: string;
   event_date: string | null; // ISO datetime
   end_date: string | null; // ISO datetime for countdown
   participate_link: string;
@@ -19,6 +20,7 @@ const mapRow = (r: any): Sorteio => ({
   id: r.id,
   title: r.title ?? "",
   banner_image: r.banner_image ?? "",
+  banner_image_mobile: r.banner_image_mobile ?? "",
   event_date: r.event_date ?? null,
   end_date: r.end_date ?? null,
   participate_link: r.participate_link ?? "",
@@ -69,6 +71,7 @@ export const useSorteios = (opts?: { onlyActive?: boolean }) => {
       const { error } = await supabase.from("sorteios").insert([{
         title: s.title,
         banner_image: s.banner_image,
+        banner_image_mobile: s.banner_image_mobile,
         event_date: s.event_date,
         end_date: s.end_date,
         participate_link: s.participate_link,

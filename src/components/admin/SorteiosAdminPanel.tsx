@@ -7,6 +7,7 @@ import { toast } from "@/hooks/use-toast";
 const schema = z.object({
   title: z.string().trim().max(120).or(z.literal("")),
   banner_image: z.string().trim().url("URL inválida"),
+  banner_image_mobile: z.string().trim().url("URL inválida").or(z.literal("")),
   event_date: z.string().min(1, "Informe a data do sorteio"),
   end_date: z.string().optional().or(z.literal("")),
   participate_link: z.string().trim().url("URL inválida").or(z.literal("")),
@@ -18,6 +19,7 @@ const schema = z.object({
 type FormState = {
   title: string;
   banner_image: string;
+  banner_image_mobile: string;
   event_date: string;
   end_date: string; // datetime-local string
   participate_link: string;
@@ -29,6 +31,7 @@ type FormState = {
 const empty: FormState = {
   title: "",
   banner_image: "",
+  banner_image_mobile: "",
   event_date: new Date().toISOString().slice(0, 10),
   end_date: "",
   participate_link: "",
@@ -65,6 +68,7 @@ const SorteiosAdminPanel = () => {
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
   const [uploading, setUploading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const mobileFileRef = useRef<HTMLInputElement>(null);
 
   const startEdit = (s: Sorteio) => {
     setEditingId(s.id);
@@ -72,6 +76,7 @@ const SorteiosAdminPanel = () => {
     setForm({
       title: s.title,
       banner_image: s.banner_image,
+      banner_image_mobile: s.banner_image_mobile,
       event_date: toFormDate(s.event_date) || empty.event_date,
       end_date: toFormDateTime(s.end_date),
       participate_link: s.participate_link,
@@ -87,9 +92,10 @@ const SorteiosAdminPanel = () => {
     setForm(empty);
     setErrors({});
     if (fileRef.current) fileRef.current.value = "";
+    if (mobileFileRef.current) mobileFileRef.current.value = "";
   };
 
-  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>, field: "banner_image" | "banner_image_mobile") => {
     const file = e.target.files?.[0];
     if (!file) return;
     if (file.size > 8 * 1024 * 1024) {
@@ -99,7 +105,7 @@ const SorteiosAdminPanel = () => {
     setUploading(true);
     try {
       const url = await uploadBanner(file);
-      setForm((f) => ({ ...f, banner_image: url }));
+      setForm((f) => ({ ...f, [field]: url }));
       toast({ title: "Banner enviado" });
     } catch {
       toast({ title: "Erro ao enviar banner", variant: "destructive" });
@@ -126,6 +132,7 @@ const SorteiosAdminPanel = () => {
     const payload = {
       title: r.data.title || "",
       banner_image: r.data.banner_image,
+      banner_image_mobile: r.data.banner_image_mobile || "",
       event_date: eventIso,
       end_date: endIso,
       participate_link: r.data.participate_link || "",
@@ -138,7 +145,7 @@ const SorteiosAdminPanel = () => {
         await update(editingId, payload);
         toast({ title: "Sorteio atualizado" });
       } else {
-        await create(payload);
+        await create(payload as any);
         toast({ title: "Sorteio adicionado" });
       }
       reset();
@@ -307,13 +314,13 @@ const SorteiosAdminPanel = () => {
           </div>
 
           <div className="md:col-span-6">
-            <label className={lbl}>Banner (1400 × 300 recomendado)</label>
+            <label className={lbl}>Banner Desktop / Tablet (1400 × 300 recomendado)</label>
             <div className="flex flex-col gap-3">
               {form.banner_image && (
                 <div className="rounded-xl overflow-hidden border border-white/10 bg-black">
                   <img
                     src={form.banner_image}
-                    alt="preview"
+                    alt="preview desktop"
                     className="w-full aspect-[1400/300] object-cover"
                   />
                 </div>
@@ -323,7 +330,7 @@ const SorteiosAdminPanel = () => {
                   ref={fileRef}
                   type="file"
                   accept="image/*"
-                  onChange={handleFile}
+                  onChange={(e) => handleFile(e, "banner_image")}
                   disabled={uploading}
                   className="block flex-1 text-xs text-white/60 file:mr-3 file:py-2 file:px-3 file:rounded-md file:border-0 file:text-[10px] file:font-bold file:uppercase file:tracking-wider file:bg-white/10 file:text-white hover:file:bg-white/20 cursor-pointer"
                 />
@@ -339,6 +346,45 @@ const SorteiosAdminPanel = () => {
               />
               {errors.banner_image && (
                 <p className="text-[11px] text-red-400">{errors.banner_image}</p>
+              )}
+            </div>
+          </div>
+
+          <div className="md:col-span-6">
+            <label className={lbl}>
+              Banner Mobile <span className="text-white/30 normal-case tracking-normal">— opcional, formato vertical</span>
+            </label>
+            <div className="flex flex-col gap-3">
+              {form.banner_image_mobile && (
+                <div className="rounded-xl overflow-hidden border border-white/10 bg-black">
+                  <img
+                    src={form.banner_image_mobile}
+                    alt="preview mobile"
+                    className="w-full aspect-[9/16] max-h-48 object-cover mx-auto"
+                  />
+                </div>
+              )}
+              <div className="flex flex-col md:flex-row gap-3 md:items-center">
+                <input
+                  ref={mobileFileRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleFile(e, "banner_image_mobile")}
+                  disabled={uploading}
+                  className="block flex-1 text-xs text-white/60 file:mr-3 file:py-2 file:px-3 file:rounded-md file:border-0 file:text-[10px] file:font-bold file:uppercase file:tracking-wider file:bg-white/10 file:text-white hover:file:bg-white/20 cursor-pointer"
+                />
+                {uploading && (
+                  <span className="text-xs text-white/60 animate-pulse">Enviando...</span>
+                )}
+              </div>
+              <input
+                className={inputCls("banner_image_mobile")}
+                value={form.banner_image_mobile}
+                onChange={(e) => setForm({ ...form, banner_image_mobile: e.target.value })}
+                placeholder="ou cole uma URL: https://..."
+              />
+              {errors.banner_image_mobile && (
+                <p className="text-[11px] text-red-400">{errors.banner_image_mobile}</p>
               )}
             </div>
           </div>

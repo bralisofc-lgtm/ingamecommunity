@@ -198,6 +198,7 @@ export type Database = {
         Row: {
           active: boolean
           banner_image: string
+          banner_image_mobile: string | null
           created_at: string
           description: string
           end_date: string | null
@@ -216,6 +217,7 @@ export type Database = {
         Insert: {
           active?: boolean
           banner_image?: string
+          banner_image_mobile?: string | null
           created_at?: string
           description?: string
           end_date?: string | null
@@ -234,6 +236,7 @@ export type Database = {
         Update: {
           active?: boolean
           banner_image?: string
+          banner_image_mobile?: string | null
           created_at?: string
           description?: string
           end_date?: string | null
