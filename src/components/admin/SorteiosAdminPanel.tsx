@@ -314,13 +314,13 @@ const SorteiosAdminPanel = () => {
           </div>
 
           <div className="md:col-span-6">
-            <label className={lbl}>Banner (1400 × 300 recomendado)</label>
+            <label className={lbl}>Banner Desktop / Tablet (1400 × 300 recomendado)</label>
             <div className="flex flex-col gap-3">
               {form.banner_image && (
                 <div className="rounded-xl overflow-hidden border border-white/10 bg-black">
                   <img
                     src={form.banner_image}
-                    alt="preview"
+                    alt="preview desktop"
                     className="w-full aspect-[1400/300] object-cover"
                   />
                 </div>
@@ -330,7 +330,7 @@ const SorteiosAdminPanel = () => {
                   ref={fileRef}
                   type="file"
                   accept="image/*"
-                  onChange={handleFile}
+                  onChange={(e) => handleFile(e, "banner_image")}
                   disabled={uploading}
                   className="block flex-1 text-xs text-white/60 file:mr-3 file:py-2 file:px-3 file:rounded-md file:border-0 file:text-[10px] file:font-bold file:uppercase file:tracking-wider file:bg-white/10 file:text-white hover:file:bg-white/20 cursor-pointer"
                 />
@@ -346,6 +346,45 @@ const SorteiosAdminPanel = () => {
               />
               {errors.banner_image && (
                 <p className="text-[11px] text-red-400">{errors.banner_image}</p>
+              )}
+            </div>
+          </div>
+
+          <div className="md:col-span-6">
+            <label className={lbl}>
+              Banner Mobile <span className="text-white/30 normal-case tracking-normal">— opcional, formato vertical</span>
+            </label>
+            <div className="flex flex-col gap-3">
+              {form.banner_image_mobile && (
+                <div className="rounded-xl overflow-hidden border border-white/10 bg-black">
+                  <img
+                    src={form.banner_image_mobile}
+                    alt="preview mobile"
+                    className="w-full aspect-[9/16] max-h-48 object-cover mx-auto"
+                  />
+                </div>
+              )}
+              <div className="flex flex-col md:flex-row gap-3 md:items-center">
+                <input
+                  ref={mobileFileRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleFile(e, "banner_image_mobile")}
+                  disabled={uploading}
+                  className="block flex-1 text-xs text-white/60 file:mr-3 file:py-2 file:px-3 file:rounded-md file:border-0 file:text-[10px] file:font-bold file:uppercase file:tracking-wider file:bg-white/10 file:text-white hover:file:bg-white/20 cursor-pointer"
+                />
+                {uploading && (
+                  <span className="text-xs text-white/60 animate-pulse">Enviando...</span>
+                )}
+              </div>
+              <input
+                className={inputCls("banner_image_mobile")}
+                value={form.banner_image_mobile}
+                onChange={(e) => setForm({ ...form, banner_image_mobile: e.target.value })}
+                placeholder="ou cole uma URL: https://..."
+              />
+              {errors.banner_image_mobile && (
+                <p className="text-[11px] text-red-400">{errors.banner_image_mobile}</p>
               )}
             </div>
           </div>
