@@ -7,6 +7,7 @@ import { toast } from "@/hooks/use-toast";
 const schema = z.object({
   title: z.string().trim().max(120).or(z.literal("")),
   banner_image: z.string().trim().url("URL inválida"),
+  banner_image_mobile: z.string().trim().url("URL inválida").or(z.literal("")),
   event_date: z.string().min(1, "Informe a data do sorteio"),
   end_date: z.string().optional().or(z.literal("")),
   participate_link: z.string().trim().url("URL inválida").or(z.literal("")),
@@ -18,6 +19,7 @@ const schema = z.object({
 type FormState = {
   title: string;
   banner_image: string;
+  banner_image_mobile: string;
   event_date: string;
   end_date: string; // datetime-local string
   participate_link: string;
@@ -29,6 +31,7 @@ type FormState = {
 const empty: FormState = {
   title: "",
   banner_image: "",
+  banner_image_mobile: "",
   event_date: new Date().toISOString().slice(0, 10),
   end_date: "",
   participate_link: "",
@@ -65,6 +68,7 @@ const SorteiosAdminPanel = () => {
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
   const [uploading, setUploading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const mobileFileRef = useRef<HTMLInputElement>(null);
 
   const startEdit = (s: Sorteio) => {
     setEditingId(s.id);
@@ -72,6 +76,7 @@ const SorteiosAdminPanel = () => {
     setForm({
       title: s.title,
       banner_image: s.banner_image,
+      banner_image_mobile: s.banner_image_mobile,
       event_date: toFormDate(s.event_date) || empty.event_date,
       end_date: toFormDateTime(s.end_date),
       participate_link: s.participate_link,
@@ -87,9 +92,10 @@ const SorteiosAdminPanel = () => {
     setForm(empty);
     setErrors({});
     if (fileRef.current) fileRef.current.value = "";
+    if (mobileFileRef.current) mobileFileRef.current.value = "";
   };
 
-  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>, field: "banner_image" | "banner_image_mobile") => {
     const file = e.target.files?.[0];
     if (!file) return;
     if (file.size > 8 * 1024 * 1024) {
@@ -99,7 +105,7 @@ const SorteiosAdminPanel = () => {
     setUploading(true);
     try {
       const url = await uploadBanner(file);
-      setForm((f) => ({ ...f, banner_image: url }));
+      setForm((f) => ({ ...f, [field]: url }));
       toast({ title: "Banner enviado" });
     } catch {
       toast({ title: "Erro ao enviar banner", variant: "destructive" });
@@ -126,6 +132,7 @@ const SorteiosAdminPanel = () => {
     const payload = {
       title: r.data.title || "",
       banner_image: r.data.banner_image,
+      banner_image_mobile: r.data.banner_image_mobile || "",
       event_date: eventIso,
       end_date: endIso,
       participate_link: r.data.participate_link || "",
@@ -138,7 +145,7 @@ const SorteiosAdminPanel = () => {
         await update(editingId, payload);
         toast({ title: "Sorteio atualizado" });
       } else {
-        await create(payload);
+        await create(payload as any);
         toast({ title: "Sorteio adicionado" });
       }
       reset();
