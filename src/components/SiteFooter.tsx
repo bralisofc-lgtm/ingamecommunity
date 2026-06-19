@@ -1,6 +1,5 @@
-import { Bell, BellRing, BellOff, Compass, CalendarDays, Gamepad2 } from "lucide-react";
+import { Compass, CalendarDays, Gamepad2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { usePushNotifications } from "@/hooks/usePushNotifications";
 
 type HubLink = { label: string; to: string };
 type HubColumn = { title: string; icon: React.ComponentType<{ className?: string }>; links: HubLink[] };
@@ -34,22 +33,6 @@ const columns: HubColumn[] = [
 ];
 
 const SiteFooter = () => {
-  const { permission, requestPermission } = usePushNotifications();
-
-  const label =
-    permission === "granted"
-      ? "Notificações ativadas"
-      : permission === "denied"
-        ? "Notificações bloqueadas"
-        : permission === "unsupported"
-          ? "Não suportado"
-          : "Ativar notificações";
-
-  const Icon =
-    permission === "granted" ? BellRing : permission === "denied" ? BellOff : Bell;
-
-  const disabled = permission === "granted" || permission === "denied" || permission === "unsupported";
-
   return (
     <footer className="relative mt-16 overflow-hidden border-t border-border/50">
       {/* Background atmospherics */}
@@ -59,19 +42,6 @@ const SiteFooter = () => {
         style={{
           backgroundImage:
             "radial-gradient(ellipse at 20% 30%, hsl(var(--primary-glow)) 0%, transparent 50%), radial-gradient(ellipse at 80% 70%, hsl(var(--primary)) 0%, transparent 55%)",
-        }}
-      />
-      {/* Subtle indie character silhouette */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-20 -bottom-10 hidden md:block opacity-[0.06]"
-        style={{
-          width: "520px",
-          height: "520px",
-          backgroundImage:
-            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200' fill='white'><path d='M60 30h80v20h20v40h-20v20H140v20h-20v20H80v-20H60v-20H40V90H20V50h20V30h20zm10 40v15h15V70H70zm45 0v15h15V70h-15zM70 120c10 12 50 12 60 0H70z'/></svg>\")",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "contain",
         }}
       />
       <div
@@ -119,30 +89,6 @@ const SiteFooter = () => {
           })}
         </div>
 
-        {/* Bottom bar */}
-        <div className="mt-14 pt-6 border-t border-border/40 flex flex-col md:flex-row items-center justify-between gap-5 text-center md:text-left">
-          <p className="text-xs md:text-sm text-muted-foreground">
-            © 2026 In Game Community. Todos os direitos reservados.
-          </p>
-
-          <button
-            type="button"
-            onClick={requestPermission}
-            disabled={disabled}
-            className="relative group inline-flex items-center gap-2 rounded-full p-[2px] disabled:opacity-70 disabled:cursor-not-allowed"
-            style={{
-              background:
-                "linear-gradient(135deg, hsl(0 0% 100%) 0%, hsl(280 95% 72%) 50%, hsl(0 0% 100%) 100%)",
-            }}
-            aria-label={label}
-            title={label}
-          >
-            <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-primary text-primary-foreground font-bold uppercase tracking-wider text-xs shadow-[0_0_20px_hsl(var(--primary-glow)/0.5)] group-hover:shadow-[0_0_28px_hsl(var(--primary-glow)/0.8)] transition-shadow">
-              <Icon className="w-4 h-4" />
-              {label}
-            </span>
-          </button>
-        </div>
       </div>
     </footer>
   );
