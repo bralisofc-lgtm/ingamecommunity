@@ -259,14 +259,14 @@ const SorteiosRealizados = () => {
                         : ""
                     }`}
                   >
-                    <div className="relative w-full overflow-hidden aspect-[3/4] md:aspect-[1400/300]">
-                      {/* Desktop/Tablet banner */}
+                    <div className="relative w-full overflow-hidden rounded-[1.5rem] bg-black/20 max-h-[300px] md:max-h-[340px]">
+                      {/* Desktop/Tablet banner — mostra imagem inteira */}
                       {s.banner_image ? (
                         <img
                           src={s.banner_image}
                           alt={s.title || "Sorteio realizado"}
                           loading="lazy"
-                          className="hidden md:block w-full h-full object-cover scale-[1.02] transition-transform duration-700 group-hover:scale-[1.12]"
+                          className="hidden md:block w-full h-full object-contain scale-[1.02] transition-transform duration-700 group-hover:scale-[1.06]"
                         />
                       ) : (
                         <div className="hidden md:block w-full h-full bg-gradient-to-br from-primary/30 via-background to-primary/10" />
@@ -282,7 +282,7 @@ const SorteiosRealizados = () => {
                       ) : (
                         <div className="md:hidden w-full h-full bg-gradient-to-br from-primary/30 via-background to-primary/10" />
                       )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent opacity-95" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent opacity-95 md:opacity-60" />
                       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-tr from-primary/15 via-transparent to-primary-glow/15" />
                       {hasLink && (
                         <div className="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-background/80 backdrop-blur-md border border-primary-glow/40 text-[10px] uppercase tracking-widest font-bold text-primary-glow opacity-0 group-hover:opacity-100 transition-opacity duration-300">
