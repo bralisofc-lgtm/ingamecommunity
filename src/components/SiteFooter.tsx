@@ -61,19 +61,6 @@ const SiteFooter = () => {
             "radial-gradient(ellipse at 20% 30%, hsl(var(--primary-glow)) 0%, transparent 50%), radial-gradient(ellipse at 80% 70%, hsl(var(--primary)) 0%, transparent 55%)",
         }}
       />
-      {/* Subtle indie character silhouette */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-20 -bottom-10 hidden md:block opacity-[0.06]"
-        style={{
-          width: "520px",
-          height: "520px",
-          backgroundImage:
-            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200' fill='white'><path d='M60 30h80v20h20v40h-20v20H140v20h-20v20H80v-20H60v-20H40V90H20V50h20V30h20zm10 40v15h15V70H70zm45 0v15h15V70h-15zM70 120c10 12 50 12 60 0H70z'/></svg>\")",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "contain",
-        }}
-      />
       <div
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-0 h-px w-2/3 -translate-x-1/2 bg-gradient-to-r from-transparent via-primary/60 to-transparent"
