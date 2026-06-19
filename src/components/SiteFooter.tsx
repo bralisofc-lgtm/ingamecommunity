@@ -33,22 +33,6 @@ const columns: HubColumn[] = [
 ];
 
 const SiteFooter = () => {
-  const { permission, requestPermission } = usePushNotifications();
-
-  const label =
-    permission === "granted"
-      ? "Notificações ativadas"
-      : permission === "denied"
-        ? "Notificações bloqueadas"
-        : permission === "unsupported"
-          ? "Não suportado"
-          : "Ativar notificações";
-
-  const Icon =
-    permission === "granted" ? BellRing : permission === "denied" ? BellOff : Bell;
-
-  const disabled = permission === "granted" || permission === "denied" || permission === "unsupported";
-
   return (
     <footer className="relative mt-16 overflow-hidden border-t border-border/50">
       {/* Background atmospherics */}
