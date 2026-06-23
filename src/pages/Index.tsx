@@ -131,46 +131,7 @@ const Index = () => {
         loading={loading}
       />
 
-      <SectionDivider />
 
-      {/* 3. SOBRE (resumo) — agora no final */}
-      <section className="relative py-24 px-4 bg-gradient-to-b from-background via-[hsl(270_60%_6%)] to-background overflow-hidden">
-        <div className="pointer-events-none absolute inset-x-0 -top-20 h-40 bg-[radial-gradient(ellipse_at_center_top,hsl(var(--primary)/0.25),transparent_70%)]" aria-hidden />
-        <div className="container mx-auto max-w-5xl relative">
-          <Reveal className="text-center mb-12">
-            <p className="text-primary-glow uppercase tracking-[0.3em] text-xs font-bold mb-3">A comunidade</p>
-            <h2 className="text-4xl md:text-5xl font-black mb-5">
-              Um espaço que <span className="text-gradient">respira indie</span>
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              A In Game reúne pessoas que enxergam beleza em pequenos mundos — jogos feitos com alma,
-              criados por times pequenos e cheios de coragem.
-            </p>
-          </Reveal>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
-            {miniFeatures.map((f, i) => (
-              <Reveal key={f.title} delay={0.12 + i * 0.12} className="indie-card p-5 text-center">
-                <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-primary/15 border border-primary/40 flex items-center justify-center text-primary-glow">
-                  {f.icon}
-                </div>
-                <h3 className="text-base font-bold mb-1">{f.title}</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed">{f.desc}</p>
-              </Reveal>
-            ))}
-          </div>
-
-          <Reveal delay={0.3} className="text-center">
-            <Link
-              to="/sobre"
-              className="inline-flex items-center gap-2 text-primary-glow font-semibold text-sm uppercase tracking-wider group"
-            >
-              Saber mais sobre nós
-              <span className="transition-transform group-hover:translate-x-1">→</span>
-            </Link>
-          </Reveal>
-        </div>
-      </section>
 
     </SiteLayout>
   );
