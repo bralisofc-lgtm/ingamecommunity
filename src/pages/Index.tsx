@@ -1,49 +1,15 @@
-import { Link } from "react-router-dom";
 import SiteLayout from "@/components/SiteLayout";
-import SectionDivider from "@/components/SectionDivider";
 import { usePosts } from "@/hooks/usePosts";
 import ingameLogo from "@/assets/ingame-logo.png";
-import Reveal from "@/components/Reveal";
 import HeroParticles from "@/components/HeroParticles";
 import HeroCoverWall from "@/components/HeroCoverWall";
 import PostsCarousel from "@/components/PostsCarousel";
 import RecentHighlights from "@/components/RecentHighlights";
 
 
-const miniFeatures = [
-  {
-    title: "Descobrir indies",
-    desc: "Curadoria constante de jogos independentes que merecem atenção.",
-    icon: (
-      <svg viewBox="0 0 32 32" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2">
-        <circle cx="14" cy="14" r="8" />
-        <path d="M20 20 L26 26" strokeLinecap="round" />
-      </svg>
-    ),
-  },
-  {
-    title: "Sorteios",
-    desc: "Chaves, brindes e oportunidades exclusivas para a comunidade.",
-    icon: (
-      <svg viewBox="0 0 32 32" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2">
-        <rect x="4" y="10" width="24" height="18" rx="2" />
-        <path d="M4 16 L28 16 M16 10 L16 28" />
-      </svg>
-    ),
-  },
-  {
-    title: "Compartilhar",
-    desc: "Conte histórias, recomende jogos e troque impressões.",
-    icon: (
-      <svg viewBox="0 0 32 32" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M6 8 L26 8 L26 22 L18 22 L12 28 L12 22 L6 22 Z" strokeLinejoin="round" />
-      </svg>
-    ),
-  },
-];
-
 const Index = () => {
   const { posts, loading } = usePosts();
+
 
 
   return (
@@ -165,46 +131,7 @@ const Index = () => {
         loading={loading}
       />
 
-      <SectionDivider />
 
-      {/* 3. SOBRE (resumo) — agora no final */}
-      <section className="relative py-24 px-4 bg-gradient-to-b from-background via-[hsl(270_60%_6%)] to-background overflow-hidden">
-        <div className="pointer-events-none absolute inset-x-0 -top-20 h-40 bg-[radial-gradient(ellipse_at_center_top,hsl(var(--primary)/0.25),transparent_70%)]" aria-hidden />
-        <div className="container mx-auto max-w-5xl relative">
-          <Reveal className="text-center mb-12">
-            <p className="text-primary-glow uppercase tracking-[0.3em] text-xs font-bold mb-3">A comunidade</p>
-            <h2 className="text-4xl md:text-5xl font-black mb-5">
-              Um espaço que <span className="text-gradient">respira indie</span>
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              A In Game reúne pessoas que enxergam beleza em pequenos mundos — jogos feitos com alma,
-              criados por times pequenos e cheios de coragem.
-            </p>
-          </Reveal>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
-            {miniFeatures.map((f, i) => (
-              <Reveal key={f.title} delay={0.12 + i * 0.12} className="indie-card p-5 text-center">
-                <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-primary/15 border border-primary/40 flex items-center justify-center text-primary-glow">
-                  {f.icon}
-                </div>
-                <h3 className="text-base font-bold mb-1">{f.title}</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed">{f.desc}</p>
-              </Reveal>
-            ))}
-          </div>
-
-          <Reveal delay={0.3} className="text-center">
-            <Link
-              to="/sobre"
-              className="inline-flex items-center gap-2 text-primary-glow font-semibold text-sm uppercase tracking-wider group"
-            >
-              Saber mais sobre nós
-              <span className="transition-transform group-hover:translate-x-1">→</span>
-            </Link>
-          </Reveal>
-        </div>
-      </section>
 
     </SiteLayout>
   );
