@@ -12,7 +12,7 @@ const columns: HubColumn[] = [
     links: [
       { label: "Catálogo de Notícias", to: "/" },
       { label: "Novos Lançamentos", to: "/" },
-      { label: "Comunidade", to: "/" },
+      { label: "Comunidade", to: "/sobre" },
     ],
   },
   {
