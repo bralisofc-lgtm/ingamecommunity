@@ -1,49 +1,15 @@
-import { Link } from "react-router-dom";
 import SiteLayout from "@/components/SiteLayout";
-import SectionDivider from "@/components/SectionDivider";
 import { usePosts } from "@/hooks/usePosts";
 import ingameLogo from "@/assets/ingame-logo.png";
-import Reveal from "@/components/Reveal";
 import HeroParticles from "@/components/HeroParticles";
 import HeroCoverWall from "@/components/HeroCoverWall";
 import PostsCarousel from "@/components/PostsCarousel";
 import RecentHighlights from "@/components/RecentHighlights";
 
 
-const miniFeatures = [
-  {
-    title: "Descobrir indies",
-    desc: "Curadoria constante de jogos independentes que merecem atenção.",
-    icon: (
-      <svg viewBox="0 0 32 32" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2">
-        <circle cx="14" cy="14" r="8" />
-        <path d="M20 20 L26 26" strokeLinecap="round" />
-      </svg>
-    ),
-  },
-  {
-    title: "Sorteios",
-    desc: "Chaves, brindes e oportunidades exclusivas para a comunidade.",
-    icon: (
-      <svg viewBox="0 0 32 32" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2">
-        <rect x="4" y="10" width="24" height="18" rx="2" />
-        <path d="M4 16 L28 16 M16 10 L16 28" />
-      </svg>
-    ),
-  },
-  {
-    title: "Compartilhar",
-    desc: "Conte histórias, recomende jogos e troque impressões.",
-    icon: (
-      <svg viewBox="0 0 32 32" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M6 8 L26 8 L26 22 L18 22 L12 28 L12 22 L6 22 Z" strokeLinejoin="round" />
-      </svg>
-    ),
-  },
-];
-
 const Index = () => {
   const { posts, loading } = usePosts();
+
 
 
   return (
