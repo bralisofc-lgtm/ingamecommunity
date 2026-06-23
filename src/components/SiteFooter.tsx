@@ -1,7 +1,6 @@
-import { Compass, CalendarDays, Gamepad2 } from "lucide-react";
+import { Bell, BellRing, BellOff, Compass, CalendarDays, Gamepad2 } from "lucide-react";
 import { Link } from "react-router-dom";
-
-type HubLink = { label: string; to: string };
+import { usePushNotifications } from "@/hooks/usePushNotifications";
 type HubColumn = { title: string; icon: React.ComponentType<{ className?: string }>; links: HubLink[] };
 
 const columns: HubColumn[] = [
