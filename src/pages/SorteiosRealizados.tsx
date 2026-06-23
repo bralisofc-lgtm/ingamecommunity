@@ -167,13 +167,22 @@ const HeroSorteio = ({ s }: { s: Sorteio }) => {
 const SorteiosRealizados = () => {
   const { sorteios, loading } = useSorteios({ onlyActive: true });
   const [mounted, setMounted] = useState(false);
+  const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
     setMounted(true);
     document.title = "Sorteios — In Game";
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
   }, []);
 
-  const hero = sorteios.find((s) => s.status === "ativo") ?? null;
+  const isExpired = (s: Sorteio) =>
+    s.end_date ? new Date(s.end_date).getTime() <= now : false;
+
+  // Sorteio em destaque: precisa estar com status "ativo" E ainda não ter expirado.
+  // Quando o timer chega a zero, ele sai do destaque e cai para a lista de encerrados.
+  const hero = sorteios.find((s) => s.status === "ativo" && !isExpired(s)) ?? null;
   const history = sorteios.filter((s) => s.id !== hero?.id);
+
 
   return (
     <SiteLayout>
