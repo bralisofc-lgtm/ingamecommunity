@@ -11,6 +11,7 @@ import Admin from "./pages/Admin.tsx";
 import Faqs from "./pages/Faqs.tsx";
 import Parceiros from "./pages/Parceiros.tsx";
 import SorteiosRealizados from "./pages/SorteiosRealizados.tsx";
+import LancamentosIndies from "./pages/LancamentosIndies.tsx";
 import Auth from "./pages/Auth.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import RequireAdmin from "./components/RequireAdmin.tsx";
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/faqs" element={<Faqs />} />
           <Route path="/parceiros" element={<Parceiros />} />
           <Route path="/sorteios" element={<SorteiosRealizados />} />
+          <Route path="/lancamentos" element={<LancamentosIndies />} />
           <Route path="/auth" element={<Auth />} />
           {/* Painel oculto — protegido por autenticação + role admin */}
           <Route

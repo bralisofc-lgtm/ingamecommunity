@@ -1,0 +1,4 @@
+CREATE POLICY "Eventos storage leitura pública" ON storage.objects FOR SELECT USING (bucket_id = 'eventos');
+CREATE POLICY "Eventos storage admin insert" ON storage.objects FOR INSERT TO authenticated WITH CHECK (bucket_id = 'eventos' AND public.has_role(auth.uid(), 'admin'));
+CREATE POLICY "Eventos storage admin update" ON storage.objects FOR UPDATE TO authenticated USING (bucket_id = 'eventos' AND public.has_role(auth.uid(), 'admin'));
+CREATE POLICY "Eventos storage admin delete" ON storage.objects FOR DELETE TO authenticated USING (bucket_id = 'eventos' AND public.has_role(auth.uid(), 'admin'));

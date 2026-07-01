@@ -5,7 +5,7 @@ import { usePosts } from "@/hooks/usePosts";
 
 const tabs = [
   { to: "/", label: "Início" },
-  { to: "/sobre", label: "Sobre a Comunidade" },
+  { to: "/lancamentos", label: "Lançamentos Indies" },
   { to: "/parceiros", label: "Parceiros" },
   { to: "/faqs", label: "FAQs" },
 ];

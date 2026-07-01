@@ -10,6 +10,8 @@ import {
   ChevronsLeft,
   ChevronsRight,
   X,
+  Gamepad2,
+  CalendarDays,
 } from "lucide-react";
 
 export type AdminSection =
@@ -17,6 +19,8 @@ export type AdminSection =
   | "posts"
   | "sorteios"
   | "reviews"
+  | "lancamentos"
+  | "eventos"
   | "faqs"
   | "parceiros"
   | "admins"
@@ -27,6 +31,8 @@ export const SECTION_LABELS: Record<AdminSection, string> = {
   posts: "Posts",
   sorteios: "Sorteios",
   reviews: "Reviews",
+  lancamentos: "Lançamentos",
+  eventos: "Eventos",
   faqs: "FAQs",
   parceiros: "Parceiros",
   admins: "Administradores",
@@ -44,6 +50,8 @@ const NAV: NavItem[] = [
   { id: "posts", icon: FileText, group: "Conteúdo" },
   { id: "sorteios", icon: Gift, group: "Conteúdo" },
   { id: "reviews", icon: Star, group: "Conteúdo" },
+  { id: "lancamentos", icon: Gamepad2, group: "Hub Indies" },
+  { id: "eventos", icon: CalendarDays, group: "Hub Indies" },
   { id: "faqs", icon: HelpCircle, group: "Conteúdo" },
   { id: "parceiros", icon: Users, group: "Conteúdo" },
   { id: "admins", icon: Shield, group: "Sistema" },

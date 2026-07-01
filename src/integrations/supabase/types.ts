@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      eventos: {
+        Row: {
+          banner_url: string | null
+          created_at: string
+          data: string
+          descricao: string | null
+          destaque: boolean
+          horario: string | null
+          id: string
+          link: string | null
+          nome: string
+          updated_at: string
+        }
+        Insert: {
+          banner_url?: string | null
+          created_at?: string
+          data: string
+          descricao?: string | null
+          destaque?: boolean
+          horario?: string | null
+          id?: string
+          link?: string | null
+          nome: string
+          updated_at?: string
+        }
+        Update: {
+          banner_url?: string | null
+          created_at?: string
+          data?: string
+          descricao?: string | null
+          destaque?: boolean
+          horario?: string | null
+          id?: string
+          link?: string | null
+          nome?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       faqs: {
         Row: {
           answer: string
@@ -37,6 +76,45 @@ export type Database = {
           id?: string
           position?: number
           question?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      lancamentos: {
+        Row: {
+          cover_url: string | null
+          created_at: string
+          data_lancamento: string
+          destaque: boolean
+          id: string
+          igdb_id: number | null
+          link: string | null
+          nome: string
+          plataformas: string[]
+          updated_at: string
+        }
+        Insert: {
+          cover_url?: string | null
+          created_at?: string
+          data_lancamento: string
+          destaque?: boolean
+          id?: string
+          igdb_id?: number | null
+          link?: string | null
+          nome: string
+          plataformas?: string[]
+          updated_at?: string
+        }
+        Update: {
+          cover_url?: string | null
+          created_at?: string
+          data_lancamento?: string
+          destaque?: boolean
+          id?: string
+          igdb_id?: number | null
+          link?: string | null
+          nome?: string
+          plataformas?: string[]
           updated_at?: string
         }
         Relationships: []
