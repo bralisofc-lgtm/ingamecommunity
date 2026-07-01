@@ -11,7 +11,7 @@ const columns: HubColumn[] = [
     icon: Compass,
     links: [
       { label: "Catálogo de Notícias", to: "/" },
-      { label: "Novos Lançamentos", to: "/" },
+      { label: "Novos Lançamentos", to: "/lancamentos" },
       { label: "Comunidade", to: "/sobre" },
     ],
   },
@@ -20,15 +20,15 @@ const columns: HubColumn[] = [
     icon: CalendarDays,
     links: [
       { label: "Sorteios", to: "/sorteios" },
-      { label: "Eventos", to: "/" },
+      { label: "Eventos e Showcases", to: "/lancamentos" },
     ],
   },
   {
     title: "HUB INDIES",
     icon: Gamepad2,
     links: [
-      { label: "Sobre Nós", to: "/sobre" },
-      { label: "Entrevistas", to: "/" },
+      { label: "Lançamentos Indies", to: "/lancamentos" },
+      { label: "Sobre a Comunidade", to: "/sobre" },
     ],
   },
 ];
