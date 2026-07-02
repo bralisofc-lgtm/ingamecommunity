@@ -37,6 +37,11 @@ const mapLanc = (r: any): Lancamento => ({
   igdb_id: r.igdb_id ?? null,
   cover_url: r.cover_url ?? null,
   destaque: !!r.destaque,
+  steam_appid: r.steam_appid ?? null,
+  status: r.status ?? null,
+  ai_score: r.ai_score ?? null,
+  ai_verdict: r.ai_verdict ?? null,
+  auto: !!r.auto,
 });
 
 const mapEvt = (r: any): Evento => ({
