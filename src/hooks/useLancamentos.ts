@@ -10,6 +10,11 @@ export interface Lancamento {
   igdb_id: number | null;
   cover_url: string | null;
   destaque: boolean;
+  steam_appid?: number | null;
+  status?: string | null;
+  ai_score?: number | null;
+  ai_verdict?: string | null;
+  auto?: boolean;
 }
 
 export interface Evento {
