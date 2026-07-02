@@ -178,6 +178,8 @@ export const useLancamentos = () => {
     updateEvento,
     deleteEvento,
     uploadEventoBanner,
+    searchSteam,
+    fetchSteamById,
     searchIgdb,
     fetchIgdbById,
   };
