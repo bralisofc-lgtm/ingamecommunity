@@ -10,6 +10,11 @@ export interface Lancamento {
   igdb_id: number | null;
   cover_url: string | null;
   destaque: boolean;
+  steam_appid?: number | null;
+  status?: string | null;
+  ai_score?: number | null;
+  ai_verdict?: string | null;
+  auto?: boolean;
 }
 
 export interface Evento {
@@ -32,6 +37,11 @@ const mapLanc = (r: any): Lancamento => ({
   igdb_id: r.igdb_id ?? null,
   cover_url: r.cover_url ?? null,
   destaque: !!r.destaque,
+  steam_appid: r.steam_appid ?? null,
+  status: r.status ?? null,
+  ai_score: r.ai_score ?? null,
+  ai_verdict: r.ai_verdict ?? null,
+  auto: !!r.auto,
 });
 
 const mapEvt = (r: any): Evento => ({

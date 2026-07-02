@@ -82,39 +82,57 @@ export type Database = {
       }
       lancamentos: {
         Row: {
+          ai_score: number | null
+          ai_verdict: string | null
+          auto: boolean
           cover_url: string | null
           created_at: string
           data_lancamento: string
           destaque: boolean
           id: string
           igdb_id: number | null
+          last_synced_at: string | null
           link: string | null
           nome: string
           plataformas: string[]
+          status: string
+          steam_appid: number | null
           updated_at: string
         }
         Insert: {
+          ai_score?: number | null
+          ai_verdict?: string | null
+          auto?: boolean
           cover_url?: string | null
           created_at?: string
           data_lancamento: string
           destaque?: boolean
           id?: string
           igdb_id?: number | null
+          last_synced_at?: string | null
           link?: string | null
           nome: string
           plataformas?: string[]
+          status?: string
+          steam_appid?: number | null
           updated_at?: string
         }
         Update: {
+          ai_score?: number | null
+          ai_verdict?: string | null
+          auto?: boolean
           cover_url?: string | null
           created_at?: string
           data_lancamento?: string
           destaque?: boolean
           id?: string
           igdb_id?: number | null
+          last_synced_at?: string | null
           link?: string | null
           nome?: string
           plataformas?: string[]
+          status?: string
+          steam_appid?: number | null
           updated_at?: string
         }
         Relationships: []
