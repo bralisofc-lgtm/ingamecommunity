@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Plus, Trash2, Star, StarOff, Search, Loader2, Save, X } from "lucide-react";
+import { Plus, Trash2, Star, StarOff, Search, Loader2, Save, X, RefreshCw } from "lucide-react";
 import { useLancamentos, type Lancamento } from "@/hooks/useLancamentos";
 import { toast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 type Form = Omit<Lancamento, "id">;
 const empty: Form = {
