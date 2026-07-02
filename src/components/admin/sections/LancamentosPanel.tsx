@@ -122,18 +122,42 @@ const LancamentosPanel = () => {
     } catch {}
   };
 
+  const [syncing, setSyncing] = useState(false);
+  const runSync = async () => {
+    setSyncing(true);
+    toast({ title: "Sincronizando com a Steam...", description: "Isso pode levar 1-2 minutos." });
+    const { data, error } = await supabase.functions.invoke("sync-steam-indies", { body: { trigger: "manual" } });
+    setSyncing(false);
+    if (error) {
+      toast({ title: "Falha na sincronização", description: error.message, variant: "destructive" });
+      return;
+    }
+    const r: any = data ?? {};
+    toast({
+      title: "Sincronização concluída",
+      description: `+${r.new_added ?? 0} novos · ${r.updated ?? 0} atualizados · ${r.rejected ?? 0} rejeitados pela IA · ${r.removed ?? 0} removidos`,
+    });
+  };
+
   return (
     <div className="admin-section-anim space-y-5">
       <div className="flex items-end justify-between gap-3">
         <div>
           <p className="admin-h-eyebrow mb-1.5">Hub Indies</p>
           <h1 className="admin-h-title">Lançamentos</h1>
+          <p className="text-[11px] text-white/50 mt-1">Sincronização automática diária às 06:00 UTC.</p>
         </div>
-        {editingId !== null || form !== empty ? null : (
-          <button type="button" className="admin-btn admin-btn-primary" onClick={startNew}>
-            <Plus className="w-3.5 h-3.5" /> Novo
+        <div className="flex gap-2">
+          <button type="button" className="admin-btn admin-btn-ghost" onClick={runSync} disabled={syncing}>
+            {syncing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <RefreshCw className="w-3.5 h-3.5" />}
+            Sincronizar agora
           </button>
-        )}
+          {editingId !== null || form !== empty ? null : (
+            <button type="button" className="admin-btn admin-btn-primary" onClick={startNew}>
+              <Plus className="w-3.5 h-3.5" /> Novo
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Form */}
