@@ -141,10 +141,10 @@ export const useLancamentos = () => {
     return data.publicUrl;
   }, []);
 
-  // -------- IGDB --------
-  const searchIgdb = useCallback(
+  // -------- Steam --------
+  const searchSteam = useCallback(
     async (query: string): Promise<any[]> => {
-      const { data, error } = await supabase.functions.invoke("igdb-search", {
+      const { data, error } = await supabase.functions.invoke("steam-search", {
         body: { mode: "search", query },
       });
       if (error) return [];
@@ -153,14 +153,18 @@ export const useLancamentos = () => {
     [],
   );
 
-  const fetchIgdbById = useCallback(async (id: number): Promise<any | null> => {
-    const { data, error } = await supabase.functions.invoke("igdb-search", {
+  const fetchSteamById = useCallback(async (id: number): Promise<any | null> => {
+    const { data, error } = await supabase.functions.invoke("steam-search", {
       body: { mode: "by_id", id },
     });
     if (error) return null;
     const arr = (data as any)?.results ?? [];
     return arr[0] ?? null;
   }, []);
+
+  // Aliases legados
+  const searchIgdb = searchSteam;
+  const fetchIgdbById = fetchSteamById;
 
   return {
     lancamentos,
