@@ -20,8 +20,8 @@ const LancamentosPanel = () => {
     createLancamento,
     updateLancamento,
     deleteLancamento,
-    searchIgdb,
-    fetchIgdbById,
+    searchSteam,
+    fetchSteamById,
   } = useLancamentos();
 
   const [editingId, setEditingId] = useState<string | null>(null);
