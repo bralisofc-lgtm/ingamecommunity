@@ -20,8 +20,8 @@ const LancamentosPanel = () => {
     createLancamento,
     updateLancamento,
     deleteLancamento,
-    searchIgdb,
-    fetchIgdbById,
+    searchSteam,
+    fetchSteamById,
   } = useLancamentos();
 
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -71,17 +71,17 @@ const LancamentosPanel = () => {
     setPlatformsInput((r.platforms ?? []).join(", "));
     setIgdbResults([]);
     setIgdbQuery("");
-    toast({ title: "Dados do IGDB aplicados" });
+    toast({ title: "Dados do Steam aplicados" });
   };
 
   const doSearch = async () => {
     if (!igdbQuery.trim()) return;
     setSearching(true);
-    const r = await searchIgdb(igdbQuery.trim());
+    const r = await searchSteam(igdbQuery.trim());
     setIgdbResults(r);
     setSearching(false);
     if (r.length === 0)
-      toast({ title: "Nenhum resultado", description: "Confirme as secrets TWITCH_CLIENT_ID/SECRET." });
+      toast({ title: "Nenhum resultado", description: "Confirme as secrets a busca da Steam." });
   };
 
   const submit = async (e: React.FormEvent) => {
@@ -148,9 +148,9 @@ const LancamentosPanel = () => {
           )}
         </div>
 
-        {/* IGDB search */}
+        {/* Steam search */}
         <div className="rounded-lg border border-white/10 bg-black/30 p-3 space-y-2">
-          <p className="text-xs font-semibold text-white/80">Buscar no IGDB</p>
+          <p className="text-xs font-semibold text-white/80">Buscar no Steam</p>
           <div className="flex gap-2">
             <input
               value={igdbQuery}
@@ -239,7 +239,7 @@ const LancamentosPanel = () => {
             />
           </label>
           <label className="block">
-            <span className="text-[11px] text-white/60 font-semibold">ID IGDB (opcional)</span>
+            <span className="text-[11px] text-white/60 font-semibold">ID Steam (opcional)</span>
             <input
               type="number"
               value={form.igdb_id ?? ""}
@@ -247,7 +247,7 @@ const LancamentosPanel = () => {
               className="admin-input"
               onBlur={async () => {
                 if (form.igdb_id) {
-                  const r = await fetchIgdbById(form.igdb_id);
+                  const r = await fetchSteamById(form.igdb_id);
                   if (r) applyIgdb(r);
                 }
               }}
