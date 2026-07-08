@@ -1,0 +1,14 @@
+# In Game
+
+> Comunidade brasileira dedicada a jogos indies: curadoria de lançamentos, reviews, sorteios e conteúdo feito por quem ama a cena independente.
+
+In Game é um hub para descobrir novos jogos independentes, acompanhar lançamentos, ler reviews, participar de sorteios e conhecer parceiros da cena indie.
+
+## Pages
+
+- [Início](/): Postagens recentes, destaques e apresentação da comunidade.
+- [Sobre](/sobre): História, valores e propósito da comunidade In Game.
+- [Lançamentos Indies](/lancamentos): Central automática dos próximos lançamentos indie na Steam.
+- [Sorteios](/sorteios): Sorteios de chaves e brindes realizados pela comunidade.
+- [Parceiros](/parceiros): Desenvolvedores e comunidades parceiras da In Game.
+- [FAQs](/faqs): Perguntas frequentes sobre a comunidade, divulgação e participação.

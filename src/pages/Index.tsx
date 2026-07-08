@@ -16,6 +16,7 @@ const Index = () => {
     <SiteLayout
       title="In Game — Comunidade de jogos indies"
       description="In Game é uma comunidade feita por quem ama jogos indies. Descubra novos títulos, participe de sorteios e compartilhe experiências."
+      canonical="https://ingamecommunity.site/"
     >
       {/* 1. HERO — paisagem indie com logo integrada */}
       <section className="relative min-h-[78svh] md:min-h-[100svh] w-full overflow-hidden flex items-start justify-center pt-[clamp(1.5rem,5vh,5rem)] pb-16 md:pb-24 bg-[hsl(270_80%_5%)]">
@@ -33,7 +34,7 @@ const Index = () => {
           <div className="w-full max-w-3xl mx-auto text-center flex flex-col items-center">
             {/* Logo art — integrada como parte da paisagem */}
             <h1 className="relative mb-3 md:mb-5 flex justify-center w-full max-w-[820px] aspect-[909/469]">
-              <span className="sr-only">In Game</span>
+              <span className="sr-only">In Game — Comunidade de jogos indies</span>
               <img
                 src={ingameLogo}
                 alt="In Game"

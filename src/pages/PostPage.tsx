@@ -61,6 +61,7 @@ const PostPage = () => {
     return (
       <SiteLayout title="Carregando…" description="">
         <div className="pt-40 pb-24 flex justify-center px-4">
+          <h1 className="sr-only">Carregando postagem</h1>
           <PostLoadingBar trigger={slug} inline />
         </div>
       </SiteLayout>

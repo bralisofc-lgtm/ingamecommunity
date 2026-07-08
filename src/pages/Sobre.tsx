@@ -89,7 +89,7 @@ const Sobre = () => {
                 <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-primary/15 border border-primary/40 flex items-center justify-center text-primary-glow animate-pulse-glow">
                   {f.icon}
                 </div>
-                <h3 className="text-lg font-bold mb-2">{f.title}</h3>
+                <h2 className="text-lg font-bold mb-2">{f.title}</h2>
                 <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
               </div>
             ))}

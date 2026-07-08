@@ -11,6 +11,7 @@ const Parceiros = () => {
     <SiteLayout
       title="Parceiros — In Game"
       description="Conheça os parceiros da comunidade In Game que apoiam a cena indie."
+      canonical="https://ingamecommunity.site/parceiros"
     >
       {/* Wrapper único: jogos passando + partículas como fundo contínuo */}
       <div className="relative">
@@ -39,6 +40,7 @@ const Parceiros = () => {
         {/* Grid de parceiros — mesmo fundo contínuo */}
         <section className="relative z-10 py-20 px-4">
           <div className="container mx-auto max-w-6xl">
+            <h2 className="sr-only">Nossos parceiros</h2>
             {loading && (
               <p className="text-center text-muted-foreground animate-pulse">Carregando parceiros...</p>
             )}
@@ -72,6 +74,7 @@ const Parceiros = () => {
                       <h3 className="font-black text-base md:text-lg text-foreground group-hover:text-primary-glow transition-colors">
                         {p.name}
                       </h3>
+                      {/* h3 is valid under the h2 above */}
                       {p.description && (
                         <p className="mt-2 text-xs text-muted-foreground line-clamp-3 leading-relaxed">
                           {p.description}
