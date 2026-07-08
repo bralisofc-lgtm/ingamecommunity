@@ -43,6 +43,7 @@ const Faqs = () => {
     <SiteLayout
       title="FAQs — In Game"
       description="Perguntas frequentes sobre a comunidade In Game, sorteios, divulgação de jogos indies e como participar."
+      canonical="https://ingamecommunity.site/faqs"
     >
       <section className="relative pt-32 pb-12 px-4">
         <div className="container mx-auto max-w-4xl text-center animate-fade-up">
@@ -60,6 +61,7 @@ const Faqs = () => {
 
       <section className="relative py-16 px-4">
         <div className="container mx-auto max-w-3xl space-y-4">
+          <h2 className="sr-only">Perguntas frequentes</h2>
           {loading && (
             <p className="text-center text-muted-foreground animate-pulse">Carregando...</p>
           )}
