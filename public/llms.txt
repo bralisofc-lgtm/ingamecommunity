@@ -10,5 +10,6 @@ In Game é um hub para descobrir novos jogos independentes, acompanhar lançamen
 - [Sobre](/sobre): História, valores e propósito da comunidade In Game.
 
 - [Sorteios](/sorteios): Sorteios de chaves e brindes realizados pela comunidade.
+- [Eventos e Showcases](/showcases): Eventos e showcases indies selecionados pela In Game.
 - [Parceiros](/parceiros): Desenvolvedores e comunidades parceiras da In Game.
 - [FAQs](/faqs): Perguntas frequentes sobre a comunidade, divulgação e participação.
