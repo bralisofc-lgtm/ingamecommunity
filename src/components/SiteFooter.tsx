@@ -19,6 +19,7 @@ const columns: HubColumn[] = [
     icon: CalendarDays,
     links: [
       { label: "Sorteios", to: "/sorteios" },
+      { label: "Eventos e Showcases", to: "/showcases" },
     ],
   },
   {
