@@ -25,9 +25,4 @@
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
-  <url>
-    <loc>https://ingamecommunity.site/lancamentos</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-  </url>
 </urlset>

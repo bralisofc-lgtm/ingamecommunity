@@ -13,7 +13,6 @@ import ParceirosAdminPanel from "@/components/admin/ParceirosAdminPanel";
 import SorteiosAdminPanel from "@/components/admin/SorteiosAdminPanel";
 import AdminsPanel from "@/components/admin/sections/AdminsPanel";
 import StatsDashboard from "@/components/admin/sections/StatsDashboard";
-import LancamentosPanel from "@/components/admin/sections/LancamentosPanel";
 import EventosPanel from "@/components/admin/sections/EventosPanel";
 
 type FormState = Omit<Post, "id">;
@@ -194,9 +193,6 @@ const Admin = () => {
 
           case "sorteios":
             return <SorteiosAdminPanel />;
-
-          case "lancamentos":
-            return <LancamentosPanel />;
 
           case "eventos":
             return <EventosPanel />;
