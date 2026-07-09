@@ -8,7 +8,7 @@ In Game é um hub para descobrir novos jogos independentes, acompanhar lançamen
 
 - [Início](/): Postagens recentes, destaques e apresentação da comunidade.
 - [Sobre](/sobre): História, valores e propósito da comunidade In Game.
-- [Lançamentos Indies](/lancamentos): Central automática dos próximos lançamentos indie na Steam.
+
 - [Sorteios](/sorteios): Sorteios de chaves e brindes realizados pela comunidade.
 - [Parceiros](/parceiros): Desenvolvedores e comunidades parceiras da In Game.
 - [FAQs](/faqs): Perguntas frequentes sobre a comunidade, divulgação e participação.
