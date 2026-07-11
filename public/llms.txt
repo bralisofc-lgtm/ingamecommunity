@@ -7,6 +7,7 @@ In Game é um hub para descobrir novos jogos independentes, acompanhar lançamen
 ## Pages
 
 - [Início](/): Postagens recentes, destaques e apresentação da comunidade.
+- [Notícias](/noticias): Catálogo completo de notícias indies com busca, filtros por tag, ordenação e linha do tempo.
 - [Sobre](/sobre): História, valores e propósito da comunidade In Game.
 
 - [Sorteios](/sorteios): Sorteios de chaves e brindes realizados pela comunidade.
