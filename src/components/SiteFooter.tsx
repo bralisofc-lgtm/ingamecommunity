@@ -10,7 +10,7 @@ const columns: HubColumn[] = [
     title: "EXPLORAR",
     icon: Compass,
     links: [
-      { label: "Catálogo de Notícias", to: "/" },
+      { label: "Catálogo de Notícias", to: "/noticias" },
       { label: "Comunidade", to: "/sobre" },
     ],
   },
