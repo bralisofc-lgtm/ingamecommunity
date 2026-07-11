@@ -12,6 +12,7 @@ import Faqs from "./pages/Faqs.tsx";
 import Parceiros from "./pages/Parceiros.tsx";
 import SorteiosRealizados from "./pages/SorteiosRealizados.tsx";
 import Showcases from "./pages/Showcases.tsx";
+import Noticias from "./pages/Noticias.tsx";
 import Auth from "./pages/Auth.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import RequireAdmin from "./components/RequireAdmin.tsx";
@@ -32,6 +33,7 @@ const App = () => (
           <Route path="/parceiros" element={<Parceiros />} />
           <Route path="/sorteios" element={<SorteiosRealizados />} />
           <Route path="/showcases" element={<Showcases />} />
+          <Route path="/noticias" element={<Noticias />} />
           <Route path="/auth" element={<Auth />} />
           {/* Painel oculto — protegido por autenticação + role admin */}
           <Route
